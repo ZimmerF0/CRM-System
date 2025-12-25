@@ -5,7 +5,7 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }) {
   return (
     <div>
       <ul className="todo">
-        <li className={todo.completed ? "completed" : "pass"}>
+        <li className={todo.completed && "completed"}>
           <input className="checkbox" type="checkbox" onClick={() => toggleTodo(todo.id)} />
           {todo.text}
           <img
