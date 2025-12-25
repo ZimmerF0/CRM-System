@@ -1,20 +1,86 @@
-import { TodoForm } from './components/TodoForm.js'
-import {TodoItem} from './components/TodoItem.js'
-import './App.css'
+import { TodoForm } from "./components/TodoForm.tsx";
+import { TodoItem } from "./components/TodoItem.tsx";
+import "./App.css";
+import { useState } from "react";
 
-export function App() {
-  
-  return (
-    <div>
-      <div className = "main">
-        <h1 className="title">TodoList</h1>
-        <TodoForm />
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
-      </div>
-      
-    </div>
-  )
+interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
 }
 
+export function App() {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [editTodo, setEditTodo] = useState(0);
+
+  const [allTodos, setAllTodos] = useState(0);
+
+  const addTodo = (value: string) => {
+    if (value) {
+      const newTodo = {
+        id: Date.now(),
+        text: value,
+        completed: false,
+      };
+      setTodos([newTodo, ...todos]);
+      setAllTodos(allTodos + 1);
+    }
+  };
+
+  const deleteTodo = (id: number) => {
+    const todoToDelete = todos.find(todo => todo.id === id);
+    if (todoToDelete?.completed) {
+      setEditTodo(editTodo - 1);
+    }
+    setTodos([...todos.filter(todo => todo.id !== id)]);
+    setAllTodos(allTodos - 1);
+  };
+
+  const changeTodo = () => {};
+
+  const toggleTodo = (id: number) => {
+    const todoToToggle = todos.find(todo => todo.id === id);
+    if (!todoToToggle) return;
+
+    if (todoToToggle.completed) {
+      setEditTodo(editTodo - 1);
+    } else {
+      setEditTodo(editTodo + 1);
+    }
+
+    setTodos(
+      todos.map(todo => {
+        if (todo.id !== id) return todo;
+
+        return {
+          ...todo,
+          completed: !todo.completed,
+        };
+      })
+    );
+  };
+
+  const todosInProgress = todos.filter(todo => !todo.completed).length;
+
+  return (
+    <div className="main">
+      <h1 className="title">TodoList</h1>
+      <TodoForm addTodo={addTodo} />
+      <div className="filter">
+        <span>Все({allTodos})</span>
+        <span>В прогрессе({todosInProgress})</span>
+        <span>Завершенные({editTodo})</span>
+      </div>
+
+      {todos.map(todo => (
+        <TodoItem
+          todo={todo}
+          key={todo.id}
+          changeTodo={changeTodo}
+          deleteTodo={deleteTodo}
+          toggleTodo={toggleTodo}
+        />
+      ))}
+    </div>
+  );
+}
