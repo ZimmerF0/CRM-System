@@ -1,5 +1,6 @@
 import { TodoForm } from "./components/TodoForm.tsx";
 import { TodoItem } from "./components/TodoItem.tsx";
+import { TodoFilter } from "./components/TodoFilter.tsx";
 import "./App.css";
 import { useState } from "react";
 
@@ -66,11 +67,12 @@ export function App() {
     <div className="main">
       <h1 className="title">TodoList</h1>
       <TodoForm addTodo={addTodo} />
-      <div className="filter">
-        <span>Все({allTodos})</span>
-        <span>В прогрессе({todosInProgress})</span>
-        <span>Завершенные({editTodo})</span>
-      </div>
+      <TodoFilter
+        todosInProgress={todosInProgress}
+        allTodos={allTodos}
+        editTodo={editTodo}
+        
+      />
 
       {todos.map(todo => (
         <TodoItem
