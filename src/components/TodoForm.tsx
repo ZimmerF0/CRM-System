@@ -8,7 +8,7 @@ export function TodoForm({addTodo}) {
     event.preventDefault();
     addTodo(value);
     if(value === ""){
-      alert('Это поле не может быть пустым')
+      alert('поле не можеыть пустым')
     }
     setValue("");
   };

@@ -52,6 +52,11 @@ input {
   border: 1px solid #ccc;
 }
 
+input.input-new-todo {
+ 
+
+}
+
 .btn {
   width: 60px;
   background-color: rgb(130, 30, 50);
@@ -94,7 +99,8 @@ li {
 
 }
 
-.edit {
+.edit,
+.save {
   position: absolute;
   width: 20px;
   height: 20px;

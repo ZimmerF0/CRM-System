@@ -37,7 +37,11 @@ export function App() {
     setAllTodos(allTodos - 1);
   };
 
-  const changeTodo = () => {};
+ function changeTodo(id, newText) {
+  setTodos(todos.map(todo => 
+    todo.id === id ? { ...todo, text: newText } : todo
+  ));
+}
 
   const toggleTodo = (id: number) => {
     const todoToToggle = todos.find(todo => todo.id === id);

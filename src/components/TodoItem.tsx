@@ -1,26 +1,71 @@
+import React from "react";
+
 import editImg from "../assets/edit.svg";
+import saveImg from "../assets/save.svg";
 import deleteImg from "../assets/delete.svg";
 
 export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }) {
+  const [newText, setNewText] = React.useState(todo.text);
+  const [isEditing, setIsEditing] = React.useState(false);
+
+  function handleSaveClick() {
+    changeTodo(todo.id, newText);
+    setIsEditing(false);
+  }
+
+  function handleChange(event) {
+    setNewText(event.target.value);
+  }
+
+  let taskContent;
+
+  if (isEditing) {
+    taskContent = (
+      <div>
+        <input
+          type="text"
+          required
+          value={newText}
+          onChange={handleChange}
+          autoFocus
+        />
+        <img
+          className="save"
+          src={saveImg}
+          onClick={handleSaveClick}
+          alt="Save"
+        />
+      </div>
+    );
+  } else {
+    taskContent = (
+      <li className={todo.completed ? "completed" : ""}>
+        <input
+          className="checkbox"
+          type="checkbox"
+          checked={todo.completed}
+          onChange={() => toggleTodo(todo.id)}
+        />
+        <span>{todo.text}</span>
+        <img
+          className="edit"
+          src={editImg}
+          onClick={() => setIsEditing(true)}
+          alt="Edit"
+        />
+        <img
+          className="delete"
+          src={deleteImg}
+          onClick={() => deleteTodo(todo.id)}
+          alt="Delete"
+        />
+      </li>
+    );
+  }
+
   return (
     <div>
-      <ul className="todo">
-        <li className={todo.completed && "completed"}>
-          <input className="checkbox" type="checkbox" onClick={() => toggleTodo(todo.id)} />
-          {todo.text}
-          <img
-            className="edit"
-            src={editImg}
-            onClick={() => changeTodo(todo.id)}
-            
-          />
-          <img
-            className="delete"
-            src={deleteImg}
-            onClick={() => deleteTodo(todo.id)}
-          />
-        </li>
-      </ul>
+      <ul className="todo">{taskContent}</ul>
     </div>
   );
 }
