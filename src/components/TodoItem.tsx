@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react";
 
 import editImg from "../assets/edit.svg";
 import saveImg from "../assets/save.svg";
 import deleteImg from "../assets/delete.svg";
 
-export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }) {
+export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
   const [newText, setNewText] = React.useState(todo.text);
   const [isEditing, setIsEditing] = React.useState(false);
 
@@ -13,7 +15,7 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }) {
     setIsEditing(false);
   }
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement> ) {
     setNewText(event.target.value);
   }
 

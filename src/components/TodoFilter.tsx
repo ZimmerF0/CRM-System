@@ -1,5 +1,12 @@
-export function TodoFilter({ allTodos, todosInProgress, editTodo, activeFilter, setActiveFilter }) {
- 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+export function TodoFilter({
+  allTodos,
+  todosInProgress,
+  editTodo,
+  activeFilter,
+  setActiveFilter,
+}: any) {
   return (
     <div className="filter">
       <button

@@ -16,7 +16,7 @@ export function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [editTodo, setEditTodo] = useState(0);
   const [allTodos, setAllTodos] = useState(0);
-  const [activeFilter, setActiveFilter] = useState<FilterType>(["all"]);
+  const [activeFilter, setActiveFilter] = useState<FilterType>("all");
 
   const addTodo = (value: string) => {
     if (value) {
@@ -39,7 +39,7 @@ export function App() {
     setAllTodos(allTodos - 1);
   };
 
-  function changeTodo(id, newText) {
+  function changeTodo(id: number, newText: string) {
     setTodos(
       todos.map(todo => (todo.id === id ? { ...todo, text: newText } : todo))
     );
