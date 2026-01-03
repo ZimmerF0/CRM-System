@@ -10,11 +10,13 @@ interface Todo {
   completed: boolean;
 }
 
+type FilterType = "all" | "progress" | "completed";
+
 export function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [editTodo, setEditTodo] = useState(0);
-
   const [allTodos, setAllTodos] = useState(0);
+  const [activeFilter, setActiveFilter] = useState<FilterType>(["all"]);
 
   const addTodo = (value: string) => {
     if (value) {
@@ -37,11 +39,11 @@ export function App() {
     setAllTodos(allTodos - 1);
   };
 
- function changeTodo(id, newText) {
-  setTodos(todos.map(todo => 
-    todo.id === id ? { ...todo, text: newText } : todo
-  ));
-}
+  function changeTodo(id, newText) {
+    setTodos(
+      todos.map(todo => (todo.id === id ? { ...todo, text: newText } : todo))
+    );
+  }
 
   const toggleTodo = (id: number) => {
     const todoToToggle = todos.find(todo => todo.id === id);
@@ -54,16 +56,24 @@ export function App() {
     }
 
     setTodos(
-      todos.map(todo => {
-        if (todo.id !== id) return todo;
-
-        return {
-          ...todo,
-          completed: !todo.completed,
-        };
-      })
+      todos.map(todo => 
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
     );
   };
+
+  const getFilterTodos = () => {
+    switch (activeFilter) {
+      case "all":
+        return todos;
+      case "progress":
+        return todos.filter(todo => !todo.completed);
+      case "completed":
+        return todos.filter(todo => todo.completed);
+      default:
+        return todos; 
+    }
+  }
 
   const todosInProgress = todos.filter(todo => !todo.completed).length;
 
@@ -75,10 +85,12 @@ export function App() {
         todosInProgress={todosInProgress}
         allTodos={allTodos}
         editTodo={editTodo}
-        
+        activeFilter={activeFilter}
+        setActiveFilter={setActiveFilter}
       />
 
-      {todos.map(todo => (
+      
+      {getFilterTodos().map(todo => (
         <TodoItem
           todo={todo}
           key={todo.id}

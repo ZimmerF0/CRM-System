@@ -6,10 +6,11 @@ export function TodoForm({addTodo}) {
   
   const handleSubmit = event => {
     event.preventDefault();
-    addTodo(value);
+    
     if(value === ""){
       alert('поле не можеыть пустым')
     }
+    addTodo(value);
     setValue("");
   };
 
@@ -23,9 +24,7 @@ export function TodoForm({addTodo}) {
         value={value}
         onChange={e => setValue(e.target.value)}
       />
-      <button className="btn" onClick={() => {
-        
-      }}>
+      <button className="btn" type="submit">
         Add
       </button>
     </form>
