@@ -1,16 +1,22 @@
 import { useState } from "react";
 
-export function TodoForm({addTodo}) {
+export function TodoForm({ addTodo }: any) {
   const [value, setValue] = useState("");
 
-  
-  const handleSubmit = event => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-    if(value === ""){
-      alert('поле не можеыть пустым')
+
+    const trimmedValue = value.trim();
+
+    if (!trimmedValue) {
+      alert("Поле содержит только пробелы или пустое!");
+      return;
     }
-    addTodo(value);
+    if (trimmedValue.length < 2 || trimmedValue.length > 64) {
+      alert("Длина текста должна быть от 2 до 64 символов");
+      return;
+    }
+    addTodo(trimmedValue);
     setValue("");
   };
 
@@ -19,8 +25,6 @@ export function TodoForm({addTodo}) {
       <input
         type="text"
         placeholder="Add todo item"
-        minLength={2}
-        maxLength={64}
         value={value}
         onChange={e => setValue(e.target.value)}
       />

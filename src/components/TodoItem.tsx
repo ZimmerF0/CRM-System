@@ -3,19 +3,36 @@
 import React from "react";
 
 import editImg from "../assets/edit.svg";
-import saveImg from "../assets/save.svg";
+import confirmImg from "../assets/confirm.svg";
 import deleteImg from "../assets/delete.svg";
+import cancelImg from "../assets/cancel.svg";
 
 export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
   const [newText, setNewText] = React.useState(todo.text);
   const [isEditing, setIsEditing] = React.useState(false);
 
-  function handleSaveClick() {
+  function handleConfirmClick() {
+    const editingText = newText.trim();
+
+    if (!editingText) {
+      alert("Поле содержит только пробелы или пустое!");
+      return;
+    }
+
+    if (editingText.length < 2 || editingText.length > 64) {
+      alert("Длина текста должна быть от 2 до 64 символов");
+      return;
+    }
+
     changeTodo(todo.id, newText);
     setIsEditing(false);
   }
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement> ) {
+  function handleCancelClick() {
+    setIsEditing(false);
+  }
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setNewText(event.target.value);
   }
 
@@ -32,10 +49,16 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
           autoFocus
         />
         <img
-          className="save"
-          src={saveImg}
-          onClick={handleSaveClick}
-          alt="Save"
+          className="confirm"
+          src={confirmImg}
+          onClick={handleConfirmClick}
+          alt="Confirm"
+        />
+        <img
+          className="cancel"
+          src={cancelImg}
+          onClick={handleCancelClick}
+          alt="Cancel"
         />
       </div>
     );
