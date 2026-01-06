@@ -40,8 +40,8 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
 
   if (isEditing) {
     taskContent = (
-      <div>
-        <input
+      <div className="edited">
+        <input 
           type="text"
           required
           value={newText}
