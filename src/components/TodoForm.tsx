@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-export function TodoForm({ addTodo }: any) {
+interface TodoFormProps {
+  addTodo: (todo: string) => void
+}
+
+export function TodoForm({ addTodo }: TodoFormProps) {
   const [value, setValue] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
