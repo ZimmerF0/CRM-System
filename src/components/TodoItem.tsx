@@ -41,7 +41,7 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
   if (isEditing) {
     taskContent = (
       <div className="edited">
-        <input 
+        <input
           type="text"
           required
           value={newText}
@@ -69,7 +69,10 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
           className="checkbox"
           type="checkbox"
           checked={todo.isDone}
-          onChange={() => toggleTodo(todo.id)}
+          onChange={() => {
+            console.log("CLICK");
+            toggleTodo(todo.id);
+          }}
         />
         <span>{todo.title}</span>
         <img
