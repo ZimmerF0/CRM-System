@@ -2,7 +2,7 @@ import { TodoForm } from "./components/TodoForm.tsx";
 import { TodoItem } from "./components/TodoItem.tsx";
 import { TodoFilter } from "./components/TodoFilter.tsx";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // interface Todo {
 //   id: number;
@@ -82,6 +82,12 @@ export function App() {
   }
 
   const todosInProgress = todos.filter(todo => !todo.isDone).length;
+
+  useEffect(() => {
+    fetch('https://easydev.club/api/v1/todos')
+    .then((response) => response.json())
+    .then((data) => setTodos(data.data))
+  }, [])
 
   return (
     <div className="main">
