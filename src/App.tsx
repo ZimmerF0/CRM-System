@@ -4,10 +4,16 @@ import { TodoFilter } from "./components/TodoFilter.tsx";
 import "./App.css";
 import { useState } from "react";
 
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
+// interface Todo {
+//   id: number;
+//   text: string;
+//   completed: boolean;
+// }
+interface Todo { 
+	id: number;
+	title: string;
+	created?: string; // ISO date string 
+	isDone: boolean; 
 }
 
 type FilterType = "all" | "progress" | "completed";
@@ -22,8 +28,8 @@ export function App() {
     if (value) {
       const newTodo = {
         id: Date.now(),
-        text: value,
-        completed: false,
+        title: value,
+        isDone: false,
       };
       setTodos([newTodo, ...todos]);
       setAllTodos(allTodos + 1);
@@ -32,7 +38,7 @@ export function App() {
 
   const deleteTodo = (id: number) => {
     const todoToDelete = todos.find(todo => todo.id === id);
-    if (todoToDelete?.completed) {
+    if (todoToDelete?.isDone) {
       setEditTodo(editTodo - 1);
     }
     setTodos([...todos.filter(todo => todo.id !== id)]);
@@ -41,7 +47,7 @@ export function App() {
 
   function changeTodo(id: number, newText: string) {
     setTodos(
-      todos.map(todo => (todo.id === id ? { ...todo, text: newText } : todo))
+      todos.map(todo => (todo.id === id ? { ...todo, title: newText } : todo))
     );
   }
 
@@ -49,7 +55,7 @@ export function App() {
     const todoToToggle = todos.find(todo => todo.id === id);
     if (!todoToToggle) return;
 
-    if (todoToToggle.completed) {
+    if (todoToToggle.isDone) {
       setEditTodo(editTodo - 1);
     } else {
       setEditTodo(editTodo + 1);
@@ -57,7 +63,7 @@ export function App() {
 
     setTodos(
       todos.map(todo => 
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
       )
     );
   };
@@ -67,15 +73,15 @@ export function App() {
       case "all":
         return todos;
       case "progress":
-        return todos.filter(todo => !todo.completed);
+        return todos.filter(todo => !todo.isDone);
       case "completed":
-        return todos.filter(todo => todo.completed);
+        return todos.filter(todo => todo.isDone);
       default:
         return todos; 
     }
   }
 
-  const todosInProgress = todos.filter(todo => !todo.completed).length;
+  const todosInProgress = todos.filter(todo => !todo.isDone).length;
 
   return (
     <div className="main">

@@ -8,7 +8,7 @@ import deleteImg from "../assets/delete.svg";
 import cancelImg from "../assets/cancel.svg";
 
 export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
-  const [newText, setNewText] = React.useState(todo.text);
+  const [newText, setNewText] = React.useState(todo.title);
   const [isEditing, setIsEditing] = React.useState(false);
 
   function handleConfirmClick() {
@@ -64,14 +64,14 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
     );
   } else {
     taskContent = (
-      <li className={todo.completed ? "completed" : ""}>
+      <li className={todo.isDone ? "completed" : ""}>
         <input
           className="checkbox"
           type="checkbox"
-          checked={todo.completed}
+          checked={todo.isDone}
           onChange={() => toggleTodo(todo.id)}
         />
-        <span>{todo.text}</span>
+        <span>{todo.title}</span>
         <img
           className="edit"
           src={editImg}
