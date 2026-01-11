@@ -5,27 +5,27 @@ export function TodoFilter({
   todosInProgress,
   completedTodos,
   activeFilter,
-  setActiveFilter,
+  getFilterTodos,
 }: any) {
   return (
     <div className="filter">
       <button
         className={activeFilter === "all" ? "active" : ""}
-        onClick={() => setActiveFilter("all")}
+        onClick={() => getFilterTodos("all")}
       >
         Все({allTodos})
       </button>
 
       <button
         className={activeFilter === "inWork" ? "active" : ""}
-        onClick={() => setActiveFilter("inWork")}
+        onClick={() => getFilterTodos("inWork")}
       >
         В прогрессе({todosInProgress})
       </button>
 
       <button
         className={activeFilter === "completed" ? "active" : ""}
-        onClick={() => setActiveFilter("completed")}
+        onClick={() => getFilterTodos("completed")}
       >
         Завершенные({completedTodos})
       </button>

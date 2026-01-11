@@ -24,11 +24,12 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
       return;
     }
 
-    changeTodo(todo.id, newText);
+    changeTodo(todo.id, editingText);
     setIsEditing(false);
   }
 
   function handleCancelClick() {
+    setNewText(todo.title);
     setIsEditing(false);
   }
 

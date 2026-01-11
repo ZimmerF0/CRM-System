@@ -4,11 +4,31 @@ import { TodoFilter } from "./components/TodoFilter.tsx";
 import "./App.css";
 import { useEffect, useState } from "react";
 
+// interface TodoRequest {
+//   title?: string;
+//   isDone?: boolean; // изменение статуса задачи происходит через этот флаг
+// }
+
+// interface MetaResponse<T, N> {
+//   data: T[];
+//   info?: N;
+//   meta: {
+//     totalAmount: number;
+//   };
+// }
+
+
 interface Todo {
   id: number;
   title: string;
-  created?: string; // ISO date string
+  created: string; // ISO date string
   isDone: boolean;
+}
+
+interface TodoInfo { 
+	all: number
+	completed: number
+	inWork: number
 }
 
 type FilterType = "all" | "inWork" | "completed";
@@ -16,6 +36,11 @@ type FilterType = "all" | "inWork" | "completed";
 export function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
+  const [todosInfo, setTodosInfo] = useState<TodoInfo>({
+    all: 0,
+    completed: 0,
+    inWork: 0,
+  });
 
   const addTodo = (value: string) => {
     if (value) {
@@ -34,6 +59,7 @@ export function App() {
         .then(response => response.json())
         .then(addedTask => {
           setTodos([...todos, addedTask]);
+          getFilterTodos(activeFilter);
         });
     }
   };
@@ -43,6 +69,7 @@ export function App() {
       method: "DELETE",
     }).then(() => {
       setTodos([...todos.filter(todo => todo.id !== id)]);
+      getFilterTodos(activeFilter);
     });
   };
 
@@ -76,30 +103,23 @@ export function App() {
           todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
         )
       );
+      getFilterTodos(activeFilter);
     });
   };
 
-  const getFilterTodos = () => {
-    switch (activeFilter) {
-      case "all":
-        return todos;
-      case "inWork":
-        return todos.filter(todo => !todo.isDone);
-      case "completed":
-        return todos.filter(todo => todo.isDone);
-      default:
-        return todos;
-    }
+  const getFilterTodos = (status: FilterType) => {
+    fetch(`https://easydev.club/api/v1/todos?filter=${status}`)
+      .then(response => response.json())
+      .then(data => {
+        setTodos(data.data);
+        setTodosInfo(data.info);
+        setActiveFilter(status);
+      })
+      .catch(err => console.error(err));
   };
 
-  const allTodos = todos.length;
-  const todosInProgress = todos.filter(todo => !todo.isDone).length;
-  const completedTodos = todos.filter(todo => todo.isDone).length;
-
   useEffect(() => {
-    fetch("https://easydev.club/api/v1/todos")
-      .then(response => response.json())
-      .then(data => setTodos(data.data));
+    getFilterTodos("all");
   }, []);
 
   return (
@@ -107,14 +127,14 @@ export function App() {
       <h1 className="title">TodoList</h1>
       <TodoForm addTodo={addTodo} />
       <TodoFilter
-        todosInProgress={todosInProgress}
-        allTodos={allTodos}
-        completedTodos={completedTodos}
+        todosInProgress={todosInfo.inWork}
+        allTodos={todosInfo.all}
+        completedTodos={todosInfo.completed}
         activeFilter={activeFilter}
-        setActiveFilter={setActiveFilter}
+        getFilterTodos={getFilterTodos}
       />
 
-      {getFilterTodos().map(todo => (
+      {todos.map(todo => (
         <TodoItem
           todo={todo}
           key={todo.id}
