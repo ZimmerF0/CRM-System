@@ -7,7 +7,7 @@ import confirmImg from "../assets/confirm.svg";
 import deleteImg from "../assets/delete.svg";
 import cancelImg from "../assets/cancel.svg";
 
-export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
+const TodoItem = ({ todo, toggleTodo, deleteTodo, changeTodo }: any) => {
   const [newText, setNewText] = React.useState(todo.title);
   const [isEditing, setIsEditing] = React.useState(false);
 
@@ -70,10 +70,7 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
           className="checkbox"
           type="checkbox"
           checked={todo.isDone}
-          onChange={() => {
-            console.log("CLICK");
-            toggleTodo(todo.id);
-          }}
+          onChange={() => toggleTodo(todo.id)}
         />
         <span>{todo.title}</span>
         <img
@@ -97,4 +94,6 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, changeTodo }: any) {
       <ul className="todo">{taskContent}</ul>
     </div>
   );
-}
+};
+
+export default TodoItem;
