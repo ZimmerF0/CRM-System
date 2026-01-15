@@ -1,15 +1,15 @@
-// export interface TodoRequest {
-//   title?: string;
-//   isDone?: boolean; // изменение статуса задачи происходит через этот флаг
-// }
+export interface TodoRequest {
+  title?: string;
+  isDone?: boolean; // изменение статуса задачи происходит через этот флаг
+}
 
-// export interface MetaResponse<T, N> {
-//   data: T[];
-//   info?: N;
-//   meta: {
-//     totalAmount: number;
-//   };
-// }
+export interface MetaResponse<T, N> {
+  data: T[];
+  info?: N;
+  meta: {
+    totalAmount: number;
+  };
+}
 
 export interface Todo {
   id: number;
