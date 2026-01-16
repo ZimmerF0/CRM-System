@@ -3,7 +3,7 @@ import { TodoForm } from "../components/TodoForm";
 import { TodoFilter } from "../components/TodoFilter";
 import { TodoList } from "../components/TodoList";
 
-import  {addTask, deleteTask, changeTask, toggleTask, getFilteredTask} from "../api/tasksAPI";
+import  {addTask, deleteTask, updateTask,  getFilteredTask} from "../api/tasksAPI";
 
 import type { Todo, TodoInfo, FilterType } from "../types/todo";
 
@@ -46,7 +46,8 @@ export default function TodoListPage() {
 
   const changeTodo = async (id: number, newText: string) => {
     try {
-      await changeTask(id, newText);
+      await updateTask(id, {title: newText} );
+     
       setTodos(
         todos.map(todo => (todo.id === id ? { ...todo, title: newText } : todo))
       );
@@ -61,7 +62,8 @@ export default function TodoListPage() {
       const todoToToggle = todos.find(todo => todo.id === id);
       if (!todoToToggle) return;
 
-      await toggleTask(id, !todoToToggle.isDone);
+      await updateTask(id, {isDone: !todoToToggle.isDone} );
+      
       setTodos(todos =>
         todos.map(todo =>
           todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
