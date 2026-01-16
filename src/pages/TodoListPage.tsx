@@ -3,7 +3,7 @@ import { TodoForm } from "../components/TodoForm";
 import { TodoFilter } from "../components/TodoFilter";
 import { TodoList } from "../components/TodoList";
 
-import tasksAPI from "../api/tasksAPI";
+import  {addTask, deleteTask, changeTask, toggleTask, getFilteredTask} from "../api/tasksAPI";
 
 import type { Todo, TodoInfo, FilterType } from "../types/todo";
 
@@ -25,7 +25,7 @@ export default function TodoListPage() {
         isDone: false,
       };
 
-      tasksAPI.add(newTodo).then(addedTask => {
+      addTask(newTodo).then(addedTask => {
         setTodos([...todos, addedTask]);
         getFilterTodos(activeFilter);
       });
@@ -34,7 +34,7 @@ export default function TodoListPage() {
 
   const deleteTodo = async (id: number) => {
     try {
-      await tasksAPI.delete(id);
+      await deleteTask(id);
 
       setTodos(prev => prev.filter(todo => todo.id !== id));
       await getFilterTodos(activeFilter);
@@ -46,7 +46,7 @@ export default function TodoListPage() {
 
   const changeTodo = async (id: number, newText: string) => {
     try {
-      await tasksAPI.change(id, newText);
+      await changeTask(id, newText);
       setTodos(
         todos.map(todo => (todo.id === id ? { ...todo, title: newText } : todo))
       );
@@ -61,7 +61,7 @@ export default function TodoListPage() {
       const todoToToggle = todos.find(todo => todo.id === id);
       if (!todoToToggle) return;
 
-      await tasksAPI.toggle(id, !todoToToggle.isDone);
+      await toggleTask(id, !todoToToggle.isDone);
       setTodos(todos =>
         todos.map(todo =>
           todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
@@ -76,7 +76,7 @@ export default function TodoListPage() {
 
   const getFilterTodos = async (status: FilterType) => {
     try {
-      const data = await tasksAPI.getFiltered(status);
+      const data = await getFilteredTask(status);
 
       setTodos(data.data);
       setTodosInfo(data.info);
