@@ -5,12 +5,12 @@ interface TodoFormProps {
 }
 
 export function TodoForm({ addTodo }: TodoFormProps) {
-  const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const trimmedValue = value.trim();
+    const trimmedValue = title.trim();
 
     if (!trimmedValue) {
       alert("Поле содержит только пробелы или пустое!");
@@ -21,7 +21,7 @@ export function TodoForm({ addTodo }: TodoFormProps) {
       return;
     }
     addTodo(trimmedValue);
-    setValue("");
+    setTitle("");
   };
 
   return (
@@ -29,8 +29,8 @@ export function TodoForm({ addTodo }: TodoFormProps) {
       <input
         type="text"
         placeholder="Add todo item"
-        value={value}
-        onChange={e => setValue(e.target.value)}
+        value={title}
+        onChange={e => setTitle(e.target.value)}
       />
       <button className="btn" type="submit">
         Add

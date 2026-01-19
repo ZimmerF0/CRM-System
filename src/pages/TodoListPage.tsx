@@ -3,7 +3,12 @@ import { TodoForm } from "../components/TodoForm";
 import { TodoFilter } from "../components/TodoFilter";
 import { TodoList } from "../components/TodoList";
 
-import  {addTask, deleteTask, updateTask,  getFilteredTask} from "../api/tasksAPI";
+import {
+  addTask,
+  deleteTask,
+  updateTask,
+  getFilteredTask,
+} from "../api/tasksAPI";
 
 import type { Todo, TodoInfo, FilterType } from "../types/todo";
 
@@ -18,18 +23,11 @@ export default function TodoListPage() {
     inWork: 0,
   });
 
-  const addTodo = (value: string) => {
-    if (value) {
-      const newTodo = {
-        title: value,
-        isDone: false,
-      };
+  const addTodo = async (title: string) => {
+    const newTodo = { title, isDone: false };
 
-      addTask(newTodo).then(addedTask => {
-        setTodos([...todos, addedTask]);
-        getFilterTodos(activeFilter);
-      });
-    }
+    await addTask(newTodo);
+    getFilterTodos(activeFilter);
   };
 
   const deleteTodo = async (id: number) => {
@@ -46,8 +44,8 @@ export default function TodoListPage() {
 
   const changeTodo = async (id: number, newText: string) => {
     try {
-      await updateTask(id, {title: newText} );
-     
+      await updateTask(id, { title: newText });
+
       setTodos(
         todos.map(todo => (todo.id === id ? { ...todo, title: newText } : todo))
       );
@@ -62,8 +60,8 @@ export default function TodoListPage() {
       const todoToToggle = todos.find(todo => todo.id === id);
       if (!todoToToggle) return;
 
-      await updateTask(id, {isDone: !todoToToggle.isDone} );
-      
+      await updateTask(id, { isDone: !todoToToggle.isDone });
+
       setTodos(todos =>
         todos.map(todo =>
           todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
@@ -81,7 +79,9 @@ export default function TodoListPage() {
       const data = await getFilteredTask(status);
 
       setTodos(data.data);
-      setTodosInfo(data.info);
+      if (data.info) {
+        setTodosInfo(data.info);
+      }
       setActiveFilter(status);
     } catch (error) {
       console.error(error);

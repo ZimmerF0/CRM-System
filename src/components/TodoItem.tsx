@@ -1,15 +1,26 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import React from "react";
+import React, { useState } from "react";
 
 import editImg from "../assets/edit.svg";
 import confirmImg from "../assets/confirm.svg";
 import deleteImg from "../assets/delete.svg";
 import cancelImg from "../assets/cancel.svg";
+import type { Todo } from "../types/todo";
 
-const TodoItem = ({ todo, toggleTodo, deleteTodo, changeTodo }: any) => {
-  const [newText, setNewText] = React.useState(todo.title);
-  const [isEditing, setIsEditing] = React.useState(false);
+interface TodoItemProps {
+  todo: Todo;
+  toggleTodo: (id: number) => void;
+  deleteTodo: (id: number) => void;
+  changeTodo: (id: number, title: string) => void;
+}
+
+const TodoItem = ({
+  todo,
+  toggleTodo,
+  deleteTodo,
+  changeTodo,
+}: TodoItemProps) => {
+  const [newText, setNewText] = useState(todo.title);
+  const [isEditing, setIsEditing] = useState(false);
 
   function handleConfirmClick() {
     const editingText = newText.trim();
@@ -37,7 +48,7 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, changeTodo }: any) => {
     setNewText(event.target.value);
   }
 
-  let taskContent;
+  let taskContent: React.ReactElement;
 
   if (isEditing) {
     taskContent = (
@@ -89,11 +100,7 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, changeTodo }: any) => {
     );
   }
 
-  return (
-    <div>
-      <ul className="todo">{taskContent}</ul>
-    </div>
-  );
+  return <ul className="todo">{taskContent}</ul>;
 };
 
 export default TodoItem;

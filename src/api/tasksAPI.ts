@@ -1,4 +1,10 @@
-import type { FilterType, TodoRequest } from "../types/todo";
+import type {
+  FilterType,
+  Todo,
+  TodoInfo,
+  TodoRequest,
+  MetaResponse,
+} from "../types/todo";
 
 const URL = "https://easydev.club/api/v1/todos";
 
@@ -6,7 +12,7 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export function addTask(newTodo: TodoRequest) {
+export async function addTask(newTodo: TodoRequest): Promise<Todo> {
   return fetch(URL, {
     method: "POST",
     headers,
@@ -14,11 +20,14 @@ export function addTask(newTodo: TodoRequest) {
   }).then(response => response.json());
 }
 
-export function deleteTask(id: number) {
+export async function deleteTask(id: number): Promise<Response> {
   return fetch(`${URL}/${id}`, { method: "DELETE" });
 }
 
-export function updateTask(id: number, data: TodoRequest) {
+export async function updateTask(
+  id: number,
+  data: TodoRequest
+): Promise<Response> {
   return fetch(`${URL}/${id}`, {
     method: "PUT",
     headers,
@@ -26,6 +35,8 @@ export function updateTask(id: number, data: TodoRequest) {
   });
 }
 
-export function getFilteredTask(status: FilterType) {
+export async function getFilteredTask(
+  status: FilterType
+): Promise<MetaResponse<Todo, TodoInfo>> {
   return fetch(`${URL}?filter=${status}`).then(response => response.json());
 }
