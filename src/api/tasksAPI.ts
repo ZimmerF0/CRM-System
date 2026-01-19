@@ -13,30 +13,52 @@ const headers = {
 };
 
 export async function addTask(newTodo: TodoRequest): Promise<Todo> {
-  return fetch(URL, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(newTodo),
-  }).then(response => response.json());
+  try {
+    return await fetch(URL, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(newTodo),
+    }).then(response => response.json());
+  } catch (error) {
+    alert("failed to add task");
+    throw error;
+  }
 }
 
 export async function deleteTask(id: number): Promise<Response> {
-  return fetch(`${URL}/${id}`, { method: "DELETE" });
+  try {
+    return await fetch(`${URL}/${id}`, { method: "DELETE" });
+  } catch (error) {
+    alert("error while deleting task");
+    throw error;
+  }
 }
 
 export async function updateTask(
   id: number,
   data: TodoRequest
 ): Promise<Response> {
-  return fetch(`${URL}/${id}`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(data),
-  });
+  try {
+    return await fetch(`${URL}/${id}`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    alert("error while updating task");
+    throw error;
+  }
 }
 
 export async function getFilteredTask(
   status: FilterType
 ): Promise<MetaResponse<Todo, TodoInfo>> {
-  return fetch(`${URL}?filter=${status}`).then(response => response.json());
+  try {
+    return await fetch(`${URL}?filter=${status}`).then(response =>
+      response.json()
+    );
+  } catch (error) {
+    alert("error while filtered task");
+    throw error;
+  }
 }
