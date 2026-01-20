@@ -49,9 +49,9 @@ const TodoItem = ({
   }
 
   return (
-    <ul className="todo">
+    <>
       {isEditing ? (
-        <div className="edited">
+        <li className="edited">
           <input
             className="edited-text"
             type="text"
@@ -72,7 +72,7 @@ const TodoItem = ({
             onClick={handleCancelClick}
             alt="Cancel"
           />
-        </div>
+        </li>
       ) : (
         <li className={todo.isDone ? "completed" : ""}>
           <input
@@ -96,7 +96,7 @@ const TodoItem = ({
           />
         </li>
       )}
-    </ul>
+    </>
   );
 };
 

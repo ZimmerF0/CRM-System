@@ -76,12 +76,9 @@ input.edited-text {
   margin-left: 10px;
 }
 
-.todo {
+li {
   position: relative;
   width: 100%;
-}
-
-li {
   font-family: 'Open Sans', sans-serif;
   background-color: white;
   border-radius: 20px;
