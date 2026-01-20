@@ -5,6 +5,7 @@ import confirmImg from "../assets/confirm.svg";
 import deleteImg from "../assets/delete.svg";
 import cancelImg from "../assets/cancel.svg";
 import type { Todo } from "../types/todo";
+import { IconButton } from "../ui/IconButton";
 
 interface TodoItemProps {
   todo: Todo;
@@ -60,13 +61,13 @@ const TodoItem = ({
             onChange={handleChange}
             autoFocus
           />
-          <img
+          <IconButton
             className="confirm"
             src={confirmImg}
             onClick={handleConfirmClick}
             alt="Confirm"
           />
-          <img
+          <IconButton
             className="cancel"
             src={cancelImg}
             onClick={handleCancelClick}
@@ -82,13 +83,13 @@ const TodoItem = ({
             onChange={() => toggleTodo(todo.id)}
           />
           <span>{todo.title}</span>
-          <img
+          <IconButton
             className="edit"
             src={editImg}
             onClick={() => setIsEditing(true)}
             alt="Edit"
           />
-          <img
+          <IconButton
             className="delete"
             src={deleteImg}
             onClick={() => deleteTodo(todo.id)}
