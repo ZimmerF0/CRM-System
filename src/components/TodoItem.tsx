@@ -48,60 +48,56 @@ const TodoItem = ({
     setNewText(event.target.value);
   }
 
-  let taskContent: React.ReactElement;
-
-  if (isEditing) {
-    taskContent = (
-      <div className="edited">
-        <input
-        className="edited-text"
-          type="text"
-          required
-          value={newText}
-          onChange={handleChange}
-          autoFocus
-        />
-        <img
-          className="confirm"
-          src={confirmImg}
-          onClick={handleConfirmClick}
-          alt="Confirm"
-        />
-        <img
-          className="cancel"
-          src={cancelImg}
-          onClick={handleCancelClick}
-          alt="Cancel"
-        />
-      </div>
-    );
-  } else {
-    taskContent = (
-      <li className={todo.isDone ? "completed" : ""}>
-        <input
-          className="checkbox-input"
-          type="checkbox"
-          checked={todo.isDone}
-          onChange={() => toggleTodo(todo.id)}
-        />
-        <span>{todo.title}</span>
-        <img
-          className="edit"
-          src={editImg}
-          onClick={() => setIsEditing(true)}
-          alt="Edit"
-        />
-        <img
-          className="delete"
-          src={deleteImg}
-          onClick={() => deleteTodo(todo.id)}
-          alt="Delete"
-        />
-      </li>
-    );
-  }
-
-  return <ul className="todo">{taskContent}</ul>;
+  return (
+    <ul className="todo">
+      {isEditing ? (
+        <div className="edited">
+          <input
+            className="edited-text"
+            type="text"
+            required
+            value={newText}
+            onChange={handleChange}
+            autoFocus
+          />
+          <img
+            className="confirm"
+            src={confirmImg}
+            onClick={handleConfirmClick}
+            alt="Confirm"
+          />
+          <img
+            className="cancel"
+            src={cancelImg}
+            onClick={handleCancelClick}
+            alt="Cancel"
+          />
+        </div>
+      ) : (
+        <li className={todo.isDone ? "completed" : ""}>
+          <input
+            className="checkbox-input"
+            type="checkbox"
+            checked={todo.isDone}
+            onChange={() => toggleTodo(todo.id)}
+          />
+          <span>{todo.title}</span>
+          <img
+            className="edit"
+            src={editImg}
+            onClick={() => setIsEditing(true)}
+            alt="Edit"
+          />
+          <img
+            className="delete"
+            src={deleteImg}
+            onClick={() => deleteTodo(todo.id)}
+            alt="Delete"
+          />
+        </li>
+      )}
+    </ul>
+  );
 };
 
 export default TodoItem;
