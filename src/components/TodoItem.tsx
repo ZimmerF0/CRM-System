@@ -54,6 +54,7 @@ const TodoItem = ({
     taskContent = (
       <div className="edited">
         <input
+        className="edited-text"
           type="text"
           required
           value={newText}
