@@ -78,7 +78,7 @@ const TodoItem = ({
     taskContent = (
       <li className={todo.isDone ? "completed" : ""}>
         <input
-          className="checkbox"
+          className="checkbox-input"
           type="checkbox"
           checked={todo.isDone}
           onChange={() => toggleTodo(todo.id)}

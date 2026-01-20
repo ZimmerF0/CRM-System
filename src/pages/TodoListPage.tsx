@@ -27,7 +27,7 @@ export default function TodoListPage() {
     const newTodo = { title, isDone: false };
 
     await addTask(newTodo);
-    getFilterTodos(activeFilter);
+    filterTodos(activeFilter);
   };
 
   const deleteTodo = async (id: number) => {
@@ -35,7 +35,7 @@ export default function TodoListPage() {
       await deleteTask(id);
 
       setTodos(prev => prev.filter(todo => todo.id !== id));
-      await getFilterTodos(activeFilter);
+      await filterTodos(activeFilter);
     } catch (error) {
       console.error(error);
       alert("Не удалось удалить задачу");
@@ -67,14 +67,14 @@ export default function TodoListPage() {
           todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
         )
       );
-      await getFilterTodos(activeFilter);
+      await filterTodos(activeFilter);
     } catch (error) {
       console.error(error);
       alert("Не удалось завуршить задачу");
     }
   };
 
-  const getFilterTodos = async (status: FilterType) => {
+  const filterTodos = async (status: FilterType) => {
     try {
       const data = await getFilteredTask(status);
 
@@ -90,7 +90,7 @@ export default function TodoListPage() {
   };
 
   useEffect(() => {
-    getFilterTodos("all");
+    filterTodos("all");
   }, []);
 
   return (
@@ -102,7 +102,7 @@ export default function TodoListPage() {
         allTodos={todosInfo.all}
         completedTodos={todosInfo.completed}
         activeFilter={activeFilter}
-        getFilterTodos={getFilterTodos}
+        getFilterTodos={filterTodos}
       />
 
       <TodoList
