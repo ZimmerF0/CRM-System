@@ -4,7 +4,6 @@ import { TodoFilter } from "../components/TodoFilter";
 import { TodoList } from "../components/TodoList";
 
 import {
-  addTask,
   deleteTask,
   updateTask,
   getFilteredTask,
@@ -23,12 +22,6 @@ export default function TodoListPage() {
     inWork: 0,
   });
 
-  const addTodo = async (title: string) => {
-    const newTodo = { title, isDone: false };
-
-    await addTask(newTodo);
-    filterTodos(activeFilter);
-  };
 
   const deleteTodo = async (id: number) => {
     try {
@@ -82,7 +75,7 @@ export default function TodoListPage() {
       if (data.info) {
         setTodosInfo(data.info);
       }
-      setActiveFilter(status);
+
     } catch (error) {
       console.error(error);
       alert("Не удалось отфильтровать задачи");
@@ -90,19 +83,19 @@ export default function TodoListPage() {
   };
 
   useEffect(() => {
-    filterTodos("all");
-  }, []);
+    filterTodos(activeFilter);
+  }, [activeFilter]);
 
   return (
     <div className="main">
       <h1 className="title">TodoList</h1>
-      <TodoForm addTodo={addTodo} />
+      <TodoForm onCreated={() => filterTodos(activeFilter)} />
       <TodoFilter
         todosInProgress={todosInfo.inWork}
         allTodos={todosInfo.all}
         completedTodos={todosInfo.completed}
         activeFilter={activeFilter}
-        getFilterTodos={filterTodos}
+        getFilterTodos={setActiveFilter}
       />
 
       <TodoList

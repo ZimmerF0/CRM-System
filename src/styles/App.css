@@ -60,11 +60,6 @@ input {
   border-bottom: 1px solid #ccc;
 }
 
-input.edited-text {
-  width: 530px;
-
-}
-
 .btn {
   width: 160px;
   background-color: #5492ff;
@@ -138,13 +133,14 @@ span {
   border: 1px solid #ccc;
   margin-bottom: 20px;
   border-radius: 30px;
+  cursor: focus;
 }
 
 input.edited-text {
   display: flex;
   align-items: center;
-  max-width: 545px;
-  padding: 10px 10px 10px 45px;
+  max-width: 510px;
+  padding: 10px 10px 10px 33px;
 }
 
 .completed {

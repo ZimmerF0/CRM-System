@@ -1,14 +1,22 @@
 import { useState } from "react";
+import { addTask } from "../api/tasksAPI";
 
 interface TodoFormProps {
-  addTodo: (todo: string) => void
+  onCreated?: () => void
 }
 
-export function TodoForm({ addTodo }: TodoFormProps) {
+export function TodoForm({ onCreated }: TodoFormProps) {
   const [title, setTitle] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const addTodo = async (title: string) => {
+    const newTodo = { title, isDone: false };
+    await addTask(newTodo);
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if(isSubmitting) return;
 
     const trimmedValue = title.trim();
 
@@ -20,8 +28,18 @@ export function TodoForm({ addTodo }: TodoFormProps) {
       alert("Длина текста должна быть от 2 до 64 символов");
       return;
     }
-    addTodo(trimmedValue);
-    setTitle("");
+
+    try {
+      setIsSubmitting(true);
+      await addTodo(trimmedValue);
+      setTitle("");
+      onCreated?.()
+    } catch (error) {
+      alert("Не удалось добавить новую задачу");
+      throw error;
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
