@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { addTask } from "../api/tasksAPI";
 import Button from "../ui/Button";
+import Input from "../ui/Input";
 
 interface TodoFormProps {
   onCreated?: () => void;
@@ -45,11 +46,11 @@ export function TodoForm({ onCreated }: TodoFormProps) {
 
   return (
     <form className="input-form" onSubmit={handleSubmit}>
-      <input
+      <Input
         type="text"
         placeholder="Add todo item"
         value={title}
-        onChange={e => setTitle(e.target.value)}
+        onChange={(value) => setTitle(value)}
       />
       <Button className="btn" type="submit">
         Add
