@@ -1,4 +1,5 @@
 import type { FilterType } from "../types/todo";
+import Button from "../ui/Button";
 
 interface TodoFilterProps {
   allTodos: number,
@@ -17,26 +18,26 @@ export function TodoFilter({
 }: TodoFilterProps) {
   return (
     <div className="filter">
-      <button
+      <Button
         className={activeFilter === "all" ? "active" : ""}
         onClick={() => getFilterTodos("all")}
       >
         Все({allTodos})
-      </button>
+      </Button>
 
-      <button
+      <Button
         className={activeFilter === "inWork" ? "active" : ""}
         onClick={() => getFilterTodos("inWork")}
       >
         В прогрессе({todosInProgress})
-      </button>
+      </Button>
 
-      <button
+      <Button
         className={activeFilter === "completed" ? "active" : ""}
         onClick={() => getFilterTodos("completed")}
       >
         Завершенные({completedTodos})
-      </button>
+      </Button>
     </div>
   );
 }
