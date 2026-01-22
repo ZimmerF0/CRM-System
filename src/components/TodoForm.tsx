@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { addTask } from "../api/tasksAPI";
+import Button from "../ui/Button";
 
 interface TodoFormProps {
-  onCreated?: () => void
+  onCreated?: () => void;
 }
 
 export function TodoForm({ onCreated }: TodoFormProps) {
@@ -16,7 +17,7 @@ export function TodoForm({ onCreated }: TodoFormProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if(isSubmitting) return;
+    if (isSubmitting) return;
 
     const trimmedValue = title.trim();
 
@@ -33,7 +34,7 @@ export function TodoForm({ onCreated }: TodoFormProps) {
       setIsSubmitting(true);
       await addTodo(trimmedValue);
       setTitle("");
-      onCreated?.()
+      onCreated?.();
     } catch (error) {
       alert("Не удалось добавить новую задачу");
       throw error;
@@ -50,9 +51,9 @@ export function TodoForm({ onCreated }: TodoFormProps) {
         value={title}
         onChange={e => setTitle(e.target.value)}
       />
-      <button className="btn" type="submit">
+      <Button className="btn" type="submit">
         Add
-      </button>
+      </Button>
     </form>
   );
 }
