@@ -42,17 +42,15 @@ button {
   margin-bottom: 30px;
 }
 
-.input-form {
+form.input-form {
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
-
 }
 
 input {
   border: none;
   padding: 10px;
-  padding-left: 45px;
   outline: none;
   width: 100%;
   background-color: transparent;

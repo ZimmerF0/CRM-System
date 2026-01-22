@@ -3,25 +3,19 @@ import { TodoForm } from "../components/TodoForm";
 import { TodoFilter } from "../components/TodoFilter";
 import { TodoList } from "../components/TodoList";
 
-import {
-  deleteTask,
-  updateTask,
-  getFilteredTask,
-} from "../api/tasksAPI";
-
+import { deleteTask, updateTask, getFilteredTask } from "../api/tasksAPI";
 import type { Todo, TodoInfo, FilterType } from "../types/todo";
 
 import "../styles/App.css";
 
 export default function TodoListPage() {
-  const [todos, setTodos] = useState<Todo[]>([]);
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [todosInfo, setTodosInfo] = useState<TodoInfo>({
     all: 0,
     completed: 0,
     inWork: 0,
   });
-
 
   const deleteTodo = async (id: number) => {
     try {
@@ -75,7 +69,6 @@ export default function TodoListPage() {
       if (data.info) {
         setTodosInfo(data.info);
       }
-
     } catch (error) {
       console.error(error);
       alert("Не удалось отфильтровать задачи");
@@ -89,7 +82,9 @@ export default function TodoListPage() {
   return (
     <div className="main">
       <h1 className="title">TodoList</h1>
+
       <TodoForm onCreated={() => filterTodos(activeFilter)} />
+
       <TodoFilter
         todosInProgress={todosInfo.inWork}
         allTodos={todosInfo.all}

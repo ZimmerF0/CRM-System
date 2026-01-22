@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import editImg from "../assets/edit.svg";
 import confirmImg from "../assets/confirm.svg";
 import deleteImg from "../assets/delete.svg";
 import cancelImg from "../assets/cancel.svg";
-import type { Todo } from "../types/todo";
+
 import { IconButton } from "../ui/IconButton";
+import { Checkbox } from "../ui/Checkbox";
+import type { Todo } from "../types/todo";
 
 interface TodoItemProps {
   todo: Todo;
@@ -14,12 +16,12 @@ interface TodoItemProps {
   changeTodo: (id: number, title: string) => void;
 }
 
-const TodoItem = ({
+export default function TodoItem({
   todo,
   toggleTodo,
   deleteTodo,
   changeTodo,
-}: TodoItemProps) => {
+}: TodoItemProps) {
   const [newText, setNewText] = useState(todo.title);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -40,15 +42,6 @@ const TodoItem = ({
     setIsEditing(false);
   }
 
-  function handleCancelClick() {
-    setNewText(todo.title);
-    setIsEditing(false);
-  }
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setNewText(event.target.value);
-  }
-
   return (
     <>
       {isEditing ? (
@@ -58,7 +51,7 @@ const TodoItem = ({
             type="text"
             required
             value={newText}
-            onChange={handleChange}
+            onChange={event => setNewText(event.target.value)}
             autoFocus
           />
           <IconButton
@@ -70,15 +63,14 @@ const TodoItem = ({
           <IconButton
             className="cancel"
             src={cancelImg}
-            onClick={handleCancelClick}
+            onClick={() => setIsEditing(false)}
             alt="Cancel"
           />
         </li>
       ) : (
         <li className={todo.isDone ? "completed" : ""}>
-          <input
+          <Checkbox
             className="checkbox-input"
-            type="checkbox"
             checked={todo.isDone}
             onChange={() => toggleTodo(todo.id)}
           />
@@ -99,6 +91,4 @@ const TodoItem = ({
       )}
     </>
   );
-};
-
-export default TodoItem;
+}
