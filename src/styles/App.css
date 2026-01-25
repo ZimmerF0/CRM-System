@@ -1,3 +1,16 @@
+:root {
+  --color-white: #fff;
+  --color-bg: #eeeeec;
+  --color-btn:  #5492ff;
+  --color-text: #000;
+  --color-light-text: gray;
+  --color-border: #ccc;
+  --color-active: #67c9ef;
+  --color-confirm: #0db323;
+  --color-delete: #fd6758;
+  --color-edit:  #5492ff;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -12,7 +25,6 @@
 
 .app {
   font-family: 'Open Sans', sans-serif;
-  background: rgb(227, 224, 209);
   box-sizing: border-box;
   min-height: 100vh;
   display: flex;
@@ -24,7 +36,7 @@
 .main {
   width: 600px;
   margin: 50px auto;
-  background: rgb(238, 238, 236);
+  background: var(--color-bg);
   border-radius: 20px;
   padding: 20px 50px;
   font-size: 18px;
@@ -33,7 +45,8 @@
 button {
   border: none;
   background-color: transparent;
-  font-size: 16px;
+  font-size: 18px;
+  color: var(--color-light-text);
   cursor: pointer;
 }
 
@@ -56,13 +69,13 @@ input {
   width: 100%;
   background-color: transparent;
   font-size: 18px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .btn {
   width: 160px;
-  background-color: #5492ff;
-  color: white;
+  background-color: var(--color-btn);
+  color: var(--color-white);
   font-size: 14px;
   cursor: pointer;
   border: none;
@@ -74,10 +87,10 @@ li {
   position: relative;
   width: 100%;
   font-family: 'Open Sans', sans-serif;
-  background-color: white;
-  border-radius: 20px;
+  background-color: var(--color-white);
+  border-radius: 10px;
   padding: 10px 10px 10px 15px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
   list-style-type: none;
   margin-bottom: 20px;
   text-align: left;
@@ -110,28 +123,27 @@ span {
   padding-left: 10px;
   height: 10px;
   width: 10px;
-  border: 1px solid #a8a7a7;
+  border: 1px solid var(--color-border);
   border-radius: 15px;
-  background-color: #fff;
+  background-color: var(--color-white);
   cursor: pointer;
 }
 
 .checkbox-input:checked {
-  background-color: #5492ff;
-  border-color: #5492ff;
+  background-color:var(--color-btn);
+  border-color: var(--color-btn);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
 }
 
 .checkbox-input:hover {
-  border-color: #0d6efd;
+  border-color: var(--color-btn);
 }
 
 .edited {
-  background-color: white;
+  background-color: var(--color-white);
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
   margin-bottom: 20px;
-  border-radius: 30px;
   cursor: focus;
 }
 
@@ -144,26 +156,35 @@ input.edited-text {
 
 .completed {
   text-decoration: line-through;
-  color: gray;
+  color: var(--color-light-text);
 }
 
-.edit,
 .confirm {
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  right: 45px;
-  top: 9px;
-  cursor: pointer;
+  right: 42px;
+  background-color: var(--color-confirm);
+}
+
+.edit {
+  background-color: var(--color-edit);
+  right: 42px;
 }
 
 .delete,
 .cancel {
+  background-color: var(--color-delete);
+  right: 4px;
+}
+
+.edit,
+.confirm,
+.delete,
+.cancel {
   position: absolute;
-  width: 25px;
-  height: 25px;
-  right: 10px;
-  top: 9px;
+  width: 24px;
+  height: 24px;
+  padding: 5px;
+  border-radius: 5px;
+  top: 4px;
   cursor: pointer;
 }
 
@@ -175,6 +196,6 @@ input.edited-text {
 }
 
 .active {
-  color: rgb(22, 138, 233);
-  border-bottom: 2px solid rgb(22, 138, 233);
+  color: var(--color-active);
+  border-bottom: 2px solid var(--color-active);
 }
