@@ -13,24 +13,23 @@ const headers = {
 };
 
 export async function addTask(newTodo: TodoRequest): Promise<Todo> {
-  try {
-    return await fetch(URL, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(newTodo),
-    }).then(response => response.json());
-  } catch (error) {
-    alert("failed to add task");
-    throw error;
+  const response = await fetch(URL, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(newTodo),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to add task");
   }
+
+  return await response.json();
 }
 
-export async function deleteTask(id: number): Promise<Response> {
-  try {
-    return await fetch(`${URL}/${id}`, { method: "DELETE" });
-  } catch (error) {
-    alert("error while deleting task");
-    throw error;
+export async function deleteTask(id: number): Promise<void> {
+  const response = await fetch(`${URL}/${id}`, { method: "DELETE" });
+  if (!response.ok) {
+    throw new Error("Failed to delete task");
   }
 }
 
@@ -38,27 +37,25 @@ export async function updateTask(
   id: number,
   data: TodoRequest
 ): Promise<Response> {
-  try {
-    return await fetch(`${URL}/${id}`, {
-      method: "PUT",
-      headers,
-      body: JSON.stringify(data),
-    });
-  } catch (error) {
-    alert("error while updating task");
-    throw error;
+  const response = await fetch(`${URL}/${id}`, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to update task");
   }
+
+  return await response.json();
 }
 
 export async function getFilteredTask(
   status: FilterType
 ): Promise<MetaResponse<Todo, TodoInfo>> {
-  try {
-    return await fetch(`${URL}?filter=${status}`).then(response =>
-      response.json()
-    );
-  } catch (error) {
-    alert("error while filtered task");
-    throw error;
+  const response = await fetch(`${URL}?filter=${status}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch filtered tasks");
   }
+
+  return await response.json();
 }
