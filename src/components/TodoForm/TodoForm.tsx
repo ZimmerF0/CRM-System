@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { addTask } from "../api/tasksAPI";
-import Button from "../ui/Button";
-import Input from "../ui/Input";
-import { validateTitle } from "../helpers/validateTitle";
+import { addTask } from "../../api/tasksAPI";
+import { validateTitle } from "../../helpers/validateTitle";
+import Button from "../../ui/Button/Button";
+import Input from "../../ui/Input";
+
+import styles from "./TodoForm.module.css";
+
 
 interface TodoFormProps {
   onCreated?: () => void;
@@ -21,7 +24,7 @@ export function TodoForm({ onCreated }: TodoFormProps) {
     event.preventDefault();
     if (isSubmitting) return;
 
-    const trimmed = title.trim();
+    const trimmed = title.trim(); // функция валидации вводимого текста
     const error = validateTitle(trimmed);
     if (error) {
       alert(error);
@@ -41,14 +44,14 @@ export function TodoForm({ onCreated }: TodoFormProps) {
   };
 
   return (
-    <form className="input-form" onSubmit={handleSubmit}>
+    <form className={styles["input-form"]} onSubmit={handleSubmit}>
       <Input
         type="text"
         placeholder="Add todo item"
         value={title}
         onChange={setTitle}
       />
-      <Button className="btn" type="submit">
+      <Button type="submit">
         Add
       </Button>
     </form>

@@ -1,7 +1,10 @@
 import  TodoListPage  from "./pages/TodoListPage";
+import "./styles/App.css";
 
 export default function App () {
   return (
-    <TodoListPage />
+    <div className="app">
+      <TodoListPage />
+    </div>
   )
 }

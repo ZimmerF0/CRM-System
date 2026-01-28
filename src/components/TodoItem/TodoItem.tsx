@@ -1,14 +1,16 @@
 import { useState } from "react";
+import type { Todo } from "../../types/todo";
+import { validateTitle } from "../../helpers/validateTitle";
 
-import editImg from "../assets/edit.svg";
-import confirmImg from "../assets/confirm.svg";
-import deleteImg from "../assets/delete.svg";
-import cancelImg from "../assets/cancel.svg";
+import editImg from "../../assets/edit.svg";
+import confirmImg from "../../assets/confirm.svg";
+import deleteImg from "../../assets/delete.svg";
+import cancelImg from "../../assets/cancel.svg";
 
-import { IconButton } from "../ui/IconButton";
-import { Checkbox } from "../ui/Checkbox";
-import type { Todo } from "../types/todo";
-import { validateTitle } from "../helpers/validateTitle";
+import { IconButton } from "../../ui/IconButton";
+import { Checkbox } from "../../ui/Checkbox";
+
+import styles from "./TodoItem.module.css"
 
 interface TodoItemProps {
   todo: Todo;
@@ -27,7 +29,7 @@ export default function TodoItem({
   const [isEditing, setIsEditing] = useState(false);
 
   function handleConfirmClick() {
-    const editingText = newText.trim();
+    const editingText = newText.trim(); // функция валидации вводимого текста
     const error = validateTitle(editingText);
 
     if (error) {
@@ -42,9 +44,9 @@ export default function TodoItem({
   return (
     <>
       {isEditing ? (
-        <li className="edited">
+        <li className={styles.edited}>
           <input
-            className="edited-text"
+            className={styles["edited-text"]}
             type="text"
             required
             value={newText}
@@ -65,7 +67,7 @@ export default function TodoItem({
           />
         </li>
       ) : (
-        <li className={todo.isDone ? "completed" : ""}>
+        <li className={todo.isDone ? styles.completed : ""}>
           <Checkbox
             className="checkbox-input"
             checked={todo.isDone}

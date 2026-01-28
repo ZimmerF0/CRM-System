@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { TodoForm } from "../components/TodoForm";
-import { TodoFilter } from "../components/TodoFilter";
-import { TodoList } from "../components/TodoList";
+import { TodoForm } from "../components/TodoForm/TodoForm";
+import { TodoFilter } from "../components/TodoFilter/TodoFilter";
+import { TodoList } from "../components/TodoList/TodoList";
 
 import { deleteTask, updateTask, getFilteredTask } from "../api/tasksAPI";
 import type { Todo, TodoInfo, FilterType } from "../types/todo";
 
-import "../styles/App.css";
+
+import styles from "./TodoListPage.module.css";
 
 export default function TodoListPage() {
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
@@ -80,8 +81,8 @@ export default function TodoListPage() {
   }, [activeFilter]);
 
   return (
-    <div className="main">
-      <h1 className="title">TodoList</h1>
+    <div className={styles.main}>
+  <h1 className={styles.title}>TodoList</h1>
 
       <TodoForm onCreated={() => filterTodos(activeFilter)} />
 

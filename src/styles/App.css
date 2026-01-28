@@ -31,93 +31,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-}
-
-.main {
-  width: 600px;
-  margin: 50px auto;
-  background: var(--color-bg);
-  border-radius: 20px;
-  padding: 20px 50px;
-  font-size: 18px;
-}
-
-button {
-  border: none;
-  background-color: transparent;
-  font-size: 18px;
-  color: var(--color-light-text);
-  cursor: pointer;
-}
-
-.title {
-  font-size: 35px;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-form.input-form {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
-}
-
-input {
-  border: none;
-  padding: 10px;
-  outline: none;
-  width: 100%;
-  background-color: transparent;
-  font-size: 18px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.btn {
-  width: 160px;
-  background-color: var(--color-primary);
-  color: var(--color-white-text);
-  font-size: 14px;
-  cursor: pointer;
-  border: none;
-  border-radius: 10px;
-  margin-left: 10px;
-}
-
-li {
-  position: relative;
-  width: 100%;
-  font-family: 'Open Sans', sans-serif;
-  background-color: var(--color-white-text);
-  border-radius: 10px;
-  padding: 10px 10px 10px 15px;
-  border: 1px solid var(--color-border);
-  list-style-type: none;
-  margin-bottom: 20px;
-  text-align: left;
-  display: flex;
-  align-items: center;
-}
-
-li,
-input.edited-text {
-  height: 44px;
-  box-sizing: border-box;
-
-}
-
-span {
-  padding-left: 10px;
-  padding-bottom: 10px;
-  height: 15px;
-  line-height: 25px;
-  max-width: 550px;
-  max-width: calc(100% - 100px);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
 }
 
 .checkbox-input {
@@ -141,25 +55,6 @@ span {
   border-color: var(--color-primary);
 }
 
-.edited {
-  background-color: var(--color-white-text);
-  border-radius: 10px;
-  border: 1px solid var(--color-border);
-  margin-bottom: 20px;
-  cursor: focus;
-}
-
-input.edited-text {
-  display: flex;
-  align-items: center;
-  max-width: 510px;
-  padding: 10px 10px 10px 33px;
-}
-
-.completed {
-  text-decoration: line-through;
-  color: var(--color-light-text);
-}
 
 .confirm {
   right: 42px;
@@ -195,13 +90,5 @@ input.edited-text {
 }
 
 
-.filter {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
-}
 
-.active {
-  color: var(--color-active);
-  border-bottom: 2px solid var(--color-active);
-}
+

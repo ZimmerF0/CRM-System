@@ -1,5 +1,7 @@
-import TodoItem from "../components/TodoItem";
-import type  { Todo }  from "../types/todo";
+import TodoItem from "../TodoItem/TodoItem";
+import type { Todo } from "../../types/todo";
+
+import styles from "./TodoList.module.css"
 
 interface TodoListProps {
   todos: Todo[];
@@ -8,14 +10,14 @@ interface TodoListProps {
   toggleTodo: (id: number) => void;
 }
 
-export function TodoList ({
+export function TodoList({
   todos,
   changeTodo,
   deleteTodo,
   toggleTodo,
 }: TodoListProps) {
   return (
-    <ul className="todo-list">
+    <ul className={styles["todo-list"]}>
       {todos.map(todo => (
         <TodoItem
           key={todo.id}
@@ -27,5 +29,4 @@ export function TodoList ({
       ))}
     </ul>
   );
-};
-
+}
