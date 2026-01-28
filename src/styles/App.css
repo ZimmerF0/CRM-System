@@ -1,14 +1,16 @@
 :root {
-  --color-white: #fff;
-  --color-bg: #eeeeec;
-  --color-btn:  #5492ff;
-  --color-text: #000;
-  --color-light-text: gray;
-  --color-border: #ccc;
-  --color-active: #67c9ef;
-  --color-confirm: #0db323;
-  --color-delete: #fd6758;
-  --color-edit:  #5492ff;
+  --color-primary:    #5492ff;
+  --color-secondary:  #a5a4a4;
+  --color-success:    #43a047;
+  --color-warning:    #ffa000;
+  --color-danger:     #fd6758;
+  --color-info:       #0288d1;
+  --color-bg:         #eeeeec;
+  --color-white-text: #ffffff;
+  --color-text:       #000000;
+  --color-light-text: #808080;
+  --color-border:     #cccccc;
+  --color-active:     #67c9ef;
 }
 
 #root {
@@ -74,8 +76,8 @@ input {
 
 .btn {
   width: 160px;
-  background-color: var(--color-btn);
-  color: var(--color-white);
+  background-color: var(--color-primary);
+  color: var(--color-white-text);
   font-size: 14px;
   cursor: pointer;
   border: none;
@@ -87,7 +89,7 @@ li {
   position: relative;
   width: 100%;
   font-family: 'Open Sans', sans-serif;
-  background-color: var(--color-white);
+  background-color: var(--color-white-text);
   border-radius: 10px;
   padding: 10px 10px 10px 15px;
   border: 1px solid var(--color-border);
@@ -125,22 +127,22 @@ span {
   width: 10px;
   border: 1px solid var(--color-border);
   border-radius: 15px;
-  background-color: var(--color-white);
+  background-color: var(--color-white-text);
   cursor: pointer;
 }
 
 .checkbox-input:checked {
-  background-color:var(--color-btn);
-  border-color: var(--color-btn);
+  background-color:var(--color-primary);
+  border-color: var(--color-primary);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
 }
 
 .checkbox-input:hover {
-  border-color: var(--color-btn);
+  border-color: var(--color-primary);
 }
 
 .edited {
-  background-color: var(--color-white);
+  background-color: var(--color-white-text);
   border-radius: 10px;
   border: 1px solid var(--color-border);
   margin-bottom: 20px;
@@ -161,17 +163,21 @@ input.edited-text {
 
 .confirm {
   right: 42px;
-  background-color: var(--color-confirm);
+  background-color: var(--color-primary);
 }
 
 .edit {
-  background-color: var(--color-edit);
+  background-color: var(--color-primary);
   right: 42px;
 }
 
-.delete,
+.delete {
+  background-color: var(--color-danger);
+  right: 4px;
+}
+
 .cancel {
-  background-color: var(--color-delete);
+  background-color: var(--color-secondary);
   right: 4px;
 }
 

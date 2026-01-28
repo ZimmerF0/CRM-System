@@ -2,6 +2,7 @@ import { useState } from "react";
 import { addTask } from "../api/tasksAPI";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
+import { validateTitle } from "../helpers/validateTitle";
 
 interface TodoFormProps {
   onCreated?: () => void;
@@ -20,25 +21,20 @@ export function TodoForm({ onCreated }: TodoFormProps) {
     event.preventDefault();
     if (isSubmitting) return;
 
-    const trimmedValue = title.trim();
-
-    if (!trimmedValue) {
-      alert("Поле содержит только пробелы или пустое!");
-      return;
-    }
-    if (trimmedValue.length < 2 || trimmedValue.length > 64) {
-      alert("Длина текста должна быть от 2 до 64 символов");
+    const trimmed = title.trim();
+    const error = validateTitle(trimmed);
+    if (error) {
+      alert(error);
       return;
     }
 
     try {
       setIsSubmitting(true);
-      await addTodo(trimmedValue);
+      await addTodo(trimmed);
       setTitle("");
       onCreated?.();
-    } catch (error) {
+    } catch {
       alert("Не удалось добавить новую задачу");
-      throw error;
     } finally {
       setIsSubmitting(false);
     }
@@ -50,7 +46,7 @@ export function TodoForm({ onCreated }: TodoFormProps) {
         type="text"
         placeholder="Add todo item"
         value={title}
-        onChange={(value) => setTitle(value)}
+        onChange={setTitle}
       />
       <Button className="btn" type="submit">
         Add

@@ -8,6 +8,7 @@ import cancelImg from "../assets/cancel.svg";
 import { IconButton } from "../ui/IconButton";
 import { Checkbox } from "../ui/Checkbox";
 import type { Todo } from "../types/todo";
+import { validateTitle } from "../helpers/validateTitle";
 
 interface TodoItemProps {
   todo: Todo;
@@ -27,14 +28,10 @@ export default function TodoItem({
 
   function handleConfirmClick() {
     const editingText = newText.trim();
+    const error = validateTitle(editingText);
 
-    if (!editingText) {
-      alert("Поле содержит только пробелы или пустое!");
-      return;
-    }
-
-    if (editingText.length < 2 || editingText.length > 64) {
-      alert("Длина текста должна быть от 2 до 64 символов");
+    if (error) {
+      alert(error);
       return;
     }
 
