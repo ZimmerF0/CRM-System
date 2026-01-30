@@ -7,10 +7,10 @@ import confirmImg from "../../assets/confirm.svg";
 import deleteImg from "../../assets/delete.svg";
 import cancelImg from "../../assets/cancel.svg";
 
-import { IconButton } from "../../ui/IconButton";
-import { Checkbox } from "../../ui/Checkbox";
+import { IconButton } from "../../ui/IconButton/IconButton";
+import { Checkbox } from "../../ui/Checkbox/Checkbox";
 
-import styles from "./TodoItem.module.css"
+import styles from "./TodoItem.module.css";
 
 interface TodoItemProps {
   todo: Todo;
@@ -54,13 +54,13 @@ export default function TodoItem({
             autoFocus
           />
           <IconButton
-            className="confirm"
+            variant="confirm"
             src={confirmImg}
             onClick={handleConfirmClick}
             alt="Confirm"
           />
           <IconButton
-            className="cancel"
+            variant="cancel"
             src={cancelImg}
             onClick={() => setIsEditing(false)}
             alt="Cancel"
@@ -69,19 +69,18 @@ export default function TodoItem({
       ) : (
         <li className={todo.isDone ? styles.completed : ""}>
           <Checkbox
-            className="checkbox-input"
             checked={todo.isDone}
             onChange={() => toggleTodo(todo.id)}
           />
           <span>{todo.title}</span>
           <IconButton
-            className="edit"
+            variant="edit"
             src={editImg}
             onClick={() => setIsEditing(true)}
             alt="Edit"
           />
           <IconButton
-            className="delete"
+            variant="delete"
             src={deleteImg}
             onClick={() => deleteTodo(todo.id)}
             alt="Delete"

@@ -34,61 +34,6 @@
   align-items: center;
 }
 
-.checkbox-input {
-  appearance: none;
-  padding-left: 10px;
-  height: 10px;
-  width: 10px;
-  border: 1px solid var(--color-border);
-  border-radius: 15px;
-  background-color: var(--color-white-text);
-  cursor: pointer;
-}
-
-.checkbox-input:checked {
-  background-color:var(--color-primary);
-  border-color: var(--color-primary);
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
-}
-
-.checkbox-input:hover {
-  border-color: var(--color-primary);
-}
-
-
-.confirm {
-  right: 42px;
-  background-color: var(--color-primary);
-}
-
-.edit {
-  background-color: var(--color-primary);
-  right: 42px;
-}
-
-.delete {
-  background-color: var(--color-danger);
-  right: 4px;
-}
-
-.cancel {
-  background-color: var(--color-secondary);
-  right: 4px;
-}
-
-.edit,
-.confirm,
-.delete,
-.cancel {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  padding: 5px;
-  border-radius: 5px;
-  top: 4px;
-  cursor: pointer;
-}
-
 
 
 

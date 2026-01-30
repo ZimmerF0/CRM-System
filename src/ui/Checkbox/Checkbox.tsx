@@ -1,14 +1,16 @@
+import styles from "./Checkbox.module.css"
+
 interface Props {
   className?: string;
   checked: boolean;
   onChange: () => void;
 }
 
-export const Checkbox = ({ className, checked, onChange }: Props) => {
+export const Checkbox = ({ checked, onChange }: Props) => {
   return (
     <input
       type="checkbox"
-      className={className}
+      className={styles.checkbox}
       checked={checked}
       onChange={onChange}
     />
