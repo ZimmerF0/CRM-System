@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TodoForm } from "../components/TodoForm/TodoForm";
 import { TodoFilter } from "../components/TodoFilter/TodoFilter";
 import { TodoList } from "../components/TodoList/TodoList";
 
-import { deleteTask, updateTask, getFilteredTask } from "../api/tasksAPI";
+import { getFilteredTask } from "../api/tasksAPI";
 import type { Todo, TodoInfo, FilterType } from "../types/todo";
-
 
 import styles from "./TodoListPage.module.css";
 
@@ -18,73 +17,26 @@ export default function TodoListPage() {
     inWork: 0,
   });
 
-  const deleteTodo = async (id: number) => {
-    try {
-      await deleteTask(id);
-
-      setTodos(prev => prev.filter(todo => todo.id !== id));
-      await filterTodos(activeFilter);
-    } catch (error) {
-      console.error(error);
-      alert("Не удалось удалить задачу");
-    }
-  };
-
-  const changeTodo = async (id: number, newText: string) => {
-    try {
-      await updateTask(id, { title: newText });
-
-      setTodos(
-        todos.map(todo => (todo.id === id ? { ...todo, title: newText } : todo))
-      );
-    } catch (error) {
-      console.error(error);
-      alert("Не удалось изменить задачу");
-    }
-  };
-
-  const toggleTodo = async (id: number) => {
-    try {
-      const todoToToggle = todos.find(todo => todo.id === id);
-      if (!todoToToggle) return;
-
-      await updateTask(id, { isDone: !todoToToggle.isDone });
-
-      setTodos(todos =>
-        todos.map(todo =>
-          todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-        )
-      );
-      await filterTodos(activeFilter);
-    } catch (error) {
-      console.error(error);
-      alert("Не удалось завуршить задачу");
-    }
-  };
-
-  const filterTodos = async (status: FilterType) => {
-    try {
-      const data = await getFilteredTask(status);
-
-      setTodos(data.data);
-      if (data.info) {
-        setTodosInfo(data.info);
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Не удалось отфильтровать задачи");
-    }
-  };
+  const refresh = useCallback(async () => {
+  const data = await getFilteredTask(activeFilter);
+  setTodos(data.data);
+  if (data.info) {
+    setTodosInfo(data.info);
+  }
+}, [activeFilter]);
 
   useEffect(() => {
-    filterTodos(activeFilter);
-  }, [activeFilter]);
+     // eslint-disable-next-line react-hooks/set-state-in-effect
+    refresh();
+  }, [refresh]);
+
+  
 
   return (
     <div className={styles.main}>
-  <h1 className={styles.title}>TodoList</h1>
+      <h1 className={styles.title}>TodoList</h1>
 
-      <TodoForm onCreated={() => filterTodos(activeFilter)} />
+      <TodoForm onCreated={() => refresh()} />
 
       <TodoFilter
         todosInProgress={todosInfo.inWork}
@@ -94,12 +46,7 @@ export default function TodoListPage() {
         getFilterTodos={setActiveFilter}
       />
 
-      <TodoList
-        todos={todos}
-        changeTodo={changeTodo}
-        deleteTodo={deleteTodo}
-        toggleTodo={toggleTodo}
-      />
+      <TodoList todos={todos} refresh={refresh} />
     </div>
   );
 }

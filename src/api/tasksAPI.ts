@@ -52,7 +52,7 @@ export async function updateTask(
 export async function getFilteredTask(
   status: FilterType
 ): Promise<MetaResponse<Todo, TodoInfo>> {
-  const response = await fetch(`${URL}?filter=${status}`);
+  const response = await fetch(`${URL}?filter=${status}`)
   if (!response.ok) {
     throw new Error("Failed to fetch filtered tasks");
   }

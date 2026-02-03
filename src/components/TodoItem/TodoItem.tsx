@@ -2,6 +2,8 @@ import { useState } from "react";
 import type { Todo } from "../../types/todo";
 import { validateTitle } from "../../helpers/validateTitle";
 
+import { deleteTask, updateTask } from "../../api/tasksAPI";
+
 import editImg from "../../assets/edit.svg";
 import confirmImg from "../../assets/confirm.svg";
 import deleteImg from "../../assets/delete.svg";
@@ -14,17 +16,10 @@ import styles from "./TodoItem.module.css";
 
 interface TodoItemProps {
   todo: Todo;
-  toggleTodo: (id: number) => void;
-  deleteTodo: (id: number) => void;
-  changeTodo: (id: number, title: string) => void;
+   refresh: () => Promise<void>;
 }
 
-export default function TodoItem({
-  todo,
-  toggleTodo,
-  deleteTodo,
-  changeTodo,
-}: TodoItemProps) {
+export default function TodoItem({ todo, refresh }: TodoItemProps) {
   const [newText, setNewText] = useState(todo.title);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -40,6 +35,39 @@ export default function TodoItem({
     changeTodo(todo.id, editingText);
     setIsEditing(false);
   }
+
+  const deleteTodo = async (id: number) => {
+    try {
+      await deleteTask(id);
+
+      await refresh();
+    } catch (error) {
+      console.error(error);
+      alert("Не удалось удалить задачу");
+    }
+  };
+
+  const changeTodo = async (id: number, newText: string) => {
+    try {
+      await updateTask(id, { title: newText });
+
+      await refresh();
+    } catch (error) {
+      console.error(error);
+      alert("Не удалось изменить задачу");
+    }
+  };
+
+  const toggleTodo = async (id: number) => {
+    try {
+      await updateTask(id, { isDone: !todo.isDone });
+
+      await refresh();
+    } catch (error) {
+      console.error(error);
+      alert("Не удалось завуршить задачу");
+    }
+  };
 
   return (
     <>
