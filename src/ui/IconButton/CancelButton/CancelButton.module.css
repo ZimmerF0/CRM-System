@@ -1,0 +1,12 @@
+.cancel {
+  position: absolute;
+  right: 5px;
+ }
+
+svg {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  left: 3px;
+  top:2px;
+}

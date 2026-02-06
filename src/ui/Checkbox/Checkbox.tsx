@@ -1,3 +1,5 @@
+import { Checkbox } from 'antd';
+
 import styles from "./Checkbox.module.css"
 
 interface Props {
@@ -6,10 +8,9 @@ interface Props {
   onChange: () => void;
 }
 
-export const Checkbox = ({ checked, onChange }: Props) => {
+export const CheckboxBtn = ({ checked, onChange }: Props) => {
   return (
-    <input
-      type="checkbox"
+    <Checkbox
       className={styles.checkbox}
       checked={checked}
       onChange={onChange}

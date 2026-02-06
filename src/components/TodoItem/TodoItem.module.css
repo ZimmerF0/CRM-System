@@ -32,15 +32,16 @@ li {
 }
 
 span {
-  padding-left: 10px;
+  font-size: 18px;
+  /* padding-left: 10px; */
   padding-bottom: 10px;
   height: 15px;
   line-height: 25px;
   max-width: 550px;
-  max-width: calc(100% - 100px);
-  white-space: nowrap;
+  /* max-width: calc(100% - 100px); */
+  /* white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 }
 
 li,

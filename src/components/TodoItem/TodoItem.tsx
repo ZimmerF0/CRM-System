@@ -4,15 +4,15 @@ import { validateTitle } from "../../helpers/validateTitle";
 
 import { deleteTask, updateTask } from "../../api/tasksAPI";
 
-import editImg from "../../assets/edit.svg";
-import confirmImg from "../../assets/confirm.svg";
-import deleteImg from "../../assets/delete.svg";
-import cancelImg from "../../assets/cancel.svg";
+import { ConfirmButton } from "../../ui/IconButton/ConfirmButton/ConfirmButton";
+import { CancelButton } from "../../ui/IconButton/CancelButton/CancelButton";
+import { EditButton } from "../../ui/IconButton/EditButton/EditButton";
+import { DeleteButton } from "../../ui/IconButton/DeleteButton/DeleteButton";
 
-import { IconButton } from "../../ui/IconButton/IconButton";
-import { Checkbox } from "../../ui/Checkbox/Checkbox";
+import { CheckboxBtn } from "../../ui/Checkbox/Checkbox";
 
 import styles from "./TodoItem.module.css";
+import { IconButton } from "../../ui/IconButton/IconButton";
 
 interface TodoItemProps {
   todo: Todo;
@@ -84,21 +84,20 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
           <div className={styles.actions}>
             <IconButton
               variant="primary"
-              src={confirmImg}
               onClick={handleConfirmClick}
-              alt="Confirm"
             />
             <IconButton
               variant="secondary"
-              src={cancelImg}
               onClick={() => setIsEditing(false)}
-              alt="Cancel"
             />
           </div>
+          <ConfirmButton className="confirm" onClick={handleConfirmClick} />
+          <CancelButton className="cancel" onClick={() => setIsEditing(false)} />
         </li>
       ) : (
         <li className={todo.isDone ? styles.completed : ""}>
-          <Checkbox
+          <CheckboxBtn
+            className="checkbox"
             checked={todo.isDone}
             onChange={() => toggleTodo(todo.id)}
           />
@@ -106,17 +105,19 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
           <div className={styles.actions}>
             <IconButton
               variant="primary"
-              src={editImg}
               onClick={() => setIsEditing(true)}
-              alt="Edit"
             />
             <IconButton
               variant="danger"
-              src={deleteImg}
               onClick={() => deleteTodo(todo.id)}
-              alt="Delete"
             />
           </div>
+
+          <EditButton className="edit" onClick={() => setIsEditing(true)} />
+          <DeleteButton
+            className="delete"
+            onClick={() => deleteTodo(todo.id)}
+          />
         </li>
       )}
     </>

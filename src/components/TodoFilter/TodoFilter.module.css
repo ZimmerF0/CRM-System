@@ -3,13 +3,6 @@
   justify-content: space-between;
   margin-bottom: 30px;
 }
-button {
-  border: none;
-  background-color: transparent;
-  font-size: 18px;
-  color: var(--color-light-text);
-  cursor: pointer;
-}
 
 .active {
   color: var(--color-active);

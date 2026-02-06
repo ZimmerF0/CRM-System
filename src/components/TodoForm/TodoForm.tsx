@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { addTask } from "../../api/tasksAPI";
 import { validateTitle } from "../../helpers/validateTitle";
-import Button from "../../ui/Button/Button";
-import Input from "../../ui/Input/Input";
+import Btn from "../../ui/Button/Button";
+import InputText from "../../ui/Input/Input";
 
 import styles from "./TodoForm.module.css";
-
 
 interface TodoFormProps {
   onCreated?: () => void;
@@ -45,15 +44,13 @@ export function TodoForm({ onCreated }: TodoFormProps) {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <Input
+      <InputText
         type="text"
         placeholder="Add todo item"
         value={title}
         onChange={setTitle}
       />
-      <Button type="submit">
-        Add
-      </Button>
+      <Btn htmlType="submit">Add</Btn>
     </form>
   );
 }

@@ -1,17 +1,17 @@
-import styles from "./Button.module.css";
+import { Button } from 'antd';
 
 interface Props {
-  type?: "button" | "submit" | "reset";
+  htmlType?: 'button' | 'submit' | 'reset';
   onClick?: () => void;
   children: React.ReactNode;
 }
 
-const Button = ({ type, children, onClick }: Props) => {
+const Btn = ({ htmlType, children }: Props) => {
   return (
-    <button className={styles.btn} type={type} onClick={onClick}>
+    <Button type="primary" size='large' htmlType={htmlType}>
       {children}
-    </button>
+    </Button>
   );
 };
 
-export default Button;
+export default Btn;

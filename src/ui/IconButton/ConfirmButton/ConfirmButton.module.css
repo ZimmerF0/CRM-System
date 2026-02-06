@@ -1,0 +1,12 @@
+.edit {
+  position: absolute;
+  right: 45px;
+ }
+
+svg {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  left: 3px;
+  top:2px;
+}
