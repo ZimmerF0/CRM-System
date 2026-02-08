@@ -1,14 +1,9 @@
-import { Button } from 'antd';
+import { Button } from "antd";
+import type { ButtonProps } from "antd";
 
-interface Props {
-  htmlType?: 'button' | 'submit' | 'reset';
-  onClick?: () => void;
-  children: React.ReactNode;
-}
-
-const Btn = ({ htmlType, children }: Props) => {
+const Btn = ({ children, ...props }: ButtonProps) => {
   return (
-    <Button type="primary" size='large' htmlType={htmlType}>
+    <Button type="primary" size="large" {...props}>
       {children}
     </Button>
   );
