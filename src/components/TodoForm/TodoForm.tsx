@@ -54,7 +54,7 @@ export function TodoForm({ onCreated }: TodoFormProps) {
           },
         ]}
       >
-        <InputText size="large" placeholder="Add todo item" maxLength={64} />
+        <InputText size="large" placeholder="Add todo item" style={{ fontSize: 16 }} />
       </Form.Item>
 
       <Btn htmlType="submit" disabled={isSubmitting}>

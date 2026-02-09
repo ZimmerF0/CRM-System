@@ -15,8 +15,7 @@ export const DeleteButton = ({ onClick }: DeleteButtonProps) => {
       color="danger"
       variant="solid"
       onClick={onClick}
-    >
-      <DeleteOutlined className={styles.svg} />
-    </Button>
+      icon={<DeleteOutlined style={{fontSize:30}} />}
+    ></Button>
   );
 };

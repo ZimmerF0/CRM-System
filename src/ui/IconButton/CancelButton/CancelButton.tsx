@@ -13,13 +13,12 @@ export const CancelButton = ({ onClick }: CancelButtonProps) => {
     <Button
       className={styles.cancel}
       style={{
-              color: '#ffffff',
-              background: 'grey'
-            }}
+        color: "#ffffff",
+        background: "grey",
+      }}
       variant="text"
       onClick={onClick}
-    >
-      <CloseOutlined className={styles.svg} />
-    </Button>
+      icon={<CloseOutlined style={{fontSize:30}} />}
+    ></Button>
   );
 };

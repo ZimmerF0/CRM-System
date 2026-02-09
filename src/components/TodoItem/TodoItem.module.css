@@ -1,46 +1,20 @@
-input {
-  border: none;
-  padding: 10px;
-  outline: none;
-  width: 85%;
-  background-color: transparent;
+.input {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 12px;
   font-size: 18px;
 }
 
 .edited {
-  background-color: var(--color-white-text);
-  border-radius: 10px;
-  border: 1px solid var(--color-border);
-  margin-bottom: 20px;
-  cursor: focus;
-}
-
-li {
   position: relative;
-  width: 100%;
-  font-family: 'Open Sans', sans-serif;
   background-color: var(--color-white-text);
   border-radius: 10px;
-  padding: 10px 10px 10px 15px;
   border: 1px solid var(--color-border);
-  list-style-type: none;
-  margin-bottom: 20px;
-  text-align: left;
-  display: flex;
-  align-items: center;
-}
+  padding: 2px;
+  margin-bottom: 30px;
+  cursor: focus;
 
-span {
-  font-size: 18px;
-  padding-bottom: 10px;
-  height: 15px; 
-  line-height: 25px;
-}
-
-li,
-input.edited-text {
-  height: 44px;
-  box-sizing: border-box;
 }
 
 .completed {
@@ -56,3 +30,5 @@ input.edited-text {
   display: flex;
   gap: 6px;
 }
+
+

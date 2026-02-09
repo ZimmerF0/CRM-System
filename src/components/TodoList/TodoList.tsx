@@ -10,10 +10,10 @@ interface TodoListProps {
 
 export function TodoList({todos, refresh }: TodoListProps) {
   return (
-    <ul className={styles["todo-list"]}>
+    <div className={styles["todo-list"]}>
       {todos.map(todo => (
         <TodoItem key={todo.id} todo={todo} refresh={refresh} />
       ))}
-    </ul>
+    </div>
   );
 }

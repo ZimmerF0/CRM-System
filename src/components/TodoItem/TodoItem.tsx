@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Todo } from "../../types/todo";
 import { validateTitle } from "../../helpers/validateTitle";
+import { Card, Flex, Input, Typography } from "antd";
 
 import { deleteTask, updateTask } from "../../api/tasksAPI";
 
@@ -72,9 +73,9 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
   return (
     <>
       {isEditing ? (
-        <li className={styles.edited}>
-          <input
-            className={styles["edited-text"]}
+        <Card className={styles.edited}>
+          <Input
+            className={styles.input}
             type="text"
             required
             value={newText}
@@ -92,14 +93,9 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             />
           </div>
           <ConfirmButton className="confirm" onClick={handleConfirmClick} />
-          <CancelButton className="cancel" onClick={() => setIsEditing(false)} />
-        </li>
-      ) : (
-        <li className={todo.isDone ? styles.completed : ""}>
-          <CheckboxBtn
-            className="checkbox"
-            checked={todo.isDone}
-            onChange={() => toggleTodo(todo.id)}
+          <CancelButton
+            className="cancel"
+            onClick={() => setIsEditing(false)}
           />
           <span>{todo.title}</span>
           <div className={styles.actions}>
@@ -112,13 +108,30 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
               onClick={() => deleteTodo(todo.id)}
             />
           </div>
+        </Card>
+      ) : (
+        <Card
+        size="small"
+          style={{ marginBottom: 20 }}
+          className={todo.isDone ? styles.completed : ""}
+        >
+          <Flex align="center" gap={8}>
+            <CheckboxBtn
+              className="checkbox"
+              checked={todo.isDone}
+              onChange={() => toggleTodo(todo.id)}
+            />
+            <Typography.Text style={{ fontSize: 16 }}>
+              {todo.title}
+            </Typography.Text>
+          </Flex>
 
           <EditButton className="edit" onClick={() => setIsEditing(true)} />
           <DeleteButton
             className="delete"
             onClick={() => deleteTodo(todo.id)}
           />
-        </li>
+        </Card>
       )}
     </>
   );

@@ -11,12 +11,11 @@ interface ConfirmButtonProps {
 export const ConfirmButton = ({ onClick }: ConfirmButtonProps) => {
   return (
     <Button
-      className={styles.edit}
+      className={styles.confirm}
       color="primary"
       variant="solid"
       onClick={onClick}
-    >
-      <CheckOutlined className={styles.svg} />
-    </Button>
+      icon={<CheckOutlined style={{fontSize:30}} />}
+    ></Button>
   );
 };

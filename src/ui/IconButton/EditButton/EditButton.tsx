@@ -15,8 +15,7 @@ export const EditButton = ({ onClick }: EditButtonProps) => {
       color="primary"
       variant="solid"
       onClick={onClick}
-    >
-      <EditOutlined className={styles.svg} />
-    </Button>
+      icon={<EditOutlined style={{fontSize:30}} />}
+    ></Button>
   );
 };
