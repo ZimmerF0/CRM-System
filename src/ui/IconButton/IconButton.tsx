@@ -1,6 +1,6 @@
 import styles from "./IconButton.module.css";
 
-type Variant = "confirm" | "edit" | "delete" | "cancel";
+type Variant =  "primary" | "secondary" | "danger" ;
 
 interface IconButtonProps {
   variant: Variant;

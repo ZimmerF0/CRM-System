@@ -16,7 +16,7 @@ import styles from "./TodoItem.module.css";
 
 interface TodoItemProps {
   todo: Todo;
-   refresh: () => Promise<void>;
+  refresh: () => Promise<void>;
 }
 
 export default function TodoItem({ todo, refresh }: TodoItemProps) {
@@ -81,18 +81,20 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             onChange={event => setNewText(event.target.value)}
             autoFocus
           />
-          <IconButton
-            variant="confirm"
-            src={confirmImg}
-            onClick={handleConfirmClick}
-            alt="Confirm"
-          />
-          <IconButton
-            variant="cancel"
-            src={cancelImg}
-            onClick={() => setIsEditing(false)}
-            alt="Cancel"
-          />
+          <div className={styles.actions}>
+            <IconButton
+              variant="primary"
+              src={confirmImg}
+              onClick={handleConfirmClick}
+              alt="Confirm"
+            />
+            <IconButton
+              variant="secondary"
+              src={cancelImg}
+              onClick={() => setIsEditing(false)}
+              alt="Cancel"
+            />
+          </div>
         </li>
       ) : (
         <li className={todo.isDone ? styles.completed : ""}>
@@ -101,18 +103,20 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             onChange={() => toggleTodo(todo.id)}
           />
           <span>{todo.title}</span>
-          <IconButton
-            variant="edit"
-            src={editImg}
-            onClick={() => setIsEditing(true)}
-            alt="Edit"
-          />
-          <IconButton
-            variant="delete"
-            src={deleteImg}
-            onClick={() => deleteTodo(todo.id)}
-            alt="Delete"
-          />
+          <div className={styles.actions}>
+            <IconButton
+              variant="primary"
+              src={editImg}
+              onClick={() => setIsEditing(true)}
+              alt="Edit"
+            />
+            <IconButton
+              variant="danger"
+              src={deleteImg}
+              onClick={() => deleteTodo(todo.id)}
+              alt="Delete"
+            />
+          </div>
         </li>
       )}
     </>

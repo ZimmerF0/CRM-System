@@ -53,3 +53,12 @@ input.edited-text {
   text-decoration: line-through;
   color: var(--color-light-text);
 }
+
+.actions {
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 6px;
+}

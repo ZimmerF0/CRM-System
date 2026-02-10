@@ -1,42 +1,27 @@
-.confirm {
-  right: 42px;
+.primary {
   background-color: var(--color-primary);
 }
 
-.edit {
-  background-color: var(--color-primary);
-  right: 42px;
-}
-
-.delete {
+.danger {
   background-color: var(--color-danger);
-  right: 4px;
 }
 
-.cancel {
+.secondary {
   background-color: var(--color-secondary);
-  right: 4px;
 }
 
-.edit,
-.confirm,
-.delete,
-.cancel {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.primary,
+.danger,
+.secondary {
   width: 32px;
   height: 32px;
   border-radius: 5px;
-  top: 4px;
   cursor: pointer;
-
 }
 
 .action img {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   display: block;
 }

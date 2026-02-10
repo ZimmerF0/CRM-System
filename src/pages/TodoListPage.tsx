@@ -36,7 +36,7 @@ export default function TodoListPage() {
     <div className={styles.main}>
       <h1 className={styles.title}>TodoList</h1>
 
-      <TodoForm onCreated={() => refresh()} />
+      <TodoForm onCreated={refresh} />
 
       <TodoFilter
         todosInProgress={todosInfo.inWork}
