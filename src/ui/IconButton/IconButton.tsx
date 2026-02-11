@@ -4,10 +4,12 @@ type Variant =  "primary" | "secondary" | "danger" ;
 
 interface IconButtonProps {
   variant: Variant;
+   src: string;
+  alt: string;
   onClick: () => void;
 }
 
-export const IconButton = ({ variant, onClick }: IconButtonProps) => {
+export const IconButton = ({ variant, src, alt, onClick }: IconButtonProps) => {
   return (
     <button
       type="button"
@@ -15,7 +17,7 @@ export const IconButton = ({ variant, onClick }: IconButtonProps) => {
       onClick={onClick}
       aria-label={variant}
     >
-      <img />
+     <img src={src} alt={alt} />
     </button>
   );
 };

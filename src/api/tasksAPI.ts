@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import type {
   FilterType,
   Todo,
@@ -13,49 +15,45 @@ const headers = {
 };
 
 export async function addTask(newTodo: TodoRequest): Promise<Todo> {
-  const response = await fetch(URL, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(newTodo),
-  });
+  try {
+    const { data } = await axios.post<Todo>(URL, newTodo, { headers });
 
-  if (!response.ok) {
+    return data;
+  } catch {
     throw new Error("Failed to add task");
   }
-
-  return await response.json();
 }
 
 export async function deleteTask(id: number): Promise<void> {
-  const response = await fetch(`${URL}/${id}`, { method: "DELETE" });
-  if (!response.ok) {
+  try {
+    await axios.delete(`${URL}/${id}`, { headers });
+  } catch {
     throw new Error("Failed to delete task");
   }
 }
 
 export async function updateTask(
   id: number,
-  data: TodoRequest
+  data: TodoRequest,
 ): Promise<Response> {
-  const response = await fetch(`${URL}/${id}`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(data),
-  });
-  if (!response.ok) {
+  try {
+    const response = await axios.put<Response>(`${URL}/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch {
     throw new Error("Failed to update task");
   }
-
-  return await response.json();
 }
 
 export async function getFilteredTask(
-  status: FilterType
+  status: FilterType,
 ): Promise<MetaResponse<Todo, TodoInfo>> {
-  const response = await fetch(`${URL}?filter=${status}`)
-  if (!response.ok) {
+  try {
+    const {data} = await axios.get<MetaResponse<Todo, TodoInfo>>(`${URL}?filter=${status}`);
+    return data;
+  } catch {
     throw new Error("Failed to fetch filtered tasks");
   }
-
-  return await response.json();
 }
