@@ -1,15 +1,15 @@
+import type { ReactNode } from "react";
 import styles from "./IconButton.module.css";
 
-type Variant =  "primary" | "secondary" | "danger" ;
+type Variant = "primary" | "secondary" | "danger";
 
 interface IconButtonProps {
   variant: Variant;
-   src: string;
-  alt: string;
+  icon: ReactNode;
   onClick: () => void;
 }
 
-export const IconButton = ({ variant, src, alt, onClick }: IconButtonProps) => {
+export const IconButton = ({ variant, icon, onClick }: IconButtonProps) => {
   return (
     <button
       type="button"
@@ -17,7 +17,7 @@ export const IconButton = ({ variant, src, alt, onClick }: IconButtonProps) => {
       onClick={onClick}
       aria-label={variant}
     >
-     <img src={src} alt={alt} />
+      {icon}
     </button>
   );
 };

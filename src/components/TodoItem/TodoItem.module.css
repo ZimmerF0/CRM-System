@@ -1,19 +1,17 @@
 .input {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  padding: 12px;
-  font-size: 18px;
-}
+  width: 100%;
+  padding-right: 90px;
+  max-height: 28px;
+  border: none
+ }
 
 .edited {
   position: relative;
   background-color: var(--color-white-text);
   border-radius: 10px;
   border: 1px solid var(--color-border);
-  padding: 2px;
-  margin-bottom: 30px;
-  cursor: focus;
+  padding: 12px;
+  margin-bottom: 18px;
 
 }
 
@@ -24,11 +22,9 @@
 
 .actions {
   position: absolute;
-  right: 7px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   gap: 6px;
 }
-
-

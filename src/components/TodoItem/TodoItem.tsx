@@ -5,15 +5,16 @@ import { Card, Flex, Input, Typography } from "antd";
 
 import { deleteTask, updateTask } from "../../api/tasksAPI";
 
-import { ConfirmButton } from "../../ui/IconButton/ConfirmButton/ConfirmButton";
-import { CancelButton } from "../../ui/IconButton/CancelButton/CancelButton";
-import { EditButton } from "../../ui/IconButton/EditButton/EditButton";
-import { DeleteButton } from "../../ui/IconButton/DeleteButton/DeleteButton";
-
 import { CheckboxBtn } from "../../ui/Checkbox/Checkbox";
 
 import styles from "./TodoItem.module.css";
 import { IconButton } from "../../ui/IconButton/IconButton";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 
 interface TodoItemProps {
   todo: Todo;
@@ -73,7 +74,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
   return (
     <>
       {isEditing ? (
-        <Card className={styles.edited}>
+        <Card bodyStyle={{ padding: 0 }} className={styles.edited}>
           <Input
             className={styles.input}
             type="text"
@@ -86,32 +87,18 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             <IconButton
               variant="primary"
               onClick={handleConfirmClick}
+              icon={<CheckOutlined />}
             />
             <IconButton
               variant="secondary"
               onClick={() => setIsEditing(false)}
-            />
-          </div>
-          <ConfirmButton className="confirm" onClick={handleConfirmClick} />
-          <CancelButton
-            className="cancel"
-            onClick={() => setIsEditing(false)}
-          />
-          <span>{todo.title}</span>
-          <div className={styles.actions}>
-            <IconButton
-              variant="primary"
-              onClick={() => setIsEditing(true)}
-            />
-            <IconButton
-              variant="danger"
-              onClick={() => deleteTodo(todo.id)}
+              icon={<CloseOutlined />}
             />
           </div>
         </Card>
       ) : (
         <Card
-        size="small"
+          size="small"
           style={{ marginBottom: 20 }}
           className={todo.isDone ? styles.completed : ""}
         >
@@ -126,11 +113,18 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             </Typography.Text>
           </Flex>
 
-          <EditButton className="edit" onClick={() => setIsEditing(true)} />
-          <DeleteButton
-            className="delete"
-            onClick={() => deleteTodo(todo.id)}
-          />
+          <div className={styles.actions}>
+            <IconButton
+              variant="primary"
+              onClick={() => setIsEditing(true)}
+              icon={<EditOutlined />}
+            />
+            <IconButton
+              variant="danger"
+              onClick={() => deleteTodo(todo.id)}
+              icon={<DeleteOutlined />}
+            />
+          </div>
         </Card>
       )}
     </>
