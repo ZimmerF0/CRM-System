@@ -1,41 +1,32 @@
-import React, { useState } from "react";
-import { Button, Layout, Menu, theme } from "antd";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UnorderedListOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-
-import TodoListPage from "./pages/TodoListPage";
-import Profile from "./pages/Profile";
+import React from "react";
+import { Layout, Menu } from "antd";
+import { UnorderedListOutlined, UserOutlined } from "@ant-design/icons";
 
 import "./styles/App.css";
+import { Outlet, useNavigate } from "react-router";
 
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 const App: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const navigate = useNavigate();
 
   return (
-    <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+    <Layout className="main">
+      <Sider>
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={["/list"]}
+          onClick={({ key }) => navigate(key)}
           items={[
             {
-              key: "1",
+              key: "/list",
               icon: <UnorderedListOutlined />,
               label: "Список задач",
             },
             {
-              key: "2",
+              key: "/profile",
               icon: <UserOutlined />,
               label: "Профиль",
             },
@@ -43,31 +34,14 @@ const App: React.FC = () => {
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
-          />
-        </Header>
         <Content
           style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
+            margin: "24px",
+            background: "white",
+            borderRadius: "20px",
           }}
         >
-          <div className="app">
-            <TodoListPage />
-          </div>
-          <Profile />
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

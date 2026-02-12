@@ -1,5 +1,7 @@
+import { Typography } from "antd";
+
 export default function Profile () {
   return (
-    <div>Привет</div>
+    <Typography.Title>Привет</Typography.Title>
   )
 }
