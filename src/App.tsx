@@ -18,6 +18,7 @@ const App: React.FC = () => {
         <Menu
           theme="dark"
           mode="inline"
+          defaultSelectedKeys={["/list"]}
           selectedKeys={[location.pathname]}
           onClick={({ key }) => navigate(key)}
           items={[
