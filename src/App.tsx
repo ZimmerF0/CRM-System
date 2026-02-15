@@ -3,12 +3,13 @@ import { Layout, Menu } from "antd";
 import { UnorderedListOutlined, UserOutlined } from "@ant-design/icons";
 
 import "./styles/App.css";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useNavigate, useLocation  } from "react-router";
 
 const { Sider, Content } = Layout;
 
 const App: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <Layout className="main">
@@ -17,7 +18,7 @@ const App: React.FC = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["/list"]}
+          selectedKeys={[location.pathname]}
           onClick={({ key }) => navigate(key)}
           items={[
             {
