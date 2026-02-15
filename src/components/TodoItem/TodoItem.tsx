@@ -38,6 +38,11 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
     setIsEditing(false);
   }
 
+  function handleCancelClick() {
+    setIsEditing(false);
+    setNewText(todo.title);
+  }
+
   const deleteTodo = async (id: number) => {
     try {
       await deleteTask(id);
@@ -91,7 +96,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             />
             <IconButton
               variant="secondary"
-              onClick={() => setIsEditing(false)}
+              onClick={handleCancelClick}
               icon={<CloseOutlined />}
             />
           </div>
