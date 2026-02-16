@@ -26,22 +26,17 @@ export async function addTask(newTodo: TodoRequest): Promise<Todo> {
 
 export async function deleteTask(id: number): Promise<void> {
   try {
-    await axios.delete(`${URL}/${id}`, { headers });
+    await axios.delete(`${URL}/${id}`);
   } catch {
     throw new Error("Failed to delete task");
   }
 }
 
-export async function updateTask(
-  id: number,
-  data: TodoRequest,
-): Promise<Response> {
+export async function updateTask(id: number, data: TodoRequest): Promise<Todo> {
   try {
-    const response = await axios.put<Response>(`${URL}/${id}`, data, {
-      headers,
-    });
+    const res = await axios.put<Todo>(`${URL}/${id}`, data, { headers });
 
-    return response.data;
+    return res.data;
   } catch {
     throw new Error("Failed to update task");
   }
@@ -51,7 +46,9 @@ export async function getFilteredTask(
   status: FilterType,
 ): Promise<MetaResponse<Todo, TodoInfo>> {
   try {
-    const {data} = await axios.get<MetaResponse<Todo, TodoInfo>>(`${URL}?filter=${status}`);
+    const { data } = await axios.get<MetaResponse<Todo, TodoInfo>>(URL, {
+      params: { filter: status },
+    });
     return data;
   } catch {
     throw new Error("Failed to fetch filtered tasks");
