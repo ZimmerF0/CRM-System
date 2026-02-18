@@ -47,7 +47,7 @@ export default function TodoListPage() {
         allTodos={todosInfo.all}
         completedTodos={todosInfo.completed}
         activeFilter={activeFilter}
-        getFilterTodos={setActiveFilter}
+        onFilterChange={setActiveFilter}
       />
 
       <TodoList todos={todos} refresh={refresh} />

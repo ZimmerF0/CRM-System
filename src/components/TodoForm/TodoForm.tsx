@@ -47,14 +47,26 @@ export function TodoForm({ onCreated }: TodoFormProps) {
         rules={[
           {
             required: true,
+            transform: value => value?.trim(),
+            message: "Введите название",
+          },
+          {
             min: 2,
+            transform: value => value?.trim(),
+            message: "Минимум 2 символа",
+          },
+          {
             max: 64,
             transform: value => value?.trim(),
-            message: "Название должно быть от 2 до 64 символов",
+            message: "Максимум 64 символа",
           },
         ]}
       >
-        <InputText size="large" placeholder="Add todo item" style={{ fontSize: 16 }} />
+        <InputText
+          size="large"
+          placeholder="Add todo item"
+          style={{ fontSize: 16 }}
+        />
       </Form.Item>
 
       <Btn htmlType="submit" disabled={isSubmitting}>

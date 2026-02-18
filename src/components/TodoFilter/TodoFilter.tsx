@@ -9,7 +9,7 @@ interface TodoFilterProps {
   todosInProgress: number;
   completedTodos: number;
   activeFilter: FilterType;
-  getFilterTodos: (filter: FilterType) => void;
+  onFilterChange: (filter: FilterType) => void;
 }
 
 export function TodoFilter({
@@ -17,7 +17,7 @@ export function TodoFilter({
   todosInProgress,
   completedTodos,
   activeFilter,
-  getFilterTodos,
+  onFilterChange,
 }: TodoFilterProps) {
   return (
     <div className={styles.filter}>
@@ -25,7 +25,7 @@ export function TodoFilter({
         size="large"
         type="text"
         className={activeFilter === "all" ? styles.active : ""}
-        onClick={() => getFilterTodos("all")}
+        onClick={() => onFilterChange("all")}
       >
         Все({allTodos})
       </Button>
@@ -34,7 +34,7 @@ export function TodoFilter({
         size="large"
         type="text"
         className={activeFilter === "inWork" ? styles.active : ""}
-        onClick={() => getFilterTodos("inWork")}
+        onClick={() => onFilterChange("inWork")}
       >
         В прогрессе({todosInProgress})
       </Button>
@@ -43,7 +43,7 @@ export function TodoFilter({
         size="large"
         type="text"
         className={activeFilter === "completed" ? styles.active : ""}
-        onClick={() => getFilterTodos("completed")}
+        onClick={() => onFilterChange("completed")}
       >
         Завершенные({completedTodos})
       </Button>
