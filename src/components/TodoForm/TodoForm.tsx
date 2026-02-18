@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { Form, message } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { addTask } from "../../api/tasksAPI";
-
-import Btn from "../../ui/Button/Button";
-import InputText from "../../ui/Input/Input";
 
 import styles from "./TodoForm.module.css";
 
@@ -62,16 +59,21 @@ export function TodoForm({ onCreated }: TodoFormProps) {
           },
         ]}
       >
-        <InputText
+        <Input
           size="large"
           placeholder="Add todo item"
           style={{ fontSize: 16 }}
         />
       </Form.Item>
 
-      <Btn htmlType="submit" disabled={isSubmitting}>
+      <Button
+        type="primary"
+        size="large"
+        htmlType="submit"
+        disabled={isSubmitting}
+      >
         Add
-      </Btn>
+      </Button>
     </Form>
   );
 }

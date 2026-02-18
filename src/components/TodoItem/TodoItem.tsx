@@ -1,14 +1,12 @@
 import { useState } from "react";
 import type { Todo } from "../../types/todo";
 import { validateTitle } from "../../helpers/validateTitle";
-import { Card, Flex, Input, Typography } from "antd";
+import { Button, Card, Checkbox, Flex, Input, Typography } from "antd";
 
 import { deleteTask, updateTask } from "../../api/tasksAPI";
 
-import { CheckboxBtn } from "../../ui/Checkbox/Checkbox";
-
 import styles from "./TodoItem.module.css";
-import { IconButton } from "../../ui/IconButton/IconButton";
+
 import {
   CheckOutlined,
   CloseOutlined,
@@ -89,13 +87,17 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             autoFocus
           />
           <div className={styles.actions}>
-            <IconButton
-              variant="primary"
+            <Button
+              color="primary"
+              variant="solid"
               onClick={handleConfirmClick}
               icon={<CheckOutlined />}
             />
-            <IconButton
-              variant="secondary"
+            <Button
+              style={{
+                backgroundColor: "#b3a9a9",
+                borderColor: "#b3a9a9",
+              }}
               onClick={handleCancelClick}
               icon={<CloseOutlined />}
             />
@@ -108,8 +110,8 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
           className={todo.isDone ? styles.completed : ""}
         >
           <Flex align="center" gap={8}>
-            <CheckboxBtn
-              className="checkbox"
+            <Checkbox
+              className={styles.checkbox}
               checked={todo.isDone}
               onChange={() => toggleTodo(todo.id)}
             />
@@ -119,13 +121,15 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
           </Flex>
 
           <div className={styles.actions}>
-            <IconButton
-              variant="primary"
+            <Button
+              color="primary"
+              variant="solid"
               onClick={() => setIsEditing(true)}
               icon={<EditOutlined />}
             />
-            <IconButton
-              variant="danger"
+            <Button
+              color="danger"
+              variant="solid"
               onClick={() => deleteTodo(todo.id)}
               icon={<DeleteOutlined />}
             />
