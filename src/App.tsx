@@ -1,53 +1,18 @@
-import React from "react";
-import { Layout, Menu } from "antd";
-import { UnorderedListOutlined, UserOutlined } from "@ant-design/icons";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import MainLayout from "./layouts/MainLayout.tsx";
+import Profile from "./pages/Profile.tsx";
+import TodoListPage from "./pages/TodoListPage.tsx";
 
-import "./styles/App.css";
-import { Outlet, useNavigate, useLocation  } from "react-router";
-
-const { Sider, Content } = Layout;
-
-const App: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
+export default function App() {
   return (
-    <Layout className="main">
-      <Sider>
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["/list"]}
-          selectedKeys={[location.pathname]}
-          onClick={({ key }) => navigate(key)}
-          items={[
-            {
-              key: "/list",
-              icon: <UnorderedListOutlined />,
-              label: "Список задач",
-            },
-            {
-              key: "/profile",
-              icon: <UserOutlined />,
-              label: "Профиль",
-            },
-          ]}
-        />
-      </Sider>
-      <Layout>
-        <Content
-          style={{
-            margin: "24px",
-            background: "white",
-            borderRadius: "20px",
-          }}
-        >
-          <Outlet />
-        </Content>
-      </Layout>
-    </Layout>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Navigate to="/list" replace />} />
+          <Route path="list" element={<TodoListPage />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-};
-
-export default App;
+}

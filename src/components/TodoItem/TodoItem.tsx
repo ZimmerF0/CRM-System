@@ -1,7 +1,15 @@
 import { useState } from "react";
 import type { Todo } from "../../types/todo";
 import { validateTitle } from "../../helpers/validateTitle";
-import { Button, Card, Checkbox, Flex, Input, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Flex,
+  Input,
+  Typography,
+  notification,
+} from "antd";
 
 import { deleteTask, updateTask } from "../../api/tasksAPI";
 
@@ -24,16 +32,26 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   function handleConfirmClick() {
-    const editingText = newText.trim(); // функция валидации вводимого текста
+    const editingText = newText.trim();
     const error = validateTitle(editingText);
 
     if (error) {
-      alert(error);
+      notification.error({
+        message: "Ошибка",
+        description: error,
+        placement: "topRight",
+      });
       return;
     }
 
     changeTodo(todo.id, editingText);
     setIsEditing(false);
+
+    notification.success({
+      message: "Успешно",
+      description: "Задача обновлена",
+      placement: "topRight",
+    });
   }
 
   function handleCancelClick() {
@@ -44,33 +62,54 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
   const deleteTodo = async (id: number) => {
     try {
       await deleteTask(id);
-
       await refresh();
-    } catch (error) {
-      console.error(error);
-      alert("Не удалось удалить задачу");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Произошла ошибка при удалении";
+
+      notification.error({
+        message: "Не удалось удалить задачу",
+        description: errorMessage,
+        placement: "topRight",
+      });
     }
   };
 
   const changeTodo = async (id: number, newText: string) => {
     try {
       await updateTask(id, { title: newText });
-
       await refresh();
-    } catch (error) {
-      console.error(error);
-      alert("Не удалось изменить задачу");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Произошла ошибка при обновлении";
+
+      notification.error({
+        message: "Не удалось изменить задачу",
+        description: errorMessage,
+        placement: "topRight",
+      });
     }
   };
 
   const toggleTodo = async (id: number) => {
     try {
       await updateTask(id, { isDone: !todo.isDone });
-
       await refresh();
-    } catch (error) {
-      console.error(error);
-      alert("Не удалось завуршить задачу");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Произошла ошибка при изменении статуса";
+
+      notification.error({
+        message: "Не удалось изменить статус задачи",
+        description: errorMessage,
+        placement: "topRight",
+      });
     }
   };
 
