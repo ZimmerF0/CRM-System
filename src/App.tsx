@@ -1,7 +1,9 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import MainLayout from "./layouts/MainLayout.tsx";
-import Profile from "./pages/Profile.tsx";
+import MainLayout from "./layouts/MainLayout/MainLayout.tsx";
 import TodoListPage from "./pages/TodoListPage.tsx";
+import ProfilePage from "./pages/ProfilePage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import RegistrPage from "./pages/RegistrPage.tsx";
 
 export default function App() {
   return (
@@ -10,7 +12,9 @@ export default function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Navigate to="/list" replace />} />
           <Route path="list" element={<TodoListPage />} />
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="registration" element={<RegistrPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

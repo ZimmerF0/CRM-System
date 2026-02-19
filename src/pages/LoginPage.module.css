@@ -1,0 +1,114 @@
+.loginRoot {
+  min-height: 100vh;
+  background: #FFE6C9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  padding: 24px;
+}
+
+.shell {
+  max-width: 1920px;
+  margin: 0 auto;
+  border-radius: 34px;
+  overflow: hidden;
+  background: white;
+  max-height: 1080px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* LEFT */
+
+.image {
+  background-image: url('../assets/illustration.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 34px 0 0 34px;
+  margin: 10px;
+}
+
+/* RIGHT */
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  margin-top: 60px;
+ margin-bottom: 100px;
+}
+
+.title {
+  display: inline-block;
+  justify-content: end;
+  align-items: center;
+
+}
+
+.formWrap {
+  width: 100%;
+  max-width: 420px;
+}
+
+.form {
+  margin-top: 36px;
+    height:576px;
+}
+
+.mail {
+  margin-bottom: 24px;
+}
+
+.input {
+  margin-bottom: 8px;
+}
+
+.formRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.loginBtn {
+  background: #7f265b !important;
+  border-color: #7f265b !important;
+  margin-top: 30px;
+}
+
+.footer {
+  padding-top: 175px;
+  gap: 10px;
+  text-align: center;
+}
+
+.link {
+  color: #7f265b !important;
+}
+
+.checkbox :global(.ant-checkbox-inner) {
+  border-color: #7f265b;
+}
+
+.checkbox :global(.ant-checkbox:hover .ant-checkbox-inner) {
+  border-color: #7f265b;
+}
+
+.checkbox :global(.ant-checkbox-checked .ant-checkbox-inner) {
+  background-color: #7f265b;
+  border-color: #7f265b;
+}
+
+.checkbox :global(.ant-checkbox-checked:hover .ant-checkbox-inner) {
+  background-color: #7f265b;
+  border-color: #7f265b;
+}
