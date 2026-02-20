@@ -7,6 +7,7 @@ import {
   Button,
   Typography,
 } from "antd";
+
 import illustration from "../assets/illustration.png";
 import loginIcon from "../assets/loginIcon.svg";
 import styles from "./LoginPage.module.css";
@@ -79,7 +80,7 @@ export default function LoginPage() {
 
                 <div className={styles.footer}>
                   <Text type="secondary">Not Registered Yet?</Text>{" "}
-                  <Link className={styles.link}>Регистрация</Link>
+                  <Link href="/register" className={styles.link}>Регистрация</Link>
                 </div>
               </Form>
             </div>

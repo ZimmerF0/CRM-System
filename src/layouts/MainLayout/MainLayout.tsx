@@ -31,16 +31,6 @@ const MainLayout: React.FC = () => {
               icon: <UserOutlined />,
               label: "Личный кабинет",
             },
-            {
-              key: "/login",
-              icon: <UserOutlined />,
-              label: "Авторизация",
-            },
-            {
-              key: "/registration",
-              icon: <UserOutlined />,
-              label: "Регистрация",
-            },
           ]}
         />
       </Sider>
