@@ -1,56 +1,38 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
+
 import { TodoForm } from "../components/TodoForm/TodoForm";
 import { TodoFilter } from "../components/TodoFilter/TodoFilter";
 import { TodoList } from "../components/TodoList/TodoList";
 
-import { getFilteredTask } from "../api/tasksAPI";
-import type { Todo, TodoInfo, FilterType } from "../types/todo";
+import type { RootState } from "../store/store";
+
+import { fetchTodos, selectFilter } from "../store/todoSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 import styles from "./TodoListPage.module.css";
 
 export default function TodoListPage() {
-  const [activeFilter, setActiveFilter] = useState<FilterType>("all");
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [todosInfo, setTodosInfo] = useState<TodoInfo>({
-    all: 0,
-    completed: 0,
-    inWork: 0,
-  });
-
-  const refresh = useCallback(async () => {
-    const data = await getFilteredTask(activeFilter);
-    setTodos(data.data);
-    if (data.info) {
-      setTodosInfo(data.info);
-    }
-  }, [activeFilter]);
+  const dispatch = useAppDispatch();
+  const activeFilter = useAppSelector((state: RootState) =>
+    selectFilter(state),
+  );
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    refresh();
+    dispatch(fetchTodos(activeFilter));
 
     const intervalId = setInterval(() => {
-      refresh();
+      dispatch(fetchTodos(activeFilter));
     }, 5000);
-     return () => clearInterval(intervalId);
-
-  }, [refresh]);
+    return () => clearInterval(intervalId);
+  }, [dispatch, activeFilter]);
 
   return (
     <div className={styles.main}>
       <h1 className={styles.title}>TodoList</h1>
 
-      <TodoForm onCreated={refresh} />
-
-      <TodoFilter
-        todosInProgress={todosInfo.inWork}
-        allTodos={todosInfo.all}
-        completedTodos={todosInfo.completed}
-        activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
-      />
-
-      <TodoList todos={todos} refresh={refresh} />
+      <TodoForm />
+      <TodoFilter />
+      <TodoList />
     </div>
   );
 }

@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { Button, Form, Input, message } from "antd";
 import { addTask } from "../../api/tasksAPI";
+import { useDispatch } from "react-redux";
+
+import { addTodo } from "../../store/todoSlice";
+import type { Todo } from "../../types/todo";
 
 import styles from "./TodoForm.module.css";
 
-interface TodoFormProps {
-  onCreated?: () => void;
-}
-
 type FormValues = { title: string };
 
-export function TodoForm({ onCreated }: TodoFormProps) {
+export function TodoForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form] = Form.useForm<FormValues>();
+
+  const dispatch = useDispatch();
 
   const handleSubmit = async (values: FormValues) => {
     if (isSubmitting) return;
@@ -21,10 +23,14 @@ export function TodoForm({ onCreated }: TodoFormProps) {
 
     try {
       setIsSubmitting(true);
-      await addTask({ title: trimmed, isDone: false });
+      const createdTodo: Todo = await addTask({
+        title: trimmed,
+        isDone: false,
+      });
+
+      dispatch(addTodo(createdTodo));
 
       form.resetFields();
-      onCreated?.();
     } catch {
       message.error("Не удалось добавить новую задачу");
     } finally {

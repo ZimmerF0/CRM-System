@@ -1,18 +1,17 @@
 import TodoItem from "../TodoItem/TodoItem";
-import type { Todo } from "../../types/todo";
+import { useSelector } from "react-redux";
+import { selectTodos } from "../../store/todoSlice";
+import type { RootState } from "../../store/store";
 
 import styles from "./TodoList.module.css";
 
-interface TodoListProps {
-  todos: Todo[];
-  refresh: () => Promise<void>;
-}
+export function TodoList() {
+  const todos = useSelector((state: RootState) => selectTodos(state));
 
-export function TodoList({todos, refresh }: TodoListProps) {
   return (
     <div className={styles["todo-list"]}>
       {todos.map(todo => (
-        <TodoItem key={todo.id} todo={todo} refresh={refresh} />
+        <TodoItem key={todo.id} todo={todo} />
       ))}
     </div>
   );
