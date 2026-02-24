@@ -1,12 +1,4 @@
-import {
-  Layout,
-  Row,
-  Col,
-  Form,
-  Input,
-  Button,
-  Typography,
-} from "antd";
+import { Layout, Row, Col, Form, Input, Button, Typography } from "antd";
 
 import illustration from "../assets/illustration.png";
 import loginIcon from "../assets/loginIcon.svg";
@@ -41,14 +33,19 @@ export default function LoginPage() {
               </div>
 
               <Form layout="vertical" className={styles.form}>
-                <Form.Item className={styles.input} label="Логин" name="login"
-                rules={[
+                <Form.Item
+                  className={styles.input}
+                  label="Логин"
+                  name="login"
+                  rules={[
+                    { required: true, message: "Введите логин" },
                     {
-                      required: true,
-                      message: "Введите логин",
-                      whitespace: true,
+                      pattern: /^[A-Za-z]{2,60}$/,
+                      message:
+                        "От 2 до 60 символов латинского алфавита без пробелов",
                     },
-                  ]}>
+                  ]}
+                >
                   <Input placeholder="логин" />
                 </Form.Item>
 
@@ -57,16 +54,20 @@ export default function LoginPage() {
                   label="Пароль"
                   name="password"
                   rules={[
-                    {
-                      required: true,
-                      message: "Введите пароль",
-                      whitespace: true,
-                    },
+                    { required: true, message: "Введите пароль" },
+                    { min: 6, message: "Минимум 6 символов" },
+                    { max: 60, message: "Максимум 60 символов" },
                   ]}
                 >
-                  <Input.Password placeholder="********" />
+                  <Input.Password
+                    placeholder="********"
+                    onKeyDown={e => {
+                      if (e.key === " ") {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                 </Form.Item>
-
 
                 <Button
                   type="primary"
@@ -80,7 +81,9 @@ export default function LoginPage() {
 
                 <div className={styles.footer}>
                   <Text type="secondary">Not Registered Yet?</Text>{" "}
-                  <Link href="/register" className={styles.link}>Регистрация</Link>
+                  <Link href="/register" className={styles.link}>
+                    Регистрация
+                  </Link>
                 </div>
               </Form>
             </div>

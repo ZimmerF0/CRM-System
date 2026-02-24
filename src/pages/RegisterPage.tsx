@@ -38,10 +38,11 @@ export default function LoginPage() {
                   label="Имя пользователя"
                   name="username"
                   rules={[
+                    { required: true, message: "Введите имя пользователя" },
                     {
-                      required: true,
-                      message: "Введите имя",
-                      whitespace: true,
+                      pattern: /^[A-Za-zА-Яа-яЁё]{1,60}$/,
+                      message:
+                        "От 1 до 60 символов русского или латинского алфавита",
                     },
                   ]}
                 >
@@ -53,10 +54,11 @@ export default function LoginPage() {
                   label="Логин"
                   name="login"
                   rules={[
+                    { required: true, message: "Введите логин" },
                     {
-                      required: true,
-                      message: "Введите логин",
-                      whitespace: true,
+                      pattern: /^[A-Za-z]{2,60}$/,
+                      message:
+                        "От 2 до 60 символов латинского алфавита без пробелов",
                     },
                   ]}
                 >
@@ -68,29 +70,46 @@ export default function LoginPage() {
                   label="Пароль"
                   name="password"
                   rules={[
-                    {
-                      required: true,
-                      message: "Введите пароль",
-                      whitespace: true,
-                    },
+                    { required: true, message: "Введите пароль" },
+                    { min: 6, message: "Минимум 6 символов" },
+                    { max: 60, message: "Максимум 60 символов" },
                   ]}
                 >
-                  <Input.Password placeholder="********" />
+                  <Input.Password
+                    placeholder="********"
+                    onKeyDown={e => {
+                      if (e.key === " ") {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                 </Form.Item>
 
                 <Form.Item
                   className={styles.input}
                   label="Повторите пароль"
-                  name="currentPassword"
+                  name="confirmPassword"
+                  dependencies={["password"]}
                   rules={[
-                    {
-                      required: true,
-                      message: "Повторите пароль",
-                      whitespace: true,
-                    },
+                    { required: true, message: "Повторите пароль" },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue("password") === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(new Error("Пароли не совпадают"));
+                      },
+                    }),
                   ]}
                 >
-                  <Input.Password placeholder="********" />
+                  <Input.Password
+                    placeholder="********"
+                    onKeyDown={e => {
+                      if (e.key === " ") {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -98,11 +117,8 @@ export default function LoginPage() {
                   label="Почтовый адрес"
                   name="email"
                   rules={[
-                    {
-                      required: true,
-                      message: "Введите адрес",
-                      whitespace: true,
-                    },
+                    { required: true, message: "Введите email" },
+                    { type: "email", message: "Введите корректный email" },
                   ]}
                 >
                   <Input placeholder="abc@mail.ru" />
@@ -132,7 +148,9 @@ export default function LoginPage() {
                 </Button>
                 <div className={styles.footer}>
                   <Text type="secondary">Уже зарегистрированы?</Text>{" "}
-                  <Link to="/login" className={styles.link}>Войти</Link>
+                  <Link to="/login" className={styles.link}>
+                    Войти
+                  </Link>
                 </div>
               </Form>
             </div>
