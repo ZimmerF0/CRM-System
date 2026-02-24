@@ -2,6 +2,7 @@ import { Layout, Row, Col, Form, Input, Button, Typography } from "antd";
 import illustration from "../assets/illustration.png";
 import loginIcon from "../assets/loginIcon.svg";
 import styles from "./LoginPage.module.css";
+import { Link } from "react-router";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -25,7 +26,7 @@ export default function LoginPage() {
             <div className={styles.formWrap}>
               <img className={styles.icon} src={loginIcon} alt="login-icon" />
               <div className={styles.title}>
-                <Title level={2}>Зарегистрироваться</Title>
+                <Title level={2}>Регистрация</Title>
                 <Text type="secondary">
                   See what is going on with your business
                 </Text>
@@ -35,7 +36,7 @@ export default function LoginPage() {
                 <Form.Item
                   className={styles.input}
                   label="Имя пользователя"
-                  name="text"
+                  name="username"
                   rules={[
                     {
                       required: true,
@@ -50,7 +51,7 @@ export default function LoginPage() {
                 <Form.Item
                   className={styles.input}
                   label="Логин"
-                  name="text"
+                  name="login"
                   rules={[
                     {
                       required: true,
@@ -65,7 +66,7 @@ export default function LoginPage() {
                 <Form.Item
                   className={styles.input}
                   label="Пароль"
-                  name="Пароль"
+                  name="password"
                   rules={[
                     {
                       required: true,
@@ -80,7 +81,7 @@ export default function LoginPage() {
                 <Form.Item
                   className={styles.input}
                   label="Повторите пароль"
-                  name="Пароль"
+                  name="currentPassword"
                   rules={[
                     {
                       required: true,
@@ -109,10 +110,13 @@ export default function LoginPage() {
                 <Form.Item
                   className={styles.input}
                   label="Телефон"
-                  name="phone"
-                   rules={[
-              { type: 'tel', message: 'Введите номер телеффона' },
-        ]}
+                  name="phoneNumber"
+                  rules={[
+                    {
+                      pattern: /^\+?\d{10,15}$/,
+                      message: "Введите корректный номер",
+                    },
+                  ]}
                 >
                   <Input placeholder="+78009993535" />
                 </Form.Item>
@@ -124,8 +128,12 @@ export default function LoginPage() {
                   size="large"
                   className={styles.loginBtn}
                 >
-                  Зарегистрироваться
+                  Регистрация
                 </Button>
+                <div className={styles.footer}>
+                  <Text type="secondary">Уже зарегистрированы?</Text>{" "}
+                  <Link to="/login" className={styles.link}>Войти</Link>
+                </div>
               </Form>
             </div>
           </Col>

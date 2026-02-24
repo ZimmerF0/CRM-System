@@ -41,7 +41,7 @@ export default function LoginPage() {
               </div>
 
               <Form layout="vertical" className={styles.form}>
-                <Form.Item className={styles.input} label="Логин" name="text"
+                <Form.Item className={styles.input} label="Логин" name="login"
                 rules={[
                     {
                       required: true,
