@@ -1,13 +1,38 @@
-import { Layout, Row, Col, Form, Input, Button, Typography } from "antd";
+import {
+  Layout,
+  Row,
+  Col,
+  Form,
+  Input,
+  Button,
+  Typography,
+  message,
+} from "antd";
 import illustration from "../assets/illustration.png";
 import loginIcon from "../assets/loginIcon.svg";
 import styles from "./LoginPage.module.css";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAppDispatch } from "../store/hooks";
+import type { UserRegistration } from "../types/auth";
+import { register } from "../store/slices/authSlice";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
 export default function LoginPage() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = async (values: UserRegistration) => {
+    try {
+      await dispatch(register(values)).unwrap();
+      message.success("Регистрация успешна");
+      navigate("/login");
+    } catch (error) {
+      message.error(String(error));
+    }
+  };
+
   return (
     <Layout className={styles.loginRoot}>
       <Content className={styles.content}>
@@ -32,7 +57,11 @@ export default function LoginPage() {
                 </Text>
               </div>
 
-              <Form layout="vertical" className={styles.form}>
+              <Form
+                onFinish={onSubmit}
+                layout="vertical"
+                className={styles.form}
+              >
                 <Form.Item
                   className={styles.input}
                   label="Имя пользователя"

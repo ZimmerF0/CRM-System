@@ -1,12 +1,11 @@
 import TodoItem from "../TodoItem/TodoItem";
-import { useSelector } from "react-redux";
-import { selectTodos } from "../../store/todoSlice";
-import type { RootState } from "../../store/store";
+import { useAppSelector } from "../../store/hooks";
+import { selectTodos } from "../../store/slices/todoSlice";
 
 import styles from "./TodoList.module.css";
 
 export function TodoList() {
-  const todos = useSelector((state: RootState) => selectTodos(state));
+  const todos = useAppSelector(selectTodos);
 
   return (
     <div className={styles["todo-list"]}>

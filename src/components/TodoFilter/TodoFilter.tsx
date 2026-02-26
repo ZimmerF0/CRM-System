@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
-import { selectInfo, selectFilter, setFilter } from "../../store/todoSlice";
+import { selectInfo, selectFilter, setFilter } from "../../store/slices/todoSlice";
 import { Button } from "antd";
 
 import styles from "./TodoFilter.module.css";

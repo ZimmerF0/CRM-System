@@ -3,9 +3,9 @@ import {
   createSlice,
   type PayloadAction,
 } from "@reduxjs/toolkit";
-import type { FilterType, Todo, TodoInfo, MetaResponse } from "../types/todo";
-import { getFilteredTask } from "../api/tasksAPI";
-import type { RootState } from "../store/store";
+import type { FilterType, Todo, TodoInfo, MetaResponse } from "../../types/todo";
+import { getFilteredTask } from "../../api/tasksAPI";
+import type { RootState } from "../../store/store";
 
 type TodoState = {
   todos: Todo[];

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { removeTodo, fetchTodos, selectFilter } from "../../store/todoSlice";
+import { removeTodo, fetchTodos, selectFilter } from "../../store/slices/todoSlice";
 import { deleteTask, updateTask } from "../../api/tasksAPI";
 import type { Todo } from "../../types/todo";
 import { validateTitle } from "../../helpers/validateTitle";
