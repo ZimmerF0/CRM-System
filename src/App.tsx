@@ -10,18 +10,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-
+        <Route path="/" element={<Navigate to="/register" replace />} />
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Route>
 
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Navigate to="/list" replace />} />
           <Route path="list" element={<TodoListPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
-        
       </Routes>
     </BrowserRouter>
   );

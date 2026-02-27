@@ -1,13 +1,43 @@
-import { Layout, Row, Col, Form, Input, Button, Typography } from "antd";
+import {
+  Layout,
+  Row,
+  Col,
+  Form,
+  Input,
+  Button,
+  Typography,
+  notification,
+} from "antd";
 
 import illustration from "../assets/illustration.png";
 import loginIcon from "../assets/loginIcon.svg";
 import styles from "./LoginPage.module.css";
+import type { AuthData } from "../types/auth";
+import { useAppDispatch } from "../store/hooks";
+import { fetchProfile, login } from "../store/slices/authSlice";
+import { useNavigate } from "react-router";
 
 const { Content } = Layout;
 const { Title, Text, Link } = Typography;
 
 export default function LoginPage() {
+const dispatch = useAppDispatch()
+const navigate = useNavigate();
+
+  const onSubmit = async (values: AuthData) => {
+    try {
+      await dispatch(login(values)).unwrap();
+      await dispatch(fetchProfile()).unwrap();
+      navigate("/list");
+    } catch (error) {
+      notification.error({
+        message: "Ошибка авторизации",
+        description: String(error),
+        placement: "topRight",
+      });
+    }
+  };
+
   return (
     <Layout className={styles.loginRoot}>
       <Content className={styles.content}>
@@ -32,7 +62,7 @@ export default function LoginPage() {
                 </Text>
               </div>
 
-              <Form layout="vertical" className={styles.form}>
+              <Form onFinish={onSubmit} layout="vertical" className={styles.form}>
                 <Form.Item
                   className={styles.input}
                   label="Логин"

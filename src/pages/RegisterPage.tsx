@@ -6,32 +6,59 @@ import {
   Input,
   Button,
   Typography,
-  message,
+  notification,
 } from "antd";
 import illustration from "../assets/illustration.png";
 import loginIcon from "../assets/loginIcon.svg";
 import styles from "./LoginPage.module.css";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useAppDispatch } from "../store/hooks";
 import type { UserRegistration } from "../types/auth";
 import { register } from "../store/slices/authSlice";
+import { useState } from "react";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const onSubmit = async (values: UserRegistration) => {
     try {
       await dispatch(register(values)).unwrap();
-      message.success("Регистрация успешна");
-      navigate("/login");
+      setIsSuccess(true);
+
+      notification.success({
+        message: "Регистрация успешна",
+        description: "Теперь вы можете перейти на страницу авторизации.",
+        placement: "topRight",
+      });
     } catch (error) {
-      message.error(String(error));
+      notification.error({
+        message: "Ошибка регистрации",
+        description: String(error),
+        placement: "topRight",
+      });
     }
   };
+
+  if (isSuccess) {
+    return (
+      <Content style={{ maxWidth: 400, margin: "100px auto" }}>
+        <Title level={3}>Регистрация прошла успешно</Title>
+        <Text>Теперь вы можете войти в систему.</Text>
+
+        <div style={{ marginTop: 20 }}>
+          <Link to="/login">
+            <Button type="primary" block>
+              Перейти к авторизации
+            </Button>
+          </Link>
+        </div>
+      </Content>
+    );
+  }
 
   return (
     <Layout className={styles.loginRoot}>
@@ -175,12 +202,12 @@ export default function LoginPage() {
                 >
                   Регистрация
                 </Button>
-                <div className={styles.footer}>
+                {/* <div className={styles.footer}>
                   <Text type="secondary">Уже зарегистрированы?</Text>{" "}
                   <Link to="/login" className={styles.link}>
                     Войти
                   </Link>
-                </div>
+                </div> */}
               </Form>
             </div>
           </Col>
