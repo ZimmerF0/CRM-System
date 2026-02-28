@@ -1,10 +1,10 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import MainLayout from "./layouts/MainLayout/MainLayout.tsx";
-import TodoListPage from "./pages/TodoListPage.tsx";
-import ProfilePage from "./pages/ProfilePage.tsx";
-import LoginPage from "./pages/LoginPage.tsx";
+import TodoListPage from "./pages/TodoList/TodoListPage.tsx";
+import ProfilePage from "./pages/Profile/ProfilePage.tsx";
+import LoginPage from "./pages/Login/LoginPage.tsx";
 import AuthLayout from "./layouts/AuthLayout/AuthLayout.tsx";
-import RegisterPage from "./pages/RegisterPage.tsx";
+import RegisterPage from "./pages/Register/RegisterPage.tsx";
 
 export default function App() {
   return (

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 
-import { TodoForm } from "../components/TodoForm/TodoForm";
-import { TodoFilter } from "../components/TodoFilter/TodoFilter";
-import { TodoList } from "../components/TodoList/TodoList";
+import { TodoForm } from "../../components/TodoForm/TodoForm";
+import { TodoFilter } from "../../components/TodoFilter/TodoFilter";
+import { TodoList } from "../../components/TodoList/TodoList";
 
-import type { RootState } from "../store/store";
+import type { RootState } from "../../store/store";
 
-import { fetchTodos, selectFilter } from "../store/slices/todoSlice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { fetchTodos, selectFilter } from "../../store/slices/todoSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import styles from "./TodoListPage.module.css";
 

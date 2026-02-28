@@ -9,12 +9,12 @@ import {
   notification,
 } from "antd";
 
-import illustration from "../assets/illustration.png";
-import loginIcon from "../assets/loginIcon.svg";
+import illustration from "../../assets/illustration.png";
+import loginIcon from "../../assets/loginIcon.svg";
 import styles from "./LoginPage.module.css";
-import type { AuthData } from "../types/auth";
-import { useAppDispatch } from "../store/hooks";
-import { fetchProfile, login } from "../store/slices/authSlice";
+import type { AuthData } from "../../types/auth";
+import { useAppDispatch } from "../../store/hooks";
+import { fetchProfile, login } from "../../store/slices/authSlice";
 import { useNavigate } from "react-router";
 
 const { Content } = Layout;

@@ -1,7 +1,7 @@
 import { Button, Card, Descriptions, Spin } from "antd";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useEffect } from "react";
-import { fetchProfile } from "../store/slices/authSlice";
+import { fetchProfile } from "../../store/slices/authSlice";
 
 export default function ProfilePage() {
   const dispatch = useAppDispatch();
@@ -21,7 +21,10 @@ export default function ProfilePage() {
   }
 
   return (
-    <Card title="Личный кабинет" style={{ maxWidth: 600, margin: "100px auto", background: "#eeeeec" }}>
+    <Card
+      title="Личный кабинет"
+      style={{ maxWidth: 600, margin: "100px auto", background: "#eeeeec" }}
+    >
       <Descriptions column={1} bordered>
         <Descriptions.Item label="Имя пользователя">
           {user.username}

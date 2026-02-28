@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Layout,
   Row,
@@ -8,14 +9,14 @@ import {
   Typography,
   notification,
 } from "antd";
-import illustration from "../assets/illustration.png";
-import loginIcon from "../assets/loginIcon.svg";
-import styles from "./LoginPage.module.css";
 import { Link } from "react-router";
-import { useAppDispatch } from "../store/hooks";
-import type { UserRegistration } from "../types/auth";
-import { register } from "../store/slices/authSlice";
-import { useState } from "react";
+import { useAppDispatch } from "../../store/hooks";
+import type { UserRegistration } from "../../types/auth";
+import { register } from "../../store/slices/authSlice";
+import loginIcon from "../../assets/loginIcon.svg";
+import illustration from "../../assets/illustration.png";
+
+import styles from "../Login/LoginPage.module.css";
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
