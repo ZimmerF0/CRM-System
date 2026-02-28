@@ -203,12 +203,12 @@ export default function LoginPage() {
                 >
                   Регистрация
                 </Button>
-                {/* <div className={styles.footer}>
+                <div className={styles.footer}>
                   <Text type="secondary">Уже зарегистрированы?</Text>{" "}
                   <Link to="/login" className={styles.link}>
                     Войти
                   </Link>
-                </div> */}
+                </div>
               </Form>
             </div>
           </Col>

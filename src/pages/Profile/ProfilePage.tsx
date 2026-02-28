@@ -1,12 +1,20 @@
 import { Button, Card, Descriptions, Spin } from "antd";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useEffect } from "react";
-import { fetchProfile } from "../../store/slices/authSlice";
+import { fetchProfile, logout } from "../../store/slices/authSlice";
+import { useNavigate } from "react-router";
 
 export default function ProfilePage() {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.auth.currentUser);
   const isLoading = useAppSelector(state => state.auth.isLoading);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
 
   useEffect(() => {
     dispatch(fetchProfile());
@@ -22,7 +30,7 @@ export default function ProfilePage() {
 
   return (
     <Card
-      title="Личный кабинет"
+      title="Информация о пользователе"
       style={{ maxWidth: 600, margin: "100px auto", background: "#eeeeec" }}
     >
       <Descriptions column={1} bordered>
@@ -38,7 +46,14 @@ export default function ProfilePage() {
           {user.phoneNumber}
         </Descriptions.Item>
       </Descriptions>
-      <Button type="primary" htmlType="submit" block size="large">
+      <Button
+        style={{ marginTop: "50px" }}
+        onClick={handleLogout}
+        type="primary"
+        htmlType="submit"
+        block
+        size="large"
+      >
         Logout
       </Button>
     </Card>

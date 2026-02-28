@@ -5,8 +5,17 @@ import ProfilePage from "./pages/Profile/ProfilePage.tsx";
 import LoginPage from "./pages/Login/LoginPage.tsx";
 import AuthLayout from "./layouts/AuthLayout/AuthLayout.tsx";
 import RegisterPage from "./pages/Register/RegisterPage.tsx";
+import { useAppDispatch } from "./store/hooks.ts";
+import { useEffect } from "react";
+import { refresh } from "./store/slices/authSlice.ts";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 export default function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(refresh());
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <Routes>
@@ -17,8 +26,15 @@ export default function App() {
         </Route>
 
         <Route path="/" element={<MainLayout />}>
-          <Route path="list" element={<TodoListPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route path="/list" element={<TodoListPage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

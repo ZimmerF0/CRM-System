@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import {
   type Token,
   type AuthData,
@@ -12,6 +16,8 @@ interface AuthState {
   currentUser: Profile | null;
   accessToken: string | null;
   refreshToken: string | null;
+  isAuthenticated: boolean;
+  isAuthChecked: boolean;
   isLoading: boolean;
   error: string | null;
 }
@@ -20,6 +26,8 @@ const initialState: AuthState = {
   currentUser: null,
   accessToken: null,
   refreshToken: null,
+  isAuthenticated: false,
+  isAuthChecked: false,
   isLoading: false,
   error: null,
 };
@@ -89,14 +97,16 @@ export const login = createAsyncThunk<Token, AuthData, { rejectValue: string }>(
 export const fetchProfile = createAsyncThunk<
   Profile,
   void,
-  { rejectValue: string }
+  { state: RootState; rejectValue: string }
 >("auth/fetchProfile", async (_, thunkAPI) => {
   try {
-    const token = localStorage.getItem("accessToken");
+    const token = thunkAPI.getState().auth.accessToken;
 
-    const response = await axios.get("https://easydev.club/api/v1/user/profile", {
-  headers: {
-    Authorization: `Bearer ${token}`,
+    const response = await axios.get(
+      "https://easydev.club/api/v1/user/profile",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -106,10 +116,44 @@ export const fetchProfile = createAsyncThunk<
   }
 });
 
+export const refresh = createAsyncThunk<Token, void, { rejectValue: string }>(
+  "auth/refresh",
+  async (_, thunkAPI) => {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (!refreshToken) {
+        return thunkAPI.rejectWithValue("Нет refresh токена");
+      }
+
+      const response = await axios.post(
+        "https://easydev.club/api/v1/auth/refresh",
+        { refreshToken },
+      );
+
+      return response.data;
+    } catch {
+      return thunkAPI.rejectWithValue("Сессия истекла");
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setAccessToken(state, action: PayloadAction<string>) {
+      state.accessToken = action.payload;
+      state.isAuthenticated = true;
+    },
+    logout(state) {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.currentUser = null;
+      state.isAuthenticated = false;
+      localStorage.removeItem("refreshToken");
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(register.pending, state => {
@@ -135,8 +179,10 @@ const authSlice = createSlice({
         state.accessToken = action.payload.accessToken;
         state.refreshToken = action.payload.refreshToken;
 
-        localStorage.setItem("accessToken", action.payload.accessToken);
+        // localStorage.setItem("accessToken", action.payload.accessToken);
         localStorage.setItem("refreshToken", action.payload.refreshToken);
+        state.isAuthenticated = true;
+        state.isAuthChecked = true;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
@@ -145,9 +191,25 @@ const authSlice = createSlice({
 
       .addCase(fetchProfile.fulfilled, (state, action) => {
         state.currentUser = action.payload;
+      })
+
+      .addCase(refresh.fulfilled, (state, action) => {
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        state.isAuthenticated = true;
+        state.isAuthChecked = true;
+      })
+      .addCase(refresh.rejected, state => {
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.isAuthenticated = false;
+        state.isAuthChecked = true;
+        localStorage.removeItem("refreshToken");
       });
   },
 });
+
+export const { setAccessToken, logout } = authSlice.actions;
 
 export const selectCurrentUser = (state: RootState) => state.auth.currentUser;
 export const selectAuthLoading = (state: RootState) => state.auth.isLoading;
