@@ -198,6 +198,7 @@ const authSlice = createSlice({
         state.refreshToken = action.payload.refreshToken;
         state.isAuthenticated = true;
         state.isAuthChecked = true;
+        localStorage.setItem("refreshToken", action.payload.refreshToken);
       })
       .addCase(refresh.rejected, state => {
         state.accessToken = null;
