@@ -3,15 +3,9 @@
   justify-content: space-between;
   margin-bottom: 30px;
 }
-button {
-  border: none;
-  background-color: transparent;
-  font-size: 18px;
-  color: var(--color-light-text);
-  cursor: pointer;
-}
 
 .active {
   color: var(--color-active);
-  border-bottom: 2px solid var(--color-active);
+  text-decoration: underline 2px;
+  text-underline-offset: 6px;
 } 

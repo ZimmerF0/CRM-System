@@ -1,59 +1,79 @@
 import { useState } from "react";
+import { Button, Form, Input, message } from "antd";
 import { addTask } from "../../api/tasksAPI";
-import { validateTitle } from "../../helpers/validateTitle";
-import Button from "../../ui/Button/Button";
-import Input from "../../ui/Input/Input";
 
 import styles from "./TodoForm.module.css";
-
 
 interface TodoFormProps {
   onCreated?: () => void;
 }
 
+type FormValues = { title: string };
+
 export function TodoForm({ onCreated }: TodoFormProps) {
-  const [title, setTitle] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [form] = Form.useForm<FormValues>();
 
-  const addTodo = async (title: string) => {
-    const newTodo = { title, isDone: false };
-    await addTask(newTodo);
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (values: FormValues) => {
     if (isSubmitting) return;
 
-    const trimmed = title.trim(); // функция валидации вводимого текста
-    const error = validateTitle(trimmed);
-    if (error) {
-      alert(error);
-      return;
-    }
+    const trimmed = values.title.trim();
 
     try {
       setIsSubmitting(true);
-      await addTodo(trimmed);
-      setTitle("");
+      await addTask({ title: trimmed, isDone: false });
+
+      form.resetFields();
       onCreated?.();
     } catch {
-      alert("Не удалось добавить новую задачу");
+      message.error("Не удалось добавить новую задачу");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <Input
-        type="text"
-        placeholder="Add todo item"
-        value={title}
-        onChange={setTitle}
-      />
-      <Button type="submit">
+    <Form<FormValues>
+      form={form}
+      className={styles.form}
+      onFinish={handleSubmit}
+    >
+      <Form.Item
+        className={styles.item}
+        name="title"
+        rules={[
+          {
+            required: true,
+            transform: value => value?.trim(),
+            message: "Введите название",
+          },
+          {
+            min: 2,
+            transform: value => value?.trim(),
+            message: "Минимум 2 символа",
+          },
+          {
+            max: 64,
+            transform: value => value?.trim(),
+            message: "Максимум 64 символа",
+          },
+        ]}
+      >
+        <Input
+          size="large"
+          placeholder="Add todo item"
+          style={{ fontSize: 16 }}
+        />
+      </Form.Item>
+
+      <Button
+        type="primary"
+        size="large"
+        htmlType="submit"
+        disabled={isSubmitting}
+      >
         Add
       </Button>
-    </form>
+    </Form>
   );
 }

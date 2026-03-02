@@ -1,0 +1,52 @@
+import React from "react";
+import { Layout, Menu } from "antd";
+import { UnorderedListOutlined, UserOutlined } from "@ant-design/icons";
+
+import "../styles/Layout.css";
+import { Outlet, useNavigate, useLocation } from "react-router";
+
+const { Sider, Content } = Layout;
+
+const MainLayout: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  return (
+    <Layout className="main">
+      <Sider>
+        <div className="demo-logo-vertical" />
+        <Menu
+          theme="dark"
+          mode="inline"
+          selectedKeys={[location.pathname]}
+          onClick={({ key }) => navigate(key)}
+          items={[
+            {
+              key: "/list",
+              icon: <UnorderedListOutlined />,
+              label: "Список задач",
+            },
+            {
+              key: "/profile",
+              icon: <UserOutlined />,
+              label: "Профиль",
+            },
+          ]}
+        />
+      </Sider>
+      <Layout>
+        <Content
+          style={{
+            margin: "24px",
+            background: "white",
+            borderRadius: "20px",
+          }}
+        >
+          <Outlet />
+        </Content>
+      </Layout>
+    </Layout>
+  );
+};
+
+export default MainLayout;

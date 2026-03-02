@@ -1,0 +1,37 @@
+:root {
+  --color-primary: #5492ff;
+  --color-secondary: #a5a4a4;
+  --color-success: #43a047;
+  --color-warning: #ffa000;
+  --color-danger: #fd6758;
+  --color-info: #0288d1;
+  --color-bg: #eeeeec;
+  --color-white-text: #ffffff;
+  --color-text: #000000;
+  --color-light-text: #808080;
+  --color-border: #cccccc;
+  --color-active: #67c9ef;
+}
+
+#root {
+  max-width: auto;
+  margin: 0 auto;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  font-family: 'Open Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main {
+  min-height: 100vh;
+}

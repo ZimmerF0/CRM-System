@@ -1,3 +1,5 @@
+import { axiosClient } from "./axiosClient";
+
 import type {
   FilterType,
   Todo,
@@ -6,56 +8,31 @@ import type {
   MetaResponse,
 } from "../types/todo";
 
-const URL = "https://easydev.club/api/v1/todos";
-
-const headers = {
-  "Content-Type": "application/json",
-};
-
 export async function addTask(newTodo: TodoRequest): Promise<Todo> {
-  const response = await fetch(URL, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(newTodo),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to add task");
-  }
-
-  return await response.json();
+  const { data } = await axiosClient.post<Todo>("/todos", newTodo);
+  return data;
 }
 
 export async function deleteTask(id: number): Promise<void> {
-  const response = await fetch(`${URL}/${id}`, { method: "DELETE" });
-  if (!response.ok) {
-    throw new Error("Failed to delete task");
-  }
+  await axiosClient.delete(`/todos/${id}`);
 }
 
 export async function updateTask(
   id: number,
-  data: TodoRequest
-): Promise<Response> {
-  const response = await fetch(`${URL}/${id}`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(data),
-  });
-  if (!response.ok) {
-    throw new Error("Failed to update task");
-  }
-
-  return await response.json();
+  payload: TodoRequest,
+): Promise<Todo> {
+  const { data } = await axiosClient.put<Todo>(`/todos/${id}`, payload);
+  return data;
 }
 
 export async function getFilteredTask(
-  status: FilterType
+  status: FilterType,
 ): Promise<MetaResponse<Todo, TodoInfo>> {
-  const response = await fetch(`${URL}?filter=${status}`)
-  if (!response.ok) {
-    throw new Error("Failed to fetch filtered tasks");
-  }
-
-  return await response.json();
+  const { data } = await axiosClient.get<MetaResponse<Todo, TodoInfo>>(
+    "/todos",
+    {
+      params: { filter: status },
+    },
+  );
+  return data;
 }

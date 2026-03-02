@@ -18,19 +18,23 @@ export default function TodoListPage() {
   });
 
   const refresh = useCallback(async () => {
-  const data = await getFilteredTask(activeFilter);
-  setTodos(data.data);
-  if (data.info) {
-    setTodosInfo(data.info);
-  }
-}, [activeFilter]);
+    const data = await getFilteredTask(activeFilter);
+    setTodos(data.data);
+    if (data.info) {
+      setTodosInfo(data.info);
+    }
+  }, [activeFilter]);
 
   useEffect(() => {
-     // eslint-disable-next-line react-hooks/set-state-in-effect
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     refresh();
-  }, [refresh]);
 
-  
+    const intervalId = setInterval(() => {
+      refresh();
+    }, 5000);
+     return () => clearInterval(intervalId);
+
+  }, [refresh]);
 
   return (
     <div className={styles.main}>
@@ -43,7 +47,7 @@ export default function TodoListPage() {
         allTodos={todosInfo.all}
         completedTodos={todosInfo.completed}
         activeFilter={activeFilter}
-        getFilterTodos={setActiveFilter}
+        onFilterChange={setActiveFilter}
       />
 
       <TodoList todos={todos} refresh={refresh} />

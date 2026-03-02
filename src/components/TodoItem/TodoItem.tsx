@@ -1,18 +1,26 @@
 import { useState } from "react";
 import type { Todo } from "../../types/todo";
 import { validateTitle } from "../../helpers/validateTitle";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Flex,
+  Input,
+  Typography,
+  notification,
+} from "antd";
 
 import { deleteTask, updateTask } from "../../api/tasksAPI";
 
-import editImg from "../../assets/edit.svg";
-import confirmImg from "../../assets/confirm.svg";
-import deleteImg from "../../assets/delete.svg";
-import cancelImg from "../../assets/cancel.svg";
-
-import { IconButton } from "../../ui/IconButton/IconButton";
-import { Checkbox } from "../../ui/Checkbox/Checkbox";
-
 import styles from "./TodoItem.module.css";
+
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 
 interface TodoItemProps {
   todo: Todo;
@@ -24,57 +32,93 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   function handleConfirmClick() {
-    const editingText = newText.trim(); // функция валидации вводимого текста
+    const editingText = newText.trim();
     const error = validateTitle(editingText);
 
     if (error) {
-      alert(error);
+      notification.error({
+        message: "Ошибка",
+        description: error,
+        placement: "topRight",
+      });
       return;
     }
 
     changeTodo(todo.id, editingText);
     setIsEditing(false);
+
+    notification.success({
+      message: "Успешно",
+      description: "Задача обновлена",
+      placement: "topRight",
+    });
+  }
+
+  function handleCancelClick() {
+    setIsEditing(false);
+    setNewText(todo.title);
   }
 
   const deleteTodo = async (id: number) => {
     try {
       await deleteTask(id);
-
       await refresh();
-    } catch (error) {
-      console.error(error);
-      alert("Не удалось удалить задачу");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Произошла ошибка при удалении";
+
+      notification.error({
+        message: "Не удалось удалить задачу",
+        description: errorMessage,
+        placement: "topRight",
+      });
     }
   };
 
   const changeTodo = async (id: number, newText: string) => {
     try {
       await updateTask(id, { title: newText });
-
       await refresh();
-    } catch (error) {
-      console.error(error);
-      alert("Не удалось изменить задачу");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Произошла ошибка при обновлении";
+
+      notification.error({
+        message: "Не удалось изменить задачу",
+        description: errorMessage,
+        placement: "topRight",
+      });
     }
   };
 
   const toggleTodo = async (id: number) => {
     try {
       await updateTask(id, { isDone: !todo.isDone });
-
       await refresh();
-    } catch (error) {
-      console.error(error);
-      alert("Не удалось завуршить задачу");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Произошла ошибка при изменении статуса";
+
+      notification.error({
+        message: "Не удалось изменить статус задачи",
+        description: errorMessage,
+        placement: "topRight",
+      });
     }
   };
 
   return (
     <>
       {isEditing ? (
-        <li className={styles.edited}>
-          <input
-            className={styles["edited-text"]}
+        <Card bodyStyle={{ padding: 0 }} className={styles.edited}>
+          <Input
+            className={styles.input}
             type="text"
             required
             value={newText}
@@ -82,42 +126,54 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             autoFocus
           />
           <div className={styles.actions}>
-            <IconButton
-              variant="primary"
-              src={confirmImg}
+            <Button
+              color="primary"
+              variant="solid"
               onClick={handleConfirmClick}
-              alt="Confirm"
+              icon={<CheckOutlined />}
             />
-            <IconButton
-              variant="secondary"
-              src={cancelImg}
-              onClick={() => setIsEditing(false)}
-              alt="Cancel"
+            <Button
+              style={{
+                backgroundColor: "#b3a9a9",
+                borderColor: "#b3a9a9",
+              }}
+              onClick={handleCancelClick}
+              icon={<CloseOutlined />}
             />
           </div>
-        </li>
+        </Card>
       ) : (
-        <li className={todo.isDone ? styles.completed : ""}>
-          <Checkbox
-            checked={todo.isDone}
-            onChange={() => toggleTodo(todo.id)}
-          />
-          <span>{todo.title}</span>
-          <div className={styles.actions}>
-            <IconButton
-              variant="primary"
-              src={editImg}
-              onClick={() => setIsEditing(true)}
-              alt="Edit"
+        <Card
+          size="small"
+          style={{ marginBottom: 20 }}
+          className={todo.isDone ? styles.completed : ""}
+        >
+          <Flex align="center" gap={8}>
+            <Checkbox
+              className={styles.checkbox}
+              checked={todo.isDone}
+              onChange={() => toggleTodo(todo.id)}
             />
-            <IconButton
-              variant="danger"
-              src={deleteImg}
+            <Typography.Text style={{ fontSize: 16 }}>
+              {todo.title}
+            </Typography.Text>
+          </Flex>
+
+          <div className={styles.actions}>
+            <Button
+              color="primary"
+              variant="solid"
+              onClick={() => setIsEditing(true)}
+              icon={<EditOutlined />}
+            />
+            <Button
+              color="danger"
+              variant="solid"
               onClick={() => deleteTodo(todo.id)}
-              alt="Delete"
+              icon={<DeleteOutlined />}
             />
           </div>
-        </li>
+        </Card>
       )}
     </>
   );

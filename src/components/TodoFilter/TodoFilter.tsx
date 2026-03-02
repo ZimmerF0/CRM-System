@@ -1,3 +1,5 @@
+import { Button } from "antd";
+
 import type { FilterType } from "../../types/todo";
 
 import styles from "./TodoFilter.module.css";
@@ -7,7 +9,7 @@ interface TodoFilterProps {
   todosInProgress: number;
   completedTodos: number;
   activeFilter: FilterType;
-  getFilterTodos: (filter: FilterType) => void;
+  onFilterChange: (filter: FilterType) => void;
 }
 
 export function TodoFilter({
@@ -15,30 +17,36 @@ export function TodoFilter({
   todosInProgress,
   completedTodos,
   activeFilter,
-  getFilterTodos,
+  onFilterChange,
 }: TodoFilterProps) {
   return (
     <div className={styles.filter}>
-      <button
+      <Button
+        size="large"
+        type="text"
         className={activeFilter === "all" ? styles.active : ""}
-        onClick={() => getFilterTodos("all")}
+        onClick={() => onFilterChange("all")}
       >
         Все({allTodos})
-      </button>
+      </Button>
 
-      <button
+      <Button
+        size="large"
+        type="text"
         className={activeFilter === "inWork" ? styles.active : ""}
-        onClick={() => getFilterTodos("inWork")}
+        onClick={() => onFilterChange("inWork")}
       >
         В прогрессе({todosInProgress})
-      </button>
+      </Button>
 
-      <button
+      <Button
+        size="large"
+        type="text"
         className={activeFilter === "completed" ? styles.active : ""}
-        onClick={() => getFilterTodos("completed")}
+        onClick={() => onFilterChange("completed")}
       >
         Завершенные({completedTodos})
-      </button>
+      </Button>
     </div>
   );
 }
