@@ -1,7 +1,6 @@
 import {
   createAsyncThunk,
   createSlice,
-  type PayloadAction,
 } from "@reduxjs/toolkit";
 import {
   type Token,
@@ -11,10 +10,10 @@ import {
 } from "../../types/auth";
 import axios from "axios";
 import type { RootState } from "../store";
+import { tokenService } from "../../services/tokenService";
 
 interface AuthState {
   currentUser: Profile | null;
-  accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
   isAuthChecked: boolean;
@@ -24,7 +23,6 @@ interface AuthState {
 
 const initialState: AuthState = {
   currentUser: null,
-  accessToken: null,
   refreshToken: null,
   isAuthenticated: false,
   isAuthChecked: false,
@@ -100,7 +98,11 @@ export const fetchProfile = createAsyncThunk<
   { state: RootState; rejectValue: string }
 >("auth/fetchProfile", async (_, thunkAPI) => {
   try {
-    const token = thunkAPI.getState().auth.accessToken;
+    const token = tokenService.get();
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("Нет access токена");
+    }
 
     const response = await axios.get(
       "https://easydev.club/api/v1/user/profile",
@@ -142,12 +144,8 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAccessToken(state, action: PayloadAction<string>) {
-      state.accessToken = action.payload;
-      state.isAuthenticated = true;
-    },
     logout(state) {
-      state.accessToken = null;
+      tokenService.clear();
       state.refreshToken = null;
       state.currentUser = null;
       state.isAuthenticated = false;
@@ -176,10 +174,9 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
 
-        state.accessToken = action.payload.accessToken;
+        tokenService.set(action.payload.accessToken);
         state.refreshToken = action.payload.refreshToken;
 
-        // localStorage.setItem("accessToken", action.payload.accessToken);
         localStorage.setItem("refreshToken", action.payload.refreshToken);
         state.isAuthenticated = true;
         state.isAuthChecked = true;
@@ -194,14 +191,14 @@ const authSlice = createSlice({
       })
 
       .addCase(refresh.fulfilled, (state, action) => {
-        state.accessToken = action.payload.accessToken;
+        tokenService.set(action.payload.accessToken);
         state.refreshToken = action.payload.refreshToken;
         state.isAuthenticated = true;
         state.isAuthChecked = true;
         localStorage.setItem("refreshToken", action.payload.refreshToken);
       })
       .addCase(refresh.rejected, state => {
-        state.accessToken = null;
+        tokenService.clear();
         state.refreshToken = null;
         state.isAuthenticated = false;
         state.isAuthChecked = true;
@@ -210,7 +207,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setAccessToken, logout } = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export const selectCurrentUser = (state: RootState) => state.auth.currentUser;
 export const selectAuthLoading = (state: RootState) => state.auth.isLoading;

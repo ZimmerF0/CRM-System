@@ -1,13 +1,14 @@
 import axios from "axios";
-import { setAccessToken, logout } from "../store/slices/authSlice";
+import { logout } from "../store/slices/authSlice";
 import { store } from "../store/store";
+import { tokenService } from "../services/tokenService";
 
 export const api = axios.create({
   baseURL: "https://easydev.club/api/v1",
 });
 
 api.interceptors.request.use(config => {
-  const token = store.getState().auth.accessToken;
+  const token = tokenService.get();
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -52,7 +53,7 @@ api.interceptors.response.use(
       const { accessToken, refreshToken: newRefresh } = response.data;
 
       // обновляем redux
-      store.dispatch(setAccessToken(accessToken));
+      store.dispatch(accessToken);
       // обновляем refresh
       localStorage.setItem("refreshToken", newRefresh);
       // повторяем оригинальный запрос
