@@ -8,7 +8,7 @@ import LoginPage from "./pages/Login/LoginPage.tsx";
 import AuthLayout from "./layouts/AuthLayout/AuthLayout.tsx";
 import RegisterPage from "./pages/Register/RegisterPage.tsx";
 import { useAppDispatch, useAppSelector } from "./store/hooks.ts";
-import { refresh } from "./store/slices/authSlice.ts";
+import { refresh } from "./store/auth/thunks";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 export default function App() {

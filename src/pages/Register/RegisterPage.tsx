@@ -12,7 +12,7 @@ import {
 import { Link } from "react-router";
 import { useAppDispatch } from "../../store/hooks";
 import type { UserRegistration } from "../../types/auth";
-import { register } from "../../store/slices/authSlice";
+import { register } from "../../store/auth/thunks";
 import loginIcon from "../../assets/loginIcon.svg";
 import illustration from "../../assets/illustration.png";
 

@@ -14,7 +14,8 @@ import loginIcon from "../../assets/loginIcon.svg";
 import styles from "./LoginPage.module.css";
 import type { AuthData } from "../../types/auth";
 import { useAppDispatch } from "../../store/hooks";
-import { fetchProfile, login } from "../../store/slices/authSlice";
+import {  login } from "../../store/auth/thunks";
+import { fetchProfile } from "../../store/auth/thunks";
 import { useNavigate } from "react-router";
 
 const { Content } = Layout;

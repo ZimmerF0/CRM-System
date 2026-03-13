@@ -6,7 +6,8 @@ import { TodoList } from "../../components/TodoList/TodoList";
 
 import type { RootState } from "../../store/store";
 
-import { fetchTodos, selectFilter } from "../../store/slices/todoSlice";
+import { fetchTodos } from "../../store/todos/thunks";
+import { selectFilter } from "../../Modules/todos/selectors";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import styles from "./TodoListPage.module.css";

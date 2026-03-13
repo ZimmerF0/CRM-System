@@ -1,6 +1,6 @@
 import TodoItem from "../TodoItem/TodoItem";
 import { useAppSelector } from "../../store/hooks";
-import { selectTodos } from "../../store/slices/todoSlice";
+import { selectTodos } from "../../Modules/todos/selectors";
 
 import styles from "./TodoList.module.css";
 

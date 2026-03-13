@@ -1,7 +1,8 @@
 import { Button, Card, Descriptions, Spin } from "antd";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useEffect } from "react";
-import { fetchProfile, logout } from "../../store/slices/authSlice";
+import {  logout } from "../../store/auth/Slices/slice";
+import { fetchProfile } from "../../store/auth/thunks";
 import { useNavigate } from "react-router";
 
 export default function ProfilePage() {

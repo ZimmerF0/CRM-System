@@ -3,7 +3,7 @@ import { Button, Form, Input, message } from "antd";
 import { addTask } from "../../api/tasksAPI";
 import { useDispatch } from "react-redux";
 
-import { addTodo } from "../../store/slices/todoSlice";
+import { addTodo } from "../../store/todos/Slices/slice";
 import type { Todo } from "../../types/todo";
 
 import styles from "./TodoForm.module.css";
