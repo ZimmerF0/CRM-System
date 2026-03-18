@@ -49,9 +49,6 @@
 
 .title {
   display: inline-block;
-  justify-content: end;
-  align-items: center;
-
 }
 
 .formWrap {
@@ -79,7 +76,7 @@
   margin-bottom: 16px;
 }
 
-.loginBtn {
+.loginButton {
   background: #7f265b !important;
   border-color: #7f265b !important;
   margin-top: 30px;

@@ -23,11 +23,11 @@ import {
 } from "@ant-design/icons";
 import styles from "./TodoItem.module.css";
 
-interface TodoItemProps {
+interface Props {
   todo: Todo;
 }
 
-export default function TodoItem({ todo }: TodoItemProps) {
+export default function TodoItem({ todo }: Props) {
   const [newText, setNewText] = useState(todo.title);
   const [isEditing, setIsEditing] = useState(false);
 

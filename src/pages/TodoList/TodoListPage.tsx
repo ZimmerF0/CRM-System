@@ -4,8 +4,6 @@ import { TodoForm } from "../../components/TodoForm/TodoForm";
 import { TodoFilter } from "../../components/TodoFilter/TodoFilter";
 import { TodoList } from "../../components/TodoList/TodoList";
 
-import type { RootState } from "../../store/store";
-
 import { fetchTodos } from "../../store/todos/thunks";
 import { selectFilter } from "../../Modules/todos/selectors";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -14,9 +12,7 @@ import styles from "./TodoListPage.module.css";
 
 export default function TodoListPage() {
   const dispatch = useAppDispatch();
-  const activeFilter = useAppSelector((state: RootState) =>
-    selectFilter(state),
-  );
+  const activeFilter = useAppSelector(selectFilter);
 
   useEffect(() => {
     dispatch(fetchTodos(activeFilter));

@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import type {
   AuthData,
   Profile,
@@ -8,7 +7,8 @@ import type {
 } from "../../types/auth";
 import type { RootState } from "../store";
 import { tokenService } from "../../services/tokenService";
-import { handleAxiosError } from "../utils";
+import { getAxiosErrorMessage } from "../utils";
+import { api } from "../../api/axios";
 
 export const register = createAsyncThunk<
   Profile, // что возвращает сервер
@@ -16,16 +16,14 @@ export const register = createAsyncThunk<
   { rejectValue: string }
 >("auth/register", async (userData, thunkAPI) => {
   try {
-    const response = await axios.post(
-      "https://easydev.club/api/v1/auth/signup",
-      userData,
-      { headers: { "Content-Type": "application/json" } },
-    );
+    const response = await api.post("/auth/signup", userData, {
+      headers: { "Content-Type": "application/json" },
+    });
 
     return response.data; // Profile
   } catch (err) {
     return thunkAPI.rejectWithValue(
-      handleAxiosError(err, "Не удалось зарегистрироваться"),
+      getAxiosErrorMessage(err, "Не удалось зарегистрироваться"),
     );
   }
 });
@@ -34,15 +32,13 @@ export const login = createAsyncThunk<Token, AuthData, { rejectValue: string }>(
   "auth/login",
   async (AuthData, thunkAPI) => {
     try {
-      const responce = await axios.post(
-        "https://easydev.club/api/v1/auth/signin",
-        AuthData,
-        { headers: { "Content-Type": "application/json" } },
-      );
-      return responce.data; // Токен
+      const response = await api.post("/auth/signin", AuthData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      return response.data; // Токен
     } catch (err) {
       return thunkAPI.rejectWithValue(
-        handleAxiosError(err, "Ошибка авторизации"),
+        getAxiosErrorMessage(err, "Ошибка авторизации"),
       );
     }
   },
@@ -60,14 +56,7 @@ export const fetchProfile = createAsyncThunk<
       return thunkAPI.rejectWithValue("Нет access токена");
     }
 
-    const response = await axios.get(
-      "https://easydev.club/api/v1/user/profile",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    );
+    const response = await api.get("/user/profile");
     return response.data;
   } catch {
     return thunkAPI.rejectWithValue("Не удалось получить профиль");
@@ -84,10 +73,7 @@ export const refresh = createAsyncThunk<Token, void, { rejectValue: string }>(
         return thunkAPI.rejectWithValue("Нет refresh токена");
       }
 
-      const response = await axios.post(
-        "https://easydev.club/api/v1/auth/refresh",
-        { refreshToken },
-      );
+      const response = await api.post("/auth/refresh", { refreshToken });
 
       return response.data;
     } catch {

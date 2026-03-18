@@ -10,8 +10,12 @@ import styles from "./TodoForm.module.css";
 
 type FormValues = { title: string };
 
+interface TodoFormState {
+  isSubmitting: boolean;
+}
+
 export function TodoForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<TodoFormState["isSubmitting"]>(false);
   const [form] = Form.useForm<FormValues>();
 
   const dispatch = useDispatch();

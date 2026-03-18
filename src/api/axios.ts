@@ -1,25 +1,40 @@
 import axios from "axios";
-import { logout } from "../store/slices/authSlice";
+import type { InternalAxiosRequestConfig, AxiosError } from "axios";
+import { logout } from "../store/auth/Slices/slice";
 import { store } from "../store/store";
 import { tokenService } from "../services/tokenService";
 
+type RetryableRequest = InternalAxiosRequestConfig & {
+  _hasRetried?: boolean;
+};
+
 export const api = axios.create({
-  baseURL: "https://easydev.club/api/v1",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
-api.interceptors.request.use(config => {
-  const token = tokenService.get();
+const refreshApi = axios.create({
+baseURL: import.meta.env.VITE_API_URL,
+  });
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+api.interceptors.request.use(
+  (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+    const token = tokenService.get();
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+);
 
 api.interceptors.response.use(
   response => response,
-  async error => {
-    const originalRequest = error.config;
+  async (error: AxiosError) => {
+    if (!error.config) {
+      return Promise.reject(error);
+    }
+
+    const originalRequest = error.config as RetryableRequest;
 
     // если не 401 — просто вернуть ошибку
     if (error.response?.status !== 401) {
@@ -27,33 +42,31 @@ api.interceptors.response.use(
     }
 
     // чтобы не зациклиться
-    if (originalRequest._retry) {
+    if (originalRequest._hasRetried) {
       store.dispatch(logout());
-      window.location.href = "/login";
       return Promise.reject(error);
     }
 
-    originalRequest._retry = true;
+    originalRequest._hasRetried = true;
 
     const refreshToken = localStorage.getItem("refreshToken");
 
     if (!refreshToken) {
       store.dispatch(logout());
-      window.location.href = "/login";
       return Promise.reject(error);
     }
 
     try {
       // вызываем refresh
-      const response = await axios.post(
-        "https://easydev.club/api/v1/auth/refresh",
-        { refreshToken },
-      );
+      const response = await refreshApi.post<{
+        accessToken: string;
+        refreshToken: string;
+      }>("/auth/refresh", { refreshToken });
 
       const { accessToken, refreshToken: newRefresh } = response.data;
 
       // обновляем redux
-      store.dispatch(accessToken);
+      tokenService.set(accessToken);
       // обновляем refresh
       localStorage.setItem("refreshToken", newRefresh);
       // повторяем оригинальный запрос
@@ -62,7 +75,6 @@ api.interceptors.response.use(
       return api(originalRequest);
     } catch (refreshError) {
       store.dispatch(logout());
-      window.location.href = "/login";
       return Promise.reject(refreshError);
     }
   },

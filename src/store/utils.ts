@@ -1,8 +1,11 @@
 import axios from "axios";
 
 //универсальная обработка axios ошибок
-export const handleAxiosError =  (error: unknown, defaultMessage: string) => {
-  if(axios.isAxiosError(error)) {
+export const getAxiosErrorMessage = (
+  error: unknown,
+  defaultMessage: string = "Произошла ошибка",
+): string => {
+  if (axios.isAxiosError(error)) {
     const status = error.response?.status;
 
     switch (status) {
@@ -19,4 +22,4 @@ export const handleAxiosError =  (error: unknown, defaultMessage: string) => {
     }
   }
   return "Ошибка сети";
-}
+};

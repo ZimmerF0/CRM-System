@@ -17,15 +17,16 @@ import { useAppDispatch } from "../../store/hooks";
 import {  login } from "../../store/auth/thunks";
 import { fetchProfile } from "../../store/auth/thunks";
 import { useNavigate } from "react-router";
+import { Link } from "react-router";
 
 const { Content } = Layout;
-const { Title, Text, Link } = Typography;
+const { Title, Text} = Typography;
 
 export default function LoginPage() {
 const dispatch = useAppDispatch()
 const navigate = useNavigate();
 
-  const onSubmit = async (values: AuthData) => {
+  const handleLogin = async (values: AuthData) => {
     try {
       await dispatch(login(values)).unwrap();
       await dispatch(fetchProfile()).unwrap();
@@ -38,6 +39,12 @@ const navigate = useNavigate();
       });
     }
   };
+
+  const handlePasswordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === " ") {
+    e.preventDefault();
+  }
+};
 
   return (
     <Layout className={styles.loginRoot}>
@@ -63,7 +70,7 @@ const navigate = useNavigate();
                 </Text>
               </div>
 
-              <Form onFinish={onSubmit} layout="vertical" className={styles.form}>
+              <Form onFinish={handleLogin} layout="vertical" className={styles.form}>
                 <Form.Item
                   className={styles.input}
                   label="Логин"
@@ -92,11 +99,7 @@ const navigate = useNavigate();
                 >
                   <Input.Password
                     placeholder="********"
-                    onKeyDown={e => {
-                      if (e.key === " ") {
-                        e.preventDefault();
-                      }
-                    }}
+                    onKeyDown={handlePasswordKeyDown}
                   />
                 </Form.Item>
 
@@ -105,14 +108,14 @@ const navigate = useNavigate();
                   htmlType="submit"
                   block
                   size="large"
-                  className={styles.loginBtn}
+                  className={styles.loginButton}
                 >
                   Войти
                 </Button>
 
                 <div className={styles.footer}>
                   <Text type="secondary">Not Registered Yet?</Text>{" "}
-                  <Link href="/register" className={styles.link}>
+                  <Link to="/register" className={styles.link}>
                     Регистрация
                   </Link>
                 </div>

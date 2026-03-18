@@ -21,9 +21,8 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(register.fulfilled, state => {
         state.isLoading = false;
-        state.currentUser = action.payload; // Profile
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
@@ -36,10 +35,8 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
-
         tokenService.set(action.payload.accessToken);
         state.refreshToken = action.payload.refreshToken;
-
         localStorage.setItem("refreshToken", action.payload.refreshToken);
         state.isAuthenticated = true;
         state.isAuthChecked = true;

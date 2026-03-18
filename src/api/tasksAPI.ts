@@ -30,9 +30,7 @@ export async function getFilteredTask(
 ): Promise<MetaResponse<Todo, TodoInfo>> {
   const { data } = await axiosClient.get<MetaResponse<Todo, TodoInfo>>(
     "/todos",
-    {
-      params: { filter: status },
-    },
+    { params: { filter: status } },
   );
   return data;
 }

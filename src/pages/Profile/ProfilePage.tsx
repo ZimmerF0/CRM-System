@@ -51,7 +51,6 @@ export default function ProfilePage() {
         style={{ marginTop: "50px" }}
         onClick={handleLogout}
         type="primary"
-        htmlType="submit"
         block
         size="large"
       >

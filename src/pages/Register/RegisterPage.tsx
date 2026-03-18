@@ -25,7 +25,7 @@ export default function LoginPage() {
   const dispatch = useAppDispatch();
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const onSubmit = async (values: UserRegistration) => {
+  const handleRegister = async (values: UserRegistration) => {
     try {
       await dispatch(register(values)).unwrap();
       setIsSuccess(true);
@@ -61,6 +61,12 @@ export default function LoginPage() {
     );
   }
 
+  const handlePasswordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === " ") {
+    e.preventDefault();
+  }
+};
+
   return (
     <Layout className={styles.loginRoot}>
       <Content className={styles.content}>
@@ -86,7 +92,7 @@ export default function LoginPage() {
               </div>
 
               <Form
-                onFinish={onSubmit}
+                onFinish={handleRegister}
                 layout="vertical"
                 className={styles.form}
               >
@@ -134,11 +140,7 @@ export default function LoginPage() {
                 >
                   <Input.Password
                     placeholder="********"
-                    onKeyDown={e => {
-                      if (e.key === " ") {
-                        e.preventDefault();
-                      }
-                    }}
+                    onKeyDown={handlePasswordKeyDown}
                   />
                 </Form.Item>
 
@@ -161,11 +163,7 @@ export default function LoginPage() {
                 >
                   <Input.Password
                     placeholder="********"
-                    onKeyDown={e => {
-                      if (e.key === " ") {
-                        e.preventDefault();
-                      }
-                    }}
+                    onKeyDown={handlePasswordKeyDown}
                   />
                 </Form.Item>
 
@@ -199,7 +197,7 @@ export default function LoginPage() {
                   htmlType="submit"
                   block
                   size="large"
-                  className={styles.loginBtn}
+                  className={styles.loginButton}
                 >
                   Регистрация
                 </Button>
