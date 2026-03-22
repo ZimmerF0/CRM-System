@@ -1,11 +1,12 @@
 import { Navigate } from "react-router";
 import { useAppSelector } from "../store/hooks";
+
 import type { PropsWithChildren } from "react";
 import { Spin } from "antd";
 
 export default function ProtectedRoute({ children }: PropsWithChildren) {
-  const {isAuthenticated, isAuthChecked} = useAppSelector(
-    (state) => state.auth
+  const { isAuthenticated, isAuthChecked } = useAppSelector(
+    state => state.auth
   );
 
   if (!isAuthChecked) {

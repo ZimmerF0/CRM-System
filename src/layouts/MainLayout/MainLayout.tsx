@@ -23,14 +23,15 @@ const MainLayout: React.FC = () => {
           items={[
             {
               key: "/todos",
+
               icon: <UnorderedListOutlined />,
-              label: "Список задач",
+              label: "Список задач"
             },
             {
               key: "/profile",
               icon: <UserOutlined />,
-              label: "Личный кабинет",
-            },
+              label: "Личный кабинет"
+            }
           ]}
         />
       </Sider>
@@ -39,7 +40,7 @@ const MainLayout: React.FC = () => {
           style={{
             margin: "24px",
             background: "white",
-            borderRadius: "20px",
+            borderRadius: "20px"
           }}
         >
           <Outlet />

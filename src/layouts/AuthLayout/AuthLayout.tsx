@@ -1,7 +1,9 @@
 import React from "react";
+
 import { Col, Layout, Row } from "antd";
 import { Outlet } from "react-router";
 import illustration from "../../assets/illustration.png";
+
 import "./AuthLayout.css";
 
 const { Content } = Layout;

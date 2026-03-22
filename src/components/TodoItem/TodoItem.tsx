@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { removeTodo } from "../../store/todos/Slices/slice";
+import { fetchTodos } from "../../store/todos/thunks";
+import { selectFilter } from "../../Modules/todos/selectors";
+import { deleteTask, updateTask } from "../../api/tasksAPI";
 import type { Todo } from "../../types/todo";
 import { validateTitle } from "../../helpers/validateTitle";
 import {
@@ -8,27 +13,27 @@ import {
   Flex,
   Input,
   Typography,
-  notification,
+  notification
 } from "antd";
 
-import { deleteTask, updateTask } from "../../api/tasksAPI";
-
-import styles from "./TodoItem.module.css";
 import {
   CheckOutlined,
   CloseOutlined,
   DeleteOutlined,
-  EditOutlined,
+  EditOutlined
 } from "@ant-design/icons";
+import styles from "./TodoItem.module.css";
 
 interface TodoItemProps {
   todo: Todo;
-  refresh: () => Promise<void>;
 }
 
-export default function TodoItem({ todo, refresh }: TodoItemProps) {
+export default function TodoItem({ todo }: TodoItemProps) {
   const [newText, setNewText] = useState<string>(todo.title);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+  const activeFilter = useAppSelector(selectFilter);
 
   function handleConfirmClick() {
     const editingText = newText.trim();
@@ -38,7 +43,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
       notification.error({
         message: "Ошибка",
         description: error,
-        placement: "topRight",
+        placement: "topRight"
       });
       return;
     }
@@ -49,7 +54,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
     notification.success({
       message: "Успешно",
       description: "Задача обновлена",
-      placement: "topRight",
+      placement: "topRight"
     });
   }
 
@@ -58,20 +63,19 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
     setNewText(todo.title);
   }
 
-  const deleteTodo = async (id: number) => {
+  const handleDelete = async () => {
     try {
-      await deleteTask(id);
-      await refresh();
+      await deleteTask(todo.id); // 1. удаляем на сервере
+      dispatch(removeTodo(todo.id)); // 2. удаляем в Redux
+      dispatch(fetchTodos(activeFilter));
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Произошла ошибка при удалении";
+        error instanceof Error ? error.message : "ошибка при удалении";
 
       notification.error({
         message: "Не удалось удалить задачу",
         description: errorMessage,
-        placement: "topRight",
+        placement: "topRight"
       });
     }
   };
@@ -79,7 +83,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
   const changeTodo = async (id: number, newText: string) => {
     try {
       await updateTask(id, { title: newText });
-      await refresh();
+      dispatch(fetchTodos(activeFilter));
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error
@@ -89,7 +93,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
       notification.error({
         message: "Не удалось изменить задачу",
         description: errorMessage,
-        placement: "topRight",
+        placement: "topRight"
       });
     }
   };
@@ -97,7 +101,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
   const toggleTodo = async (id: number) => {
     try {
       await updateTask(id, { isDone: !todo.isDone });
-      await refresh();
+      dispatch(fetchTodos(activeFilter));
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error
@@ -107,7 +111,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
       notification.error({
         message: "Не удалось изменить статус задачи",
         description: errorMessage,
-        placement: "topRight",
+        placement: "topRight"
       });
     }
   };
@@ -134,7 +138,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             <Button
               style={{
                 backgroundColor: "#b3a9a9",
-                borderColor: "#b3a9a9",
+                borderColor: "#b3a9a9"
               }}
               onClick={handleCancelClick}
               icon={<CloseOutlined />}
@@ -168,7 +172,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             <Button
               color="danger"
               variant="solid"
-              onClick={() => deleteTodo(todo.id)}
+              onClick={() => handleDelete()}
               icon={<DeleteOutlined />}
             />
           </div>

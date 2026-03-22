@@ -14,7 +14,7 @@ export default function TodoListPage() {
   const [todosInfo, setTodosInfo] = useState<TodoInfo>({
     all: 0,
     completed: 0,
-    inWork: 0,
+    inWork: 0
   });
 
   const refresh = useCallback(async () => {
@@ -33,6 +33,7 @@ export default function TodoListPage() {
     }, 5000);
     return () => clearInterval(intervalId);
   }, [refresh]);
+
   return (
     <div className={styles.main}>
       <h1 className={styles.title}>TodoList</h1>

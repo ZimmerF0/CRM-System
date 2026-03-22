@@ -4,7 +4,9 @@ import loginIcon from "../../assets/loginIcon.svg";
 import styles from "./LoginPage.module.css";
 import type { AuthData } from "../../types/auth";
 import { useAppDispatch } from "../../store/hooks";
+
 import { login } from "../../store/auth/thunks";
+
 import { fetchProfile } from "../../store/auth/thunks";
 import { useNavigate } from "react-router";
 import { Link } from "react-router";
@@ -19,12 +21,13 @@ export default function LoginPage() {
     try {
       await dispatch(login(values)).unwrap();
       await dispatch(fetchProfile()).unwrap();
+
       navigate("/todos");
     } catch (error) {
       notification.error({
         message: "Ошибка авторизации",
         description: String(error),
-        placement: "topRight",
+        placement: "topRight"
       });
     }
   };
@@ -52,20 +55,20 @@ export default function LoginPage() {
             { required: true, message: "Введите логин" },
             {
               min: 2,
-              message: "Минимум 2 символа",
+              message: "Минимум 2 символа"
             },
             {
               max: 60,
-              message: "Максимум 60 символов",
+              message: "Максимум 60 символов"
             },
             {
               pattern: /^\S+$/,
-              message: "Пробелы запрещены",
+              message: "Пробелы запрещены"
             },
             {
               pattern: /^[A-Za-z]/,
-              message: "Только буквы латинского алфавита",
-            },
+              message: "Только буквы латинского алфавита"
+            }
           ]}
         >
           <Input placeholder="логин" />
@@ -78,7 +81,7 @@ export default function LoginPage() {
           rules={[
             { required: true, message: "Введите пароль" },
             { min: 6, message: "Минимум 6 символов" },
-            { max: 60, message: "Максимум 60 символов" },
+            { max: 60, message: "Максимум 60 символов" }
           ]}
         >
           <Input.Password

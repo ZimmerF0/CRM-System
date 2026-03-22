@@ -16,10 +16,9 @@ export function TodoFilter({
   todosInProgress,
   completedTodos,
   activeFilter,
-  onFilterChange,
+  onFilterChange
 }: TodoFilterProps) {
-
-return (
+  return (
     <div className={styles.filter}>
       <Button
         size="large"
@@ -27,25 +26,25 @@ return (
         className={activeFilter === "all" ? styles.active : ""}
         onClick={() => onFilterChange("all")}
       >
-        Все({allTodos})
+        Все{allTodos}
       </Button>
 
       <Button
         size="large"
         type="text"
         className={activeFilter === "inWork" ? styles.active : ""}
-         onClick={() => onFilterChange("inWork")}
+        onClick={() => onFilterChange("inWork")}
       >
-          В прогрессе({todosInProgress})
+        В прогрессе{todosInProgress}
       </Button>
 
       <Button
         size="large"
         type="text"
         className={activeFilter === "completed" ? styles.active : ""}
-         onClick={() => onFilterChange("completed")}
+        onClick={() => onFilterChange("completed")}
       >
-        Завершенные({completedTodos})
+        Завершенные{completedTodos}
       </Button>
     </div>
   );

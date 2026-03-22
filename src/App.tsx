@@ -8,7 +8,9 @@ import ProfilePage from "./pages/Profile/ProfilePage";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 import { useAppDispatch } from "./store/hooks.ts";
+
 import { refresh } from "./store/auth/thunks";
 
 export default function App() {
