@@ -1,9 +1,13 @@
 import React from "react";
-import { Layout, Menu } from "antd";
-import { UnorderedListOutlined, UserOutlined } from "@ant-design/icons";
-
-import "./MainLayout.css";
 import { Outlet, useNavigate, useLocation } from "react-router";
+import { Layout, Menu } from "antd";
+import {
+  UnorderedListOutlined,
+  UserOutlined,
+  UserSwitchOutlined
+} from "@ant-design/icons";
+import "./MainLayout.css";
+
 
 const { Sider, Content } = Layout;
 
@@ -23,7 +27,6 @@ const MainLayout: React.FC = () => {
           items={[
             {
               key: "/todos",
-
               icon: <UnorderedListOutlined />,
               label: "Список задач"
             },
@@ -31,6 +34,11 @@ const MainLayout: React.FC = () => {
               key: "/profile",
               icon: <UserOutlined />,
               label: "Личный кабинет"
+            },
+            {
+              key: "/users",
+              icon: <UserSwitchOutlined />,
+              label: "Пользователи"
             }
           ]}
         />

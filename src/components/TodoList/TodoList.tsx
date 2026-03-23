@@ -3,7 +3,7 @@ import TodoItem from "../TodoItem/TodoItem";
 import styles from "./TodoList.module.css";
 
 interface TodoListProps {
-  todo: Todo;
+  todos: Todo[];
 }
 
 export function TodoList({ todos }: TodoListProps) {

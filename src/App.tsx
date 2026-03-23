@@ -5,6 +5,7 @@ import AuthLayout from "./layouts/AuthLayout/AuthLayout";
 import MainLayout from "./layouts/MainLayout/MainLayout";
 import TodoListPage from "./pages/TodoList/TodoListPage";
 import ProfilePage from "./pages/Profile/ProfilePage";
+import UsersPage from "./pages/Users/UsersPage.tsx";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -43,6 +44,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute>
+                <UsersPage />
               </ProtectedRoute>
             }
           />
