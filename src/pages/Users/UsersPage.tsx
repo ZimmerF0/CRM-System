@@ -1,155 +1,257 @@
-import { FilterOutlined } from "@ant-design/icons";
-import { Button, Table } from "antd";
-import type { TableProps } from "antd";
-import Search from "antd/es/input/Search";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router";
+import type { AppDispatch, RootState } from "../../store/store";
+import type { MenuProps, TableProps } from "antd";
+import type { User } from "../../types/users";
+import type { ColumnsType } from "antd/es/table";
+import {
+  deleteUserThunk,
+  fetchUsers,
+  setFilters,
+} from "../../store/users/Slices/slice";
 import Title from "antd/es/typography/Title";
+import {
+  Button,
+  Table,
+  Input,
+  Flex,
+  Tag,
+  Space,
+  Dropdown,
+  Typography,
+  Modal,
+} from "antd";
+import {
+  ExclamationCircleFilled,
+  FilterOutlined,
+  MailOutlined,
+  MoreOutlined,
+  PhoneOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 
-interface DataType {
-  id: number;
-  username: string;
-  email: string;
-  date: string;
-  isBlocked: boolean;
-  roles: string;
-  phoneNumber: string;
-  actions: string;
-}
+import styles from "./UsersPage.module.css";
 
-const columns: TableProps<DataType>["columns"] = [
-  {
-    title: "Имя пользователя",
-    dataIndex: "username",
-    render: (text: string) => <a>{text}</a>,
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-  },
-  {
-    title: "Дата регистрации",
-    dataIndex: "date",
-  },
-  {
-    title: "Статус блокировки",
-    dataIndex: "isBlocked",
-  },
-  {
-    title: "Роли",
-    dataIndex: "roles",
-  },
-  {
-    title: "Номер телефона",
-    dataIndex: "phoneNumber",
-  },
-  {
-    title: "Действия ",
-    dataIndex: "button",
-  },
-];
+export default function UserPage() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { users, isLoading, filters, meta } = useSelector(
+    (state: RootState) => state.users,
+  );
+  const { confirm } = Modal;
 
-const data: DataType[] = [
-  {
-    id: 1,
-    username: "John Brown",
-    email: "test@MailFilled.ru",
-    date: "2026-03-22",
-    isBlocked: true,
-    roles: "user",
-    phoneNumber: "123-456-7890",
-    actions: "Редактировать | Удалить",
-  },
-  {
-    id: 2,
-    username: "Jim Green",
-    email: "test@MailFilled.ru",
-    date: "2026-03-22",
-    isBlocked: false,
-    roles: "user",
-    phoneNumber: "123-456-7890",
-    actions: "Редактировать | Удалить",
-  },
-  {
-    id: 3,
-    username: "Joe Black",
-    email: "test@MailFilled.ru",
-    date: "2026-03-22",
-    isBlocked: false,
-    roles: "admin",
-    phoneNumber: "123-456-7890",
-    actions: "Редактировать | Удалить",
-  },
-  {
-    id: 4,
-    username: "Disabled User",
-    email: "test@MailFilled.ru",
-    date: "2026-03-22",
-    isBlocked: true,
-    roles: "moderator",
-    phoneNumber: "123-456-7890",
-    actions: "Редактировать | Удалить",
-  },
-  {
-    id: 5,
-    username: "Another User",
-    email: "test@MailFilled.ru",
-    date: "2026-03-22",
-    isBlocked: false,
-    roles: "user",
-    phoneNumber: "123-456-7890",
-    actions: "Редактировать | Удалить",
-  },
-];
+  const showDeleteConfirm = (id: number) => {
+    confirm({
+      title: "Вы уверены что хотите удалить этот профиль?",
+      icon: <ExclamationCircleFilled />,
+      content: "Это действие нельзя отменить",
+      okText: "Удалить",
+      okType: "danger",
+      cancelText: "Отмена",
+      onOk() {
+        dispatch(deleteUserThunk(id));
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
+  const columns: ColumnsType<User> = [
+    {
+      title: "Имя пользователя",
+      dataIndex: "username",
+      sorter: true,
+      width: "12%",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      sorter: true,
+      width: "15%",
+      render: (email: string) => (
+        <span>
+          <MailOutlined style={{ marginRight: 8 }} />
+          {email}
+        </span>
+      ),
+    },
+    {
+      title: "Телефон",
+      dataIndex: "phoneNumber",
+      width: "12%",
+      render: (phoneNumber: string) => (
+        <span>
+          {phoneNumber && <PhoneOutlined style={{ marginRight: 8 }} />}
+          {phoneNumber || "-"}
+        </span>
+      ),
+    },
+    {
+      title: "Роли",
+      dataIndex: "roles",
+      render: (_, { roles }) => (
+        <Flex gap="small">
+          {roles.map(roles => {
+            let color = roles.length > 4 ? "blue" : "violet";
+            if (roles === "MODERATOR") {
+              color = "orange";
+            }
+            return (
+              <Tag color={color} key={roles}>
+                {roles.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </Flex>
+      ),
+    },
+    {
+      title: "Статус блокировки",
+      dataIndex: "isBlocked",
+      width: "12%",
+      render: (_, { isBlocked }) => (
+        <span>{isBlocked ? "заблокирован" : "не заблокирован"}</span>
+      ),
+    },
+    {
+      title: "Дата регистрации",
+      dataIndex: "date",
+      width: "12%",
+      render: (date: string) => new Date(date).toLocaleDateString(),
+    },
+    {
+      title: "Действия",
+      render: (_, record) => (
+        <Space>
+          <Button
+            type="link"
+            danger
+            onClick={() => showDeleteConfirm(record.id)}
+          >
+            Удалить
+          </Button>
 
-// rowSelection object indicates the need for row selection
-// const rowSelection: TableProps<DataType>['rowSelection'] = {
-//   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-//     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-//   },
-//   getCheckboxProps: (record: DataType) => ({
-//     disabled: record.name === 'Disabled User', // Column configuration not to be checked
-//     name: record.name,
-//   }),
-// };
+          <Button type="link">
+            <Link to={`/users/${record.id}`}>Профиль</Link>
+          </Button>
 
-export default function UsersPage() {
+          <Dropdown
+            trigger={["click"]}
+            menu={{
+              items: [
+                {
+                  key: "roles",
+                  label: "Изменить роль",
+                },
+                {
+                  key: "block",
+                  label: record.isBlocked ? "Разблокировать" : "Блокировать",
+                },
+              ],
+              onClick: ({ key }) => {
+                if (key === "roles") {
+                  console.log("roles", record);
+                }
+                if (key === "block") {
+                  console.log("block", record);
+                }
+              },
+            }}
+          >
+            <Button icon={<MoreOutlined />} />
+          </Dropdown>
+        </Space>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    console.log("filters:", filters);
+    dispatch(fetchUsers(filters));
+  }, [dispatch, filters]);
+
+  const handleTableChange: TableProps<User>["onChange"] = (
+    pagination,
+    _tableFilters,
+    sorter,
+  ) => {
+    dispatch(
+      setFilters({
+        ...filters,
+        page: pagination.current,
+        limit: pagination.pageSize,
+        sortBy: Array.isArray(sorter) ? undefined : (sorter.field as string),
+        sortOrder: Array.isArray(sorter)
+          ? undefined
+          : sorter.order === "ascend"
+            ? "asc"
+            : sorter.order === "descend"
+              ? "desc"
+              : undefined,
+      }),
+    );
+  };
+
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: "все пользователи",
+    },
+    {
+      key: "2",
+      label: "только заблокированные пользователи",
+    },
+    {
+      key: "3",
+      label: "только активные пользователи",
+    },
+  ];
+
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "10px 20px",
-        }}
-      >
+    <>
+      <div className={styles.main}>
         <Title level={4}>Пользователи</Title>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "20px",
-          }}
-        >
-          <Search
+        <div className={styles.search}>
+          <Input
+            prefix={
+              <SearchOutlined style={{ fontSize: "16px", color: "#A5A4A4" }} />
+            }
             placeholder="Поиск по имени или email"
-            enterButton
             style={{ width: "450px" }}
           />
 
-          <Button size="large">
-            <FilterOutlined />
-            Filter
-          </Button>
+          <Dropdown
+            menu={{
+              items,
+              selectable: true,
+              defaultSelectedKeys: ["3"],
+            }}
+          >
+            <Typography.Link>
+              <Space>
+                <Button size="medium">
+                  <FilterOutlined />
+                  Фильтр
+                </Button>
+              </Space>
+            </Typography.Link>
+          </Dropdown>
         </div>
       </div>
-      <Table<DataType>
-        // rowSelection={{ ...rowSelection }}
+
+      <Table<User>
         columns={columns}
-        dataSource={data}
-        showSorterTooltip={{ target: "sorter-icon" }}
-        bordered
+        rowKey={record => record.id}
+        dataSource={users}
+        scroll={{ y: 800 }}
+        pagination={{
+          current: filters.page,
+          pageSize: filters.limit,
+          total: meta?.totalAmount,
+        }}
+        loading={isLoading}
+        onChange={handleTableChange}
       />
-    </div>
+    </>
   );
 }

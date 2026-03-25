@@ -1,0 +1,13 @@
+.main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
