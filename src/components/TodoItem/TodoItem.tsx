@@ -28,8 +28,8 @@ interface Props {
 }
 
 export default function TodoItem({ todo }: Props) {
-  const [newText, setNewText] = useState(todo.title);
-  const [isEditing, setIsEditing] = useState(false);
+  const [newText, setNewText] = useState<string>(todo.title);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const activeFilter = useAppSelector(selectFilter);
@@ -62,7 +62,7 @@ export default function TodoItem({ todo }: Props) {
     setNewText(todo.title);
   }
 
-  const handleDelete = async () => {
+  const handleDeleteTodo = async () => {
     try {
       await deleteTask(todo.id); // 1. удаляем на сервере
       dispatch(removeTodo(todo.id)); // 2. удаляем в Redux
@@ -171,7 +171,7 @@ export default function TodoItem({ todo }: Props) {
             <Button
               color="danger"
               variant="solid"
-              onClick={() => handleDelete()}
+              onClick={() => handleDeleteTodo()}
               icon={<DeleteOutlined />}
             />
           </div>

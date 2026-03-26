@@ -21,9 +21,9 @@ import styles from "../Login/LoginPage.module.css";
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const dispatch = useAppDispatch();
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const handleRegister = async (values: UserRegistration) => {
     try {
@@ -62,10 +62,10 @@ export default function LoginPage() {
   }
 
   const handlePasswordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  if (e.key === " ") {
-    e.preventDefault();
-  }
-};
+    if (e.key === " ") {
+      e.preventDefault();
+    }
+  };
 
   return (
     <Layout className={styles.loginRoot}>

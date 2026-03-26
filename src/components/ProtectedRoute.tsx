@@ -1,16 +1,13 @@
 import { Navigate } from "react-router";
 import { useAppSelector } from "../store/hooks";
+import type { PropsWithChildren } from "react";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export default function ProtectedRoute({ children }: Props) {
-   const isAuthenticated = useAppSelector(
-    state => state.auth.isAuthenticated
+export default function ProtectedRoute({ children }: PropsWithChildren) {
+  const isAuthenticated = useAppSelector(
+    (state) => state.auth.isAuthenticated
   );
 
-   if (!isAuthenticated) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
