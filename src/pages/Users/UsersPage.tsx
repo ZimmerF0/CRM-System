@@ -5,11 +5,7 @@ import type { AppDispatch, RootState } from "../../store/store";
 import type { MenuProps, TableProps } from "antd";
 import type { User } from "../../types/users";
 import type { ColumnsType } from "antd/es/table";
-import {
-  deleteUserThunk,
-  fetchUsers,
-  setFilters,
-} from "../../store/users/Slices/slice";
+import { setFilters } from "../../store/users/Slices/slice";
 import Title from "antd/es/typography/Title";
 import {
   Button,
@@ -32,6 +28,7 @@ import {
 } from "@ant-design/icons";
 
 import styles from "./UsersPage.module.css";
+import { deleteUserThunk, fetchUsers } from "../../store/users/thunks";
 
 export default function UserPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -110,7 +107,9 @@ export default function UserPage() {
       dataIndex: "isBlocked",
       width: "12%",
       render: (_, { isBlocked }) => (
-        <span>{isBlocked ? "заблокирован" : "не заблокирован"}</span>
+        <Tag color={isBlocked ? "red" : "green"}>
+          {isBlocked ? "заблокирован" : "не заблокирован"}
+        </Tag>
       ),
     },
     {
@@ -166,7 +165,6 @@ export default function UserPage() {
   ];
 
   useEffect(() => {
-    console.log("filters:", filters);
     dispatch(fetchUsers(filters));
   }, [dispatch, filters]);
 
@@ -224,7 +222,7 @@ export default function UserPage() {
             menu={{
               items,
               selectable: true,
-              defaultSelectedKeys: ["3"],
+              defaultSelectedKeys: ["1"],
             }}
           >
             <Typography.Link>

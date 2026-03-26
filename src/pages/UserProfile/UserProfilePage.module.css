@@ -1,0 +1,13 @@
+.main {
+  max-width: 800px;
+  margin: 150px auto;
+  background-color: #eeeeec;
+}
+
+.button {
+  margin-top: 40px;
+}
+
+.back {
+  max-width: 200px;
+}

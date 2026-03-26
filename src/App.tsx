@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useAppDispatch } from "./store/hooks.ts";
 
 import { refresh } from "./store/auth/thunks";
+import UserProfilePage from "./pages/UserProfile/UserProfilePage.tsx";
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -52,6 +53,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <UsersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users/:id"
+            element={
+              <ProtectedRoute>
+                <UserProfilePage />
               </ProtectedRoute>
             }
           />
