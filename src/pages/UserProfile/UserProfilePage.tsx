@@ -87,7 +87,18 @@ export default function UserProfilePage() {
           <Descriptions column={1} bordered>
             <Descriptions.Item label="Имя пользователя">
               {isEditing ? (
-                <Form.Item name="username" noStyle>
+                <Form.Item
+                  name="username"
+                  noStyle
+                  rules={[
+                    { required: true, message: "Введите имя пользователя" },
+                    {
+                      pattern: /^[A-Za-zА-Яа-яЁё]{1,60}$/,
+                      message:
+                        "От 1 до 60 символов русского или латинского алфавита",
+                    },
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               ) : (
@@ -97,7 +108,14 @@ export default function UserProfilePage() {
 
             <Descriptions.Item label="Почтовый адрес">
               {isEditing ? (
-                <Form.Item name="email" noStyle>
+                <Form.Item
+                  name="email"
+                  noStyle
+                  rules={[
+                    { required: true, message: "Введите email" },
+                    { type: "email", message: "Введите корректный email" },
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               ) : (
@@ -107,7 +125,16 @@ export default function UserProfilePage() {
 
             <Descriptions.Item label="Телефон">
               {isEditing ? (
-                <Form.Item name="phoneNumber" noStyle>
+                <Form.Item
+                  name="phoneNumber"
+                  noStyle
+                  rules={[
+                    {
+                      pattern: /^\+?\d{10,15}$/,
+                      message: "Введите корректный номер",
+                    },
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               ) : (
