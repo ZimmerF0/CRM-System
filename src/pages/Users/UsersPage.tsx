@@ -26,9 +26,13 @@ import {
   PhoneOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-
+import {
+  fetchUsers,
+  deleteUserThunk,
+  blockUserThunk,
+  unblockUserThunk,
+} from "../../store/users/thunks";
 import styles from "./UsersPage.module.css";
-import { deleteUserThunk, fetchUsers } from "../../store/users/thunks";
 
 export default function UserPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -53,6 +57,21 @@ export default function UserPage() {
       },
     });
   };
+
+  const handleToggleBlock = async (record: User) => {
+    const isCurrentlyBlocked = record.isBlocked;
+
+    try {
+      if (isCurrentlyBlocked) {
+        await dispatch(unblockUserThunk(record.id)).unwrap();
+      } else {
+        await dispatch(blockUserThunk(record.id)).unwrap();
+      }
+    } catch (error: unknown) {
+      console.error("Ошибка при изменении статуса блокировки:", error);
+    }
+  };
+
   const columns: ColumnsType<User> = [
     {
       title: "Имя пользователя",
@@ -152,7 +171,7 @@ export default function UserPage() {
                   console.log("roles", record);
                 }
                 if (key === "block") {
-                  console.log("block", record);
+                  handleToggleBlock(record);
                 }
               },
             }}

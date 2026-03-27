@@ -1,6 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { MetaResponse, User, UserFilters } from "../../types/users";
-import { deleteUser, getUsers } from "../../api/usersAPI";
+import {
+  blockUser,
+  deleteUser,
+  getUsers,
+  unblockUser,
+} from "../../api/usersAPI";
 import { getAxiosErrorMessage } from "../utils";
 import axios from "axios";
 
@@ -33,5 +38,39 @@ export const deleteUserThunk = createAsyncThunk<
     return rejectWithValue(
       getAxiosErrorMessage(error, "Ошибка удаления пользователя"),
     );
+  }
+});
+
+export const blockUserThunk = createAsyncThunk<
+  User,
+  number,
+  { rejectValue: string }
+>("users/block", async (id, { rejectWithValue }) => {
+  try {
+    const response = await blockUser(id);
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(
+        getAxiosErrorMessage("Не удалось заблокировать пользователя"),
+      );
+    }
+    return rejectWithValue("Неизвестная ошибка");
+  }
+});
+
+export const unblockUserThunk = createAsyncThunk<
+  User,
+  number,
+  { rejectValue: string }
+>("users/unblock", async (id, { rejectWithValue }) => {
+  try {
+    const response = await unblockUser(id);
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(getAxiosErrorMessage("Ошибка разблокировки"));
+    }
+    return rejectWithValue("Неизвестная ошибка");
   }
 });

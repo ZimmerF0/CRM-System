@@ -1,8 +1,11 @@
-import { createSlice} from "@reduxjs/toolkit";
-import { deleteUserThunk, fetchUsers } from "../thunks";
-import {  initialUserState } from "../../initialState";
-
-
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  blockUserThunk,
+  deleteUserThunk,
+  fetchUsers,
+  unblockUserThunk,
+} from "../thunks";
+import { initialUserState } from "../../initialState";
 
 export const usersSlice = createSlice({
   name: "users",
@@ -29,6 +32,24 @@ export const usersSlice = createSlice({
       })
       .addCase(deleteUserThunk.fulfilled, (state, action) => {
         state.users = state.users.filter(user => user.id !== action.payload);
+      })
+      .addCase(blockUserThunk.fulfilled, (state, action) => {
+        const updatedUser = action.payload;
+
+        const user = state.users.find(u => u.id === updatedUser.id);
+
+        if (user) {
+          user.isBlocked = updatedUser.isBlocked;
+        }
+      })
+      .addCase(unblockUserThunk.fulfilled, (state, action) => {
+        const updatedUser = action.payload;
+
+        const user = state.users.find(u => u.id === updatedUser.id);
+
+        if (user) {
+          user.isBlocked = updatedUser.isBlocked;
+        }
       });
   },
 });
