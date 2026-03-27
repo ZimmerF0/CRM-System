@@ -22,7 +22,7 @@ const MainLayout: React.FC = () => {
           onClick={({ key }) => navigate(key)}
           items={[
             {
-              key: "/list",
+              key: "/todos",
               icon: <UnorderedListOutlined />,
               label: "Список задач",
             },

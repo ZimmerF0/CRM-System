@@ -39,9 +39,9 @@ export default function App() {
           <Route path="/register" element={<RegisterPage />} />
         </Route>
 
-        <Route path="/" element={<MainLayout />}>
+        <Route element={<MainLayout />}>
           <Route
-            path="/list"
+            path="/todos"
             element={
               <ProtectedRoute>
                 <TodoListPage />

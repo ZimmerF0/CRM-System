@@ -19,7 +19,7 @@ export default function LoginPage() {
     try {
       await dispatch(login(values)).unwrap();
       await dispatch(fetchProfile()).unwrap();
-      navigate("/list");
+      navigate("/todos");
     } catch (error) {
       notification.error({
         message: "Ошибка авторизации",
