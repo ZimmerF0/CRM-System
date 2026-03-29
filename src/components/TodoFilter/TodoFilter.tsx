@@ -1,42 +1,51 @@
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../../store/store";
-import { setFilter } from "../../store/todos/Slices/slice";
-import { selectInfo, selectFilter } from "../../Modules/todos/selectors";
 import { Button } from "antd";
+import type { FilterType } from "../../types/todo";
 
 import styles from "./TodoFilter.module.css";
 
-export function TodoFilter() {
-  const dispatch = useDispatch();
-  const info = useSelector((state: RootState) => selectInfo(state));
-  const activeFilter = useSelector((state: RootState) => selectFilter(state));
-  return (
+interface TodoFilterProps {
+  allTodos: number;
+  todosInProgress: number;
+  completedTodos: number;
+  activeFilter: FilterType;
+  onFilterChange: (filter: FilterType) => void;
+}
+
+export function TodoFilter({
+  allTodos,
+  todosInProgress,
+  completedTodos,
+  activeFilter,
+  onFilterChange,
+}: TodoFilterProps) {
+
+return (
     <div className={styles.filter}>
       <Button
         size="large"
         type="text"
         className={activeFilter === "all" ? styles.active : ""}
-        onClick={() => dispatch(setFilter("all"))}
+        onClick={() => onFilterChange("all")}
       >
-        Все{info.all}
+        Все({allTodos})
       </Button>
 
       <Button
         size="large"
         type="text"
         className={activeFilter === "inWork" ? styles.active : ""}
-        onClick={() => dispatch(setFilter("inWork"))}
+         onClick={() => onFilterChange("inWork")}
       >
-        В прогрессе{info.inWork}
+          В прогрессе({todosInProgress})
       </Button>
 
       <Button
         size="large"
         type="text"
         className={activeFilter === "completed" ? styles.active : ""}
-        onClick={() => dispatch(setFilter("completed"))}
+         onClick={() => onFilterChange("completed")}
       >
-        Завершенные{info.completed}
+        Завершенные({completedTodos})
       </Button>
     </div>
   );

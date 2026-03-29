@@ -1,9 +1,4 @@
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { removeTodo} from "../../store/todos/Slices/slice";
-import { fetchTodos } from "../../store/todos/thunks";
-import { selectFilter } from "../../Modules/todos/selectors";
-import { deleteTask, updateTask } from "../../api/tasksAPI";
 import type { Todo } from "../../types/todo";
 import { validateTitle } from "../../helpers/validateTitle";
 import {
@@ -15,24 +10,25 @@ import {
   Typography,
   notification,
 } from "antd";
+
+import { deleteTask, updateTask } from "../../api/tasksAPI";
+
+import styles from "./TodoItem.module.css";
 import {
   CheckOutlined,
   CloseOutlined,
   DeleteOutlined,
   EditOutlined,
 } from "@ant-design/icons";
-import styles from "./TodoItem.module.css";
 
-interface Props {
+interface TodoItemProps {
   todo: Todo;
+  refresh: () => Promise<void>;
 }
 
-export default function TodoItem({ todo }: Props) {
+export default function TodoItem({ todo, refresh }: TodoItemProps) {
   const [newText, setNewText] = useState<string>(todo.title);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
-  const dispatch = useAppDispatch();
-  const activeFilter = useAppSelector(selectFilter);
 
   function handleConfirmClick() {
     const editingText = newText.trim();
@@ -62,14 +58,15 @@ export default function TodoItem({ todo }: Props) {
     setNewText(todo.title);
   }
 
-  const handleDeleteTodo = async () => {
+  const deleteTodo = async (id: number) => {
     try {
-      await deleteTask(todo.id); // 1. удаляем на сервере
-      dispatch(removeTodo(todo.id)); // 2. удаляем в Redux
-      dispatch(fetchTodos(activeFilter));
+      await deleteTask(id);
+      await refresh();
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error ? error.message : "ошибка при удалении";
+        error instanceof Error
+          ? error.message
+          : "Произошла ошибка при удалении";
 
       notification.error({
         message: "Не удалось удалить задачу",
@@ -82,7 +79,7 @@ export default function TodoItem({ todo }: Props) {
   const changeTodo = async (id: number, newText: string) => {
     try {
       await updateTask(id, { title: newText });
-      dispatch(fetchTodos(activeFilter));
+      await refresh();
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error
@@ -100,7 +97,7 @@ export default function TodoItem({ todo }: Props) {
   const toggleTodo = async (id: number) => {
     try {
       await updateTask(id, { isDone: !todo.isDone });
-      dispatch(fetchTodos(activeFilter));
+      await refresh();
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error
@@ -171,7 +168,7 @@ export default function TodoItem({ todo }: Props) {
             <Button
               color="danger"
               variant="solid"
-              onClick={() => handleDeleteTodo()}
+              onClick={() => deleteTodo(todo.id)}
               icon={<DeleteOutlined />}
             />
           </div>
