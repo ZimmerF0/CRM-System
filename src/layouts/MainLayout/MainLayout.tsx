@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Outlet, useNavigate, useLocation } from "react-router";
 import { Layout, Menu } from "antd";
 import {
@@ -9,11 +10,20 @@ import {
 import "./MainLayout.css";
 
 
+
+
+import "./MainLayout.css";
+
+import { useAppSelector } from "../../store/hooks";
+
+
 const { Sider, Content } = Layout;
 
 const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const roles = useAppSelector((state) => state.auth.currentUser?.roles)
+  const isAdmin = roles?.includes("ADMIN")
 
   return (
     <Layout className="main">
@@ -35,11 +45,17 @@ const MainLayout: React.FC = () => {
               icon: <UserOutlined />,
               label: "Личный кабинет"
             },
-            {
-              key: "/users",
-              icon: <UserSwitchOutlined />,
-              label: "Пользователи"
-            }
+
+            ...(isAdmin
+              ? [
+                  {
+                    key: "/users",
+                    icon: <UserSwitchOutlined />,
+                    label: "Пользователи",
+                  },
+                ]
+              : []),
+
           ]}
         />
       </Sider>

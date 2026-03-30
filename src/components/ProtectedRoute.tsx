@@ -1,8 +1,7 @@
 import { Navigate } from "react-router";
 import { useAppSelector } from "../store/hooks";
-
-import type { PropsWithChildren } from "react";
 import { Spin } from "antd";
+import type { PropsWithChildren } from "react";
 
 export default function ProtectedRoute({ children }: PropsWithChildren) {
   const { isAuthenticated, isAuthChecked } = useAppSelector(
@@ -12,6 +11,7 @@ export default function ProtectedRoute({ children }: PropsWithChildren) {
   if (!isAuthChecked) {
     return <Spin fullscreen />;
   }
+
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }

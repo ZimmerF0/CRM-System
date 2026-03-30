@@ -21,7 +21,6 @@ export default function LoginPage() {
     try {
       await dispatch(login(values)).unwrap();
       await dispatch(fetchProfile()).unwrap();
-
       navigate("/todos");
     } catch (error) {
       notification.error({
