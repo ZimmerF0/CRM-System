@@ -4,6 +4,7 @@ import {
   deleteUserThunk,
   fetchUsers,
   unblockUserThunk,
+  updateUserRolesThunk,
 } from "../thunks";
 import { initialUserState } from "../../initialState";
 
@@ -35,7 +36,6 @@ export const usersSlice = createSlice({
       })
       .addCase(blockUserThunk.fulfilled, (state, action) => {
         const updatedUser = action.payload;
-
         const user = state.users.find(u => u.id === updatedUser.id);
 
         if (user) {
@@ -44,13 +44,28 @@ export const usersSlice = createSlice({
       })
       .addCase(unblockUserThunk.fulfilled, (state, action) => {
         const updatedUser = action.payload;
-
         const user = state.users.find(u => u.id === updatedUser.id);
 
         if (user) {
           user.isBlocked = updatedUser.isBlocked;
         }
-      });
+      })
+      .addCase(updateUserRolesThunk.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(updateUserRolesThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        const updatedUser = action.payload;
+        const index = state.users.findIndex(u => u.id === updatedUser.id);
+
+        if (index !== -1) {
+          state.users[index] = updatedUser;
+        }
+      })
+      .addCase(updateUserRolesThunk.rejected, state => {
+        state.isLoading = false;
+      })
   },
 });
 

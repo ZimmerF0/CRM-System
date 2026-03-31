@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import type { AppDispatch, RootState } from "../../store/store";
-import type { MenuProps, TableProps } from "antd";
-import type { User } from "../../types/users";
+import type { TableProps } from "antd";
+import type { Roles, User } from "../../types/users";
 import type { ColumnsType } from "antd/es/table";
 import { setFilters } from "../../store/users/Slices/slice";
 import Title from "antd/es/typography/Title";
@@ -17,6 +17,7 @@ import {
   Dropdown,
   Typography,
   Modal,
+  Select,
 } from "antd";
 import {
   ExclamationCircleFilled,
@@ -31,11 +32,17 @@ import {
   deleteUserThunk,
   blockUserThunk,
   unblockUserThunk,
+  updateUserRolesThunk,
 } from "../../store/users/thunks";
 import styles from "./UsersPage.module.css";
 
 export default function UserPage() {
+  const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedRoles, setSelectedRoles] = useState<Roles[]>([]);
+
   const dispatch = useDispatch<AppDispatch>();
+
   const { users, isLoading, filters, meta } = useSelector(
     (state: RootState) => state.users,
   );
@@ -72,6 +79,37 @@ export default function UserPage() {
     }
   };
 
+  const openRolesModal = (user: User) => {
+    setSelectedUser(user);
+    setIsRoleModalOpen(true);
+    setSelectedRoles(user.roles);
+  };
+
+  const roles = ["USER", "ADMIN", "MODERATOR"] as const;
+
+  const options = roles.map(role => ({
+    value: role,
+    label: role,
+  }));
+
+  const handleRolesChange = (value: Roles[]) => {
+    setSelectedRoles(value);
+  };
+
+  const handleConfirmRoles = async () => {
+    if (!selectedUser) return;
+
+    try {
+      await dispatch(
+        updateUserRolesThunk({ id: selectedUser.id, roles: selectedRoles }),
+      ).unwrap();
+
+      setIsRoleModalOpen(false);
+    } catch (error) {
+      console.error("Ошибка обновления ролей:", error);
+    }
+  };
+
   const columns: ColumnsType<User> = [
     {
       title: "Имя пользователя",
@@ -98,7 +136,7 @@ export default function UserPage() {
       render: (phoneNumber: string) => (
         <span>
           {phoneNumber && <PhoneOutlined style={{ marginRight: 8 }} />}
-          {phoneNumber || "-"}
+          {phoneNumber || " "}
         </span>
       ),
     },
@@ -168,7 +206,7 @@ export default function UserPage() {
               ],
               onClick: ({ key }) => {
                 if (key === "roles") {
-                  console.log("roles", record);
+                  openRolesModal(record);
                 }
                 if (key === "block") {
                   handleToggleBlock(record);
@@ -209,21 +247,6 @@ export default function UserPage() {
     );
   };
 
-  const items: MenuProps["items"] = [
-    {
-      key: "1",
-      label: "все пользователи",
-    },
-    {
-      key: "2",
-      label: "только заблокированные пользователи",
-    },
-    {
-      key: "3",
-      label: "только активные пользователи",
-    },
-  ];
-
   return (
     <>
       <div className={styles.main}>
@@ -239,7 +262,20 @@ export default function UserPage() {
 
           <Dropdown
             menu={{
-              items,
+              items: [
+                {
+                  key: "1",
+                  label: "все пользователи",
+                },
+                {
+                  key: "2",
+                  label: "только заблокированные пользователи",
+                },
+                {
+                  key: "3",
+                  label: "только активные пользователи",
+                },
+              ],
               selectable: true,
               defaultSelectedKeys: ["1"],
             }}
@@ -269,6 +305,22 @@ export default function UserPage() {
         loading={isLoading}
         onChange={handleTableChange}
       />
+      <Modal
+        title="Изменение ролей"
+        open={isRoleModalOpen}
+        onOk={handleConfirmRoles}
+        onCancel={() => setIsRoleModalOpen(false)}
+        okText="Подтвердить"
+        cancelText="Отмена"
+      >
+        <Select
+          mode="multiple"
+          style={{ width: "100%" }}
+          value={selectedRoles}
+          onChange={handleRolesChange}
+          options={options}
+        />
+      </Modal>
     </>
   );
 }

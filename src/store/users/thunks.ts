@@ -1,10 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { MetaResponse, User, UserFilters } from "../../types/users";
+import type { MetaResponse, User, UserFilters, Roles } from "../../types/users";
 import {
   blockUser,
   deleteUser,
   getUsers,
   unblockUser,
+  updateUserRoles,
 } from "../../api/usersAPI";
 import { getAxiosErrorMessage } from "../utils";
 import axios from "axios";
@@ -70,6 +71,22 @@ export const unblockUserThunk = createAsyncThunk<
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       return rejectWithValue(getAxiosErrorMessage("Ошибка разблокировки"));
+    }
+    return rejectWithValue("Неизвестная ошибка");
+  }
+});
+
+export const updateUserRolesThunk = createAsyncThunk<
+  User,
+  { id: number; roles: Roles[] },
+  { rejectValue: string }
+>("users/updateRoles", async ({ id, roles }, { rejectWithValue }) => {
+  try {
+    const response = await updateUserRoles(id, { roles });
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(getAxiosErrorMessage("Ошибка обновления ролей"));
     }
     return rejectWithValue("Неизвестная ошибка");
   }

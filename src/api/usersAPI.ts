@@ -4,6 +4,7 @@ import type {
   User,
   UserFilters,
   UserRequest,
+  UserRolesRequest,
 } from "../types/users";
 
 export const getUsers = (filters?: UserFilters) => {
@@ -30,4 +31,8 @@ export const blockUser = (id: number) => {
 
 export const unblockUser = (id: number) => {
   return api.post(`/admin/users/${id}/unblock`);
+};
+
+export const updateUserRoles = (id: number, roles: UserRolesRequest) => {
+  return api.post(`/admin/users/${id}/rights`, roles);
 };

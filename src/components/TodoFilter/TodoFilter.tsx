@@ -16,6 +16,7 @@ export function TodoFilter({
   todosInProgress,
   completedTodos,
   activeFilter,
+
   onFilterChange
 }: TodoFilterProps) {
   return (
