@@ -233,7 +233,7 @@ export default function UserPage() {
     dispatch(
       setFilters({
         ...filters,
-        page: pagination.current,
+        page: (pagination.current ?? 1) - 1,
         limit: pagination.pageSize,
         sortBy: Array.isArray(sorter) ? undefined : (sorter.field as string),
         sortOrder: Array.isArray(sorter)
@@ -264,20 +264,37 @@ export default function UserPage() {
             menu={{
               items: [
                 {
-                  key: "1",
+                  key: "all",
                   label: "все пользователи",
                 },
                 {
-                  key: "2",
+                  key: "blocked",
                   label: "только заблокированные пользователи",
                 },
                 {
-                  key: "3",
+                  key: "active",
                   label: "только активные пользователи",
                 },
               ],
               selectable: true,
-              defaultSelectedKeys: ["1"],
+              defaultSelectedKeys: ["all"],
+              onClick: ({ key }) => {
+                if (key === "all") {
+                  dispatch(
+                    setFilters({ ...filters, isBlocked: undefined, page: 0 }),
+                  );
+                }
+                if (key === "blocked") {
+                  dispatch(
+                    setFilters({ ...filters, isBlocked: true, page: 0 }),
+                  );
+                }
+                if (key === "active") {
+                  dispatch(
+                    setFilters({ ...filters, isBlocked: false, page: 0}),
+                  );
+                }
+              },
             }}
           >
             <Typography.Link>
@@ -298,7 +315,7 @@ export default function UserPage() {
         dataSource={users}
         scroll={{ y: 800 }}
         pagination={{
-          current: filters.page,
+          current: (filters.page ?? 1) + 1,
           pageSize: filters.limit,
           total: meta?.totalAmount,
         }}

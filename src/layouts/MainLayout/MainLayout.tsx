@@ -23,7 +23,7 @@ const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const roles = useAppSelector((state) => state.auth.currentUser?.roles)
-  const isAdmin = roles?.includes("ADMIN")
+  const isAdmin = roles?.includes("ADMIN") || roles?.includes("MODERATOR")
 
   return (
     <Layout className="main">
