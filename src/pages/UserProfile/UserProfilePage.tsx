@@ -89,7 +89,6 @@ export default function UserProfilePage() {
               {isEditing ? (
                 <Form.Item
                   name="username"
-                  noStyle
                   rules={[
                     { required: true, message: "Введите имя пользователя" },
                     {
@@ -110,7 +109,6 @@ export default function UserProfilePage() {
               {isEditing ? (
                 <Form.Item
                   name="email"
-                  noStyle
                   rules={[
                     { required: true, message: "Введите email" },
                     { type: "email", message: "Введите корректный email" },
@@ -127,7 +125,6 @@ export default function UserProfilePage() {
               {isEditing ? (
                 <Form.Item
                   name="phoneNumber"
-                  noStyle
                   rules={[
                     {
                       pattern: /^\+?\d{10,15}$/,

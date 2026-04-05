@@ -99,6 +99,7 @@ export default function LoginPage() {
           Войти
         </Button>
 
+
         <div className={styles.footer}>
           <Text type="secondary">Not Registered Yet?</Text>{" "}
           <Link to="/register" className={styles.link}>
@@ -107,5 +108,6 @@ export default function LoginPage() {
         </div>
       </Form>
     </div>
+
   );
 }

@@ -67,16 +67,27 @@ export default function UserPage() {
 
   const handleToggleBlock = async (record: User) => {
     const isCurrentlyBlocked = record.isBlocked;
-
-    try {
-      if (isCurrentlyBlocked) {
-        await dispatch(unblockUserThunk(record.id)).unwrap();
-      } else {
-        await dispatch(blockUserThunk(record.id)).unwrap();
-      }
-    } catch (error: unknown) {
-      console.error("Ошибка при изменении статуса блокировки:", error);
-    }
+    confirm({
+      title: isCurrentlyBlocked
+        ? "Вы уверены что хотите разблокировать этот профиль?"
+        : "Вы уверены что хотите заблокировать этот профиль?",
+      icon: <ExclamationCircleFilled />,
+      content: "Это действие нельзя отменить",
+      okText: isCurrentlyBlocked ? "Разблокировать" : "Заблокировать",
+      okType: "danger",
+      cancelText: "Отмена",
+      async onOk() {
+        try {
+          if (isCurrentlyBlocked) {
+            await dispatch(unblockUserThunk(record.id)).unwrap();
+          } else {
+            await dispatch(blockUserThunk(record.id)).unwrap();
+          }
+        } catch (error: unknown) {
+          console.error("Ошибка при изменении статуса блокировки:", error);
+        }
+      },
+    });
   };
 
   const openRolesModal = (user: User) => {
@@ -188,7 +199,7 @@ export default function UserPage() {
           </Button>
 
           <Button type="link">
-            <Link to={`/users/${record.id}`}>Профиль</Link>
+            <Link to={`/users/${record.id}`}>Перейти к профилю</Link>
           </Button>
 
           <Dropdown
@@ -247,12 +258,18 @@ export default function UserPage() {
     );
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setFilters({ ...filters, search: e.target.value, page: 0 }));
+  };
+
   return (
     <>
       <div className={styles.main}>
         <Title level={4}>Пользователи</Title>
         <div className={styles.search}>
           <Input
+            value={filters.search ?? ""}
+            onChange={handleSearchChange}
             prefix={
               <SearchOutlined style={{ fontSize: "16px", color: "#A5A4A4" }} />
             }
@@ -291,7 +308,7 @@ export default function UserPage() {
                 }
                 if (key === "active") {
                   dispatch(
-                    setFilters({ ...filters, isBlocked: false, page: 0}),
+                    setFilters({ ...filters, isBlocked: false, page: 0 }),
                   );
                 }
               },
@@ -315,7 +332,7 @@ export default function UserPage() {
         dataSource={users}
         scroll={{ y: 800 }}
         pagination={{
-          current: (filters.page ?? 1) + 1,
+          current: (filters.page ?? 0) + 1,
           pageSize: filters.limit,
           total: meta?.totalAmount,
         }}

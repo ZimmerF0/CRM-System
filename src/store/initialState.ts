@@ -61,7 +61,7 @@ export const initialUserState: UsersState = {
   isLoading: false,
   error: null,
   filters: {
-    page: 1,
+    page: 0,
     limit: 20,
   },
 };
