@@ -14,15 +14,20 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 import { useAppDispatch } from "./store/hooks.ts";
 
+import { refresh, fetchProfile } from "./store/auth/thunks";
 
-import { refresh } from "./store/auth/thunks";
 
 export default function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(refresh());
-  }, [dispatch]);
+  dispatch(refresh())
+    .unwrap()
+    .then(() => {
+      dispatch(fetchProfile());
+    })
+    .catch(() => {});
+}, [dispatch]);
 
   return (
     <BrowserRouter>

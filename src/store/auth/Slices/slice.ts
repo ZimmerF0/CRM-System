@@ -64,10 +64,10 @@ const authSlice = createSlice({
       })
       .addCase(refresh.rejected, state => {
         state.isLoading = false;
-        tokenService.clear();
-        state.refreshToken = null;
         state.isAuthenticated = false;
         state.isAuthChecked = true;
+        state.refreshToken = null;
+        tokenService.clear();
         localStorage.removeItem("refreshToken");
       });
   },
