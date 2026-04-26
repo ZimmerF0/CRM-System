@@ -1,0 +1,69 @@
+/* RIGHT */
+
+.icon {
+  margin-top: 60px;
+ margin-bottom: 100px;
+}
+
+.title {
+  display: inline-block;
+}
+
+.formWrap {
+  width: 100%;
+  max-width: 420px;
+}
+
+.form {
+  margin-top: 36px;
+    height:576px;
+}
+
+.mail {
+  margin-bottom: 24px;
+}
+
+.input {
+  margin-bottom: 8px;
+}
+
+.formRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.loginButton {
+  background: #7f265b !important;
+  border-color: #7f265b !important;
+  margin-top: 30px;
+}
+
+.footer {
+  padding-top: 45px;
+  gap: 10px;
+  text-align: center;
+}
+
+.link {
+  color: #7f265b !important;
+}
+
+.checkbox :global(.ant-checkbox-inner) {
+  border-color: #7f265b;
+}
+
+.checkbox :global(.ant-checkbox:hover .ant-checkbox-inner) {
+  border-color: #7f265b;
+}
+
+.checkbox :global(.ant-checkbox-checked .ant-checkbox-inner) {
+  background-color: #7f265b;
+  border-color: #7f265b;
+}
+
+.checkbox :global(.ant-checkbox-checked:hover .ant-checkbox-inner) {
+  background-color: #7f265b;
+  border-color: #7f265b;
+}

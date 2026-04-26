@@ -14,7 +14,6 @@ import {
 import { deleteTask, updateTask } from "../../api/tasksAPI";
 
 import styles from "./TodoItem.module.css";
-
 import {
   CheckOutlined,
   CloseOutlined,
@@ -28,8 +27,8 @@ interface TodoItemProps {
 }
 
 export default function TodoItem({ todo, refresh }: TodoItemProps) {
-  const [newText, setNewText] = useState(todo.title);
-  const [isEditing, setIsEditing] = useState(false);
+  const [newText, setNewText] = useState<string>(todo.title);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   function handleConfirmClick() {
     const editingText = newText.trim();

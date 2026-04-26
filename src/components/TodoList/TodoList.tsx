@@ -8,7 +8,7 @@ interface TodoListProps {
   refresh: () => Promise<void>;
 }
 
-export function TodoList({todos, refresh }: TodoListProps) {
+export function TodoList({ todos, refresh }: TodoListProps) {
   return (
     <div className={styles["todo-list"]}>
       {todos.map(todo => (

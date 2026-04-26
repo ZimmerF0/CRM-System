@@ -1,5 +1,4 @@
 import { Button } from "antd";
-
 import type { FilterType } from "../../types/todo";
 
 import styles from "./TodoFilter.module.css";
@@ -19,7 +18,8 @@ export function TodoFilter({
   activeFilter,
   onFilterChange,
 }: TodoFilterProps) {
-  return (
+
+return (
     <div className={styles.filter}>
       <Button
         size="large"
@@ -34,16 +34,16 @@ export function TodoFilter({
         size="large"
         type="text"
         className={activeFilter === "inWork" ? styles.active : ""}
-        onClick={() => onFilterChange("inWork")}
+         onClick={() => onFilterChange("inWork")}
       >
-        В прогрессе({todosInProgress})
+          В прогрессе({todosInProgress})
       </Button>
 
       <Button
         size="large"
         type="text"
         className={activeFilter === "completed" ? styles.active : ""}
-        onClick={() => onFilterChange("completed")}
+         onClick={() => onFilterChange("completed")}
       >
         Завершенные({completedTodos})
       </Button>

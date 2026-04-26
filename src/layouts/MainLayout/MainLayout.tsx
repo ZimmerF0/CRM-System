@@ -2,7 +2,7 @@ import React from "react";
 import { Layout, Menu } from "antd";
 import { UnorderedListOutlined, UserOutlined } from "@ant-design/icons";
 
-import "../styles/Layout.css";
+import "./MainLayout.css";
 import { Outlet, useNavigate, useLocation } from "react-router";
 
 const { Sider, Content } = Layout;
@@ -22,14 +22,14 @@ const MainLayout: React.FC = () => {
           onClick={({ key }) => navigate(key)}
           items={[
             {
-              key: "/list",
+              key: "/todos",
               icon: <UnorderedListOutlined />,
               label: "Список задач",
             },
             {
               key: "/profile",
               icon: <UserOutlined />,
-              label: "Профиль",
+              label: "Личный кабинет",
             },
           ]}
         />

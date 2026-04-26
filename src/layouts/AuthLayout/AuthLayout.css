@@ -1,0 +1,39 @@
+.loginRoot {
+  min-height: 100vh;
+  background: #FFE6C9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  padding: 24px;
+}
+
+.shell {
+  max-width: 1920px;
+  margin: 0 auto;
+  border-radius: 34px;
+  overflow: hidden;
+  background: white;
+  max-height: 1080px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  background-image: url('../assets/illustration.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 34px 0 0 34px;
+  margin: 10px;
+}
