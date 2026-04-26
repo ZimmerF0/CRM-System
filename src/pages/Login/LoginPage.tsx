@@ -1,15 +1,12 @@
 import { Form, Input, Button, Typography, notification } from "antd";
-
-import loginIcon from "../../assets/loginIcon.svg";
-import styles from "./LoginPage.module.css";
+import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import type { AuthData } from "../../types/auth";
 import { useAppDispatch } from "../../store/hooks";
-
 import { login } from "../../store/auth/thunks";
-
 import { fetchProfile } from "../../store/auth/thunks";
-import { useNavigate } from "react-router";
-import { Link } from "react-router";
+import loginIcon from "../../assets/loginIcon.svg";
+import styles from "./LoginPage.module.css";
 
 const { Title, Text } = Typography;
 
@@ -99,7 +96,6 @@ export default function LoginPage() {
           Войти
         </Button>
 
-
         <div className={styles.footer}>
           <Text type="secondary">Not Registered Yet?</Text>{" "}
           <Link to="/register" className={styles.link}>
@@ -108,6 +104,5 @@ export default function LoginPage() {
         </div>
       </Form>
     </div>
-
   );
 }

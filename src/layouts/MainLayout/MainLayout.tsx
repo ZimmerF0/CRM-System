@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useAppSelector } from "../../store/hooks";
 import { Outlet, useNavigate, useLocation } from "react-router";
 import { Layout, Menu } from "antd";
 import {
@@ -7,23 +7,16 @@ import {
   UserOutlined,
   UserSwitchOutlined
 } from "@ant-design/icons";
-import "./MainLayout.css";
-
-
-
 
 import "./MainLayout.css";
-
-import { useAppSelector } from "../../store/hooks";
-
 
 const { Sider, Content } = Layout;
 
 const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const roles = useAppSelector((state) => state.auth.currentUser?.roles)
-  const isAdmin = roles?.includes("ADMIN") || roles?.includes("MODERATOR")
+  const roles = useAppSelector(state => state.auth.currentUser?.roles);
+  const isAdmin = roles?.includes("ADMIN") || roles?.includes("MODERATOR");
 
   return (
     <Layout className="main">
@@ -51,11 +44,10 @@ const MainLayout: React.FC = () => {
                   {
                     key: "/users",
                     icon: <UserSwitchOutlined />,
-                    label: "Пользователи",
-                  },
+                    label: "Пользователи"
+                  }
                 ]
-              : []),
-
+              : [])
           ]}
         />
       </Sider>

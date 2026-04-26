@@ -27,11 +27,9 @@ interface TodoItemProps {
   refresh: () => Promise<void>;
 }
 
-
 export default function TodoItem({ todo, refresh }: TodoItemProps) {
   const [newText, setNewText] = useState(todo.title);
   const [isEditing, setIsEditing] = useState(false);
-
 
   function handleConfirmClick() {
     const editingText = newText.trim();

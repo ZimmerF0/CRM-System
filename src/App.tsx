@@ -11,23 +11,20 @@ import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-
 import { useAppDispatch } from "./store/hooks.ts";
-
 import { refresh, fetchProfile } from "./store/auth/thunks";
-
 
 export default function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-  dispatch(refresh())
-    .unwrap()
-    .then(() => {
-      dispatch(fetchProfile());
-    })
-    .catch(() => {});
-}, [dispatch]);
+    dispatch(refresh())
+      .unwrap()
+      .then(() => {
+        dispatch(fetchProfile());
+      })
+      .catch(() => {});
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
