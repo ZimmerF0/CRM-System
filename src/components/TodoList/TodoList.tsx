@@ -1,5 +1,5 @@
-import TodoItem from "../TodoItem/TodoItem";
 import type { Todo } from "../../types/todo";
+import TodoItem from "../TodoItem/TodoItem";
 
 import styles from "./TodoList.module.css";
 

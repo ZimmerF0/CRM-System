@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Layout,
-  Form,
-  Input,
-  Button,
-  Typography,
-  notification,
-} from "antd";
+import { Layout, Form, Input, Button, Typography, notification } from "antd";
 import { Link } from "react-router";
 import { useAppDispatch } from "../../store/hooks";
 import type { UserRegistration } from "../../types/auth";
@@ -30,13 +23,13 @@ export default function RegisterPage() {
       notification.success({
         message: "Регистрация успешна",
         description: "Теперь вы можете перейти на страницу авторизации.",
-        placement: "topRight",
+        placement: "topRight"
       });
     } catch (error) {
       notification.error({
         message: "Ошибка регистрации",
         description: String(error),
-        placement: "topRight",
+        placement: "topRight"
       });
     }
   };
@@ -81,20 +74,20 @@ export default function RegisterPage() {
             { required: true, message: "Введите имя пользователя" },
             {
               min: 1,
-              message: "Минимум 1 символ",
+              message: "Минимум 1 символ"
             },
             {
               max: 60,
-              message: "Максимум 60 символов",
+              message: "Максимум 60 символов"
             },
             {
               pattern: /^\S+$/,
-              message: "Пробелы запрещены",
+              message: "Пробелы запрещены"
             },
             {
               pattern: /^[A-Za-zА-Яа-яЁё]/,
-              message: "Буквы русского или латинского алфавита",
-            },
+              message: "Буквы русского или латинского алфавита"
+            }
           ]}
         >
           <Input placeholder="Имя" />
@@ -108,20 +101,20 @@ export default function RegisterPage() {
             { required: true, message: "Введите логин" },
             {
               min: 2,
-              message: "Минимум 2 символа",
+              message: "Минимум 2 символа"
             },
             {
               max: 60,
-              message: "Максимум 60 символов",
+              message: "Максимум 60 символов"
             },
             {
               pattern: /^\S+$/,
-              message: "Пробелы запрещены",
+              message: "Пробелы запрещены"
             },
             {
               pattern: /^[A-Za-z]/,
-              message: "Только буквы латинского алфавита",
-            },
+              message: "Только буквы латинского алфавита"
+            }
           ]}
         >
           <Input placeholder="Логин" />
@@ -134,7 +127,7 @@ export default function RegisterPage() {
           rules={[
             { required: true, message: "Введите пароль" },
             { min: 6, message: "Минимум 6 символов" },
-            { max: 60, message: "Максимум 60 символов" },
+            { max: 60, message: "Максимум 60 символов" }
           ]}
         >
           <Input.Password
@@ -156,8 +149,8 @@ export default function RegisterPage() {
                   return Promise.resolve();
                 }
                 return Promise.reject(new Error("Пароли не совпадают"));
-              },
-            }),
+              }
+            })
           ]}
         >
           <Input.Password
@@ -172,7 +165,7 @@ export default function RegisterPage() {
           name="email"
           rules={[
             { required: true, message: "Введите email" },
-            { type: "email", message: "Введите корректный email" },
+            { type: "email", message: "Введите корректный email" }
           ]}
         >
           <Input placeholder="abc@mail.ru" />
@@ -184,8 +177,8 @@ export default function RegisterPage() {
           rules={[
             {
               pattern: /^\+?\d{10,15}$/,
-              message: "Введите корректный номер",
-            },
+              message: "Введите корректный номер"
+            }
           ]}
         >
           <Input placeholder="+78009993535" />

@@ -1,4 +1,6 @@
 import { useState } from "react";
+
+import { deleteTask, updateTask } from "../../api/tasksAPI";
 import type { Todo } from "../../types/todo";
 import { validateTitle } from "../../helpers/validateTitle";
 import {
@@ -8,18 +10,17 @@ import {
   Flex,
   Input,
   Typography,
-  notification,
+  notification
 } from "antd";
 
-import { deleteTask, updateTask } from "../../api/tasksAPI";
-
-import styles from "./TodoItem.module.css";
 import {
   CheckOutlined,
   CloseOutlined,
   DeleteOutlined,
-  EditOutlined,
+  EditOutlined
 } from "@ant-design/icons";
+
+import styles from "./TodoItem.module.css";
 
 interface TodoItemProps {
   todo: Todo;
@@ -38,7 +39,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
       notification.error({
         message: "Ошибка",
         description: error,
-        placement: "topRight",
+        placement: "topRight"
       });
       return;
     }
@@ -49,7 +50,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
     notification.success({
       message: "Успешно",
       description: "Задача обновлена",
-      placement: "topRight",
+      placement: "topRight"
     });
   }
 
@@ -71,7 +72,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
       notification.error({
         message: "Не удалось удалить задачу",
         description: errorMessage,
-        placement: "topRight",
+        placement: "topRight"
       });
     }
   };
@@ -89,7 +90,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
       notification.error({
         message: "Не удалось изменить задачу",
         description: errorMessage,
-        placement: "topRight",
+        placement: "topRight"
       });
     }
   };
@@ -107,7 +108,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
       notification.error({
         message: "Не удалось изменить статус задачи",
         description: errorMessage,
-        placement: "topRight",
+        placement: "topRight"
       });
     }
   };
@@ -134,7 +135,7 @@ export default function TodoItem({ todo, refresh }: TodoItemProps) {
             <Button
               style={{
                 backgroundColor: "#b3a9a9",
-                borderColor: "#b3a9a9",
+                borderColor: "#b3a9a9"
               }}
               onClick={handleCancelClick}
               icon={<CloseOutlined />}

@@ -51,17 +51,23 @@ const authSlice = createSlice({
       })
 
       .addCase(refresh.fulfilled, (state, action) => {
+        state.isLoading = false;
         tokenService.set(action.payload.accessToken);
         state.refreshToken = action.payload.refreshToken;
         state.isAuthenticated = true;
         state.isAuthChecked = true;
         localStorage.setItem("refreshToken", action.payload.refreshToken);
       })
+      .addCase(refresh.pending, state => {
+        state.isLoading = true;
+        state.isAuthChecked = false;
+      })
       .addCase(refresh.rejected, state => {
-        tokenService.clear();
-        state.refreshToken = null;
+        state.isLoading = false;
         state.isAuthenticated = false;
         state.isAuthChecked = true;
+        state.refreshToken = null;
+        tokenService.clear();
         localStorage.removeItem("refreshToken");
       });
   },

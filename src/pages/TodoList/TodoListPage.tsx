@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { getFilteredTask } from "../../api/tasksAPI";
+
 import { TodoForm } from "../../components/TodoForm/TodoForm";
 import { TodoFilter } from "../../components/TodoFilter/TodoFilter";
 import { TodoList } from "../../components/TodoList/TodoList";
 
-import { getFilteredTask } from "../../api/tasksAPI";
 import type { FilterType, Todo, TodoInfo } from "../../types/todo";
+
 import styles from "./TodoListPage.module.css";
 
 export default function TodoListPage() {
@@ -14,7 +16,8 @@ export default function TodoListPage() {
   const [todosInfo, setTodosInfo] = useState<TodoInfo>({
     all: 0,
     completed: 0,
-    inWork: 0,
+
+    inWork: 0
   });
 
   const refresh = useCallback(async () => {
@@ -28,11 +31,13 @@ export default function TodoListPage() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     refresh();
+
     const intervalId = setInterval(() => {
       refresh();
     }, 5000);
     return () => clearInterval(intervalId);
   }, [refresh]);
+
   return (
     <div className={styles.main}>
       <h1 className={styles.title}>TodoList</h1>

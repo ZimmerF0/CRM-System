@@ -1,15 +1,22 @@
 import React from "react";
+import { useAppSelector } from "../../store/hooks";
+import { Outlet, useNavigate, useLocation } from "react-router";
 import { Layout, Menu } from "antd";
-import { UnorderedListOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  UnorderedListOutlined,
+  UserOutlined,
+  UserSwitchOutlined
+} from "@ant-design/icons";
 
 import "./MainLayout.css";
-import { Outlet, useNavigate, useLocation } from "react-router";
 
 const { Sider, Content } = Layout;
 
 const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const userRoles  = useAppSelector(state => state.auth.currentUser?.roles);
+  const hasElevatedRole = userRoles?.includes("ADMIN") || userRoles?.includes("MODERATOR");
 
   return (
     <Layout className="main">
@@ -24,13 +31,23 @@ const MainLayout: React.FC = () => {
             {
               key: "/todos",
               icon: <UnorderedListOutlined />,
-              label: "Список задач",
+              label: "Список задач"
             },
             {
               key: "/profile",
               icon: <UserOutlined />,
-              label: "Личный кабинет",
+              label: "Личный кабинет"
             },
+
+            ...(hasElevatedRole
+              ? [
+                  {
+                    key: "/users",
+                    icon: <UserSwitchOutlined />,
+                    label: "Пользователи"
+                  }
+                ]
+              : [])
           ]}
         />
       </Sider>
@@ -39,7 +56,7 @@ const MainLayout: React.FC = () => {
           style={{
             margin: "24px",
             background: "white",
-            borderRadius: "20px",
+            borderRadius: "20px"
           }}
         >
           <Outlet />

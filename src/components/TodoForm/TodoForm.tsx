@@ -2,18 +2,17 @@ import { useState } from "react";
 import { Button, Form, Input, message } from "antd";
 import { addTask } from "../../api/tasksAPI";
 
-
 import styles from "./TodoForm.module.css";
 
 type FormValues = { title: string };
+
 interface TodoFormProps {
   onCreated?: () => void;
 }
+
 export function TodoForm({ onCreated }: TodoFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form] = Form.useForm<FormValues>();
-
-
 
   const handleSubmit = async (values: FormValues) => {
     if (isSubmitting) return;
@@ -22,10 +21,11 @@ export function TodoForm({ onCreated }: TodoFormProps) {
 
     try {
       setIsSubmitting(true);
-         await addTask({ title: trimmed, isDone: false });
- 
+
+      await addTask({ title: trimmed, isDone: false });
+
       form.resetFields();
-         onCreated?.();
+      onCreated?.();
     } catch {
       message.error("Не удалось добавить новую задачу");
     } finally {
@@ -46,18 +46,18 @@ export function TodoForm({ onCreated }: TodoFormProps) {
           {
             required: true,
             transform: value => value?.trim(),
-            message: "Введите название",
+            message: "Введите название"
           },
           {
             min: 2,
             transform: value => value?.trim(),
-            message: "Минимум 2 символа",
+            message: "Минимум 2 символа"
           },
           {
             max: 64,
             transform: value => value?.trim(),
-            message: "Максимум 64 символа",
-          },
+            message: "Максимум 64 символа"
+          }
         ]}
       >
         <Input
