@@ -43,30 +43,29 @@ export default function UserProfilePage() {
 
   if (!currentUser) return <div>Пользователь не найден</div>;
 
-  const getChangedUserValues = (
-    values: UserRequest,
-    currentUser: UserRequest
-  ): UserRequest => {
-    const changedValues: UserRequest = {};
-
-    const fields = ["username", "email", "phoneNumber"];
+  function getChangedUserValues<T extends object>(
+    values: T,
+    currentValues: T,
+    fields: (keyof T)[]
+  ): Partial<T> {
+    const changedValues: Partial<T> = {};
 
     fields.forEach(field => {
-      if (
-        values[field as keyof UserRequest] !==
-        currentUser[field as keyof UserRequest]
-      ) {
-        changedValues[field as keyof UserRequest] =
-          values[field as keyof UserRequest];
+      if (values[field] !== currentValues[field]) {
+        changedValues[field] = values[field];
       }
     });
     return changedValues;
-  };
+  }
 
   const handleSubmitUserForm = async () => {
     const values = await form.validateFields();
 
-    const changedValues = getChangedUserValues(values, currentUser);
+    const changedValues = getChangedUserValues<UserRequest>(values, currentUser, [
+      "username",
+      "email",
+      "phoneNumber"
+    ]);
 
     if (Object.keys(changedValues).length === 0) {
       setIsEditing(false);

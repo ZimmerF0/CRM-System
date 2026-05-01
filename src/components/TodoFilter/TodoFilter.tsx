@@ -27,7 +27,7 @@ export function TodoFilter({
         className={activeFilter === "all" ? styles.active : ""}
         onClick={() => onFilterChange("all")}
       >
-        Все{allTodos}
+        Все ({allTodos}) 
       </Button>
 
       <Button
@@ -36,7 +36,7 @@ export function TodoFilter({
         className={activeFilter === "inWork" ? styles.active : ""}
         onClick={() => onFilterChange("inWork")}
       >
-        В прогрессе{todosInProgress}
+        В прогрессе ({todosInProgress})
       </Button>
 
       <Button
@@ -45,7 +45,7 @@ export function TodoFilter({
         className={activeFilter === "completed" ? styles.active : ""}
         onClick={() => onFilterChange("completed")}
       >
-        Завершенные{completedTodos}
+        Завершенные ({completedTodos})
       </Button>
     </div>
   );
