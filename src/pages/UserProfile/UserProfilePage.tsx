@@ -5,7 +5,7 @@ import {
   Form,
   Input,
   notification,
-  Spin,
+  Spin
 } from "antd";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useEffect, useState } from "react";
@@ -25,7 +25,7 @@ export default function UserProfilePage() {
   const { id } = useParams();
 
   const currentUser = useAppSelector(
-    (state: RootState) => state.user.currentUser,
+    (state: RootState) => state.user.currentUser
   );
   const isLoading = useAppSelector((state: RootState) => state.users.isLoading);
 
@@ -43,22 +43,30 @@ export default function UserProfilePage() {
 
   if (!currentUser) return <div>Пользователь не найден</div>;
 
+  const getChangedUserValues = (
+    values: UserRequest,
+    currentUser: UserRequest
+  ): UserRequest => {
+    const changedValues: UserRequest = {};
+
+    const fields = ["username", "email", "phoneNumber"];
+
+    fields.forEach(field => {
+      if (
+        values[field as keyof UserRequest] !==
+        currentUser[field as keyof UserRequest]
+      ) {
+        changedValues[field as keyof UserRequest] =
+          values[field as keyof UserRequest];
+      }
+    });
+    return changedValues;
+  };
+
   const handleSubmitUserForm = async () => {
     const values = await form.validateFields();
 
-    const changedValues: UserRequest = {};
-
-    if (values.username !== currentUser.username) {
-      changedValues.username = values.username;
-    }
-
-    if (values.email !== currentUser.email) {
-      changedValues.email = values.email;
-    }
-
-    if (values.phoneNumber !== currentUser.phoneNumber) {
-      changedValues.phoneNumber = values.phoneNumber;
-    }
+    const changedValues = getChangedUserValues(values, currentUser);
 
     if (Object.keys(changedValues).length === 0) {
       setIsEditing(false);
@@ -68,15 +76,15 @@ export default function UserProfilePage() {
     await dispatch(
       updateUserThunk({
         id: currentUser.id,
-        body: changedValues,
-      }),
+        body: changedValues
+      })
     ).unwrap();
 
     setIsEditing(false);
 
     notification.success({
       message: "Данные обновлены",
-      placement: "topRight",
+      placement: "topRight"
     });
   };
 
@@ -94,8 +102,8 @@ export default function UserProfilePage() {
                     {
                       pattern: /^[A-Za-zА-Яа-яЁё]{1,60}$/,
                       message:
-                        "От 1 до 60 символов русского или латинского алфавита",
-                    },
+                        "От 1 до 60 символов русского или латинского алфавита"
+                    }
                   ]}
                 >
                   <Input />
@@ -111,7 +119,7 @@ export default function UserProfilePage() {
                   name="email"
                   rules={[
                     { required: true, message: "Введите email" },
-                    { type: "email", message: "Введите корректный email" },
+                    { type: "email", message: "Введите корректный email" }
                   ]}
                 >
                   <Input />
@@ -128,8 +136,8 @@ export default function UserProfilePage() {
                   rules={[
                     {
                       pattern: /^\+?\d{10,15}$/,
-                      message: "Введите корректный номер",
-                    },
+                      message: "Введите корректный номер"
+                    }
                   ]}
                 >
                   <Input />
@@ -148,7 +156,7 @@ export default function UserProfilePage() {
               form.setFieldsValue({
                 username: currentUser.username,
                 email: currentUser.email,
-                phoneNumber: currentUser.phoneNumber,
+                phoneNumber: currentUser.phoneNumber
               });
 
               setIsEditing(true);

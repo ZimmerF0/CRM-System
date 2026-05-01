@@ -15,8 +15,8 @@ const { Sider, Content } = Layout;
 const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const roles = useAppSelector(state => state.auth.currentUser?.roles);
-  const isAdmin = roles?.includes("ADMIN") || roles?.includes("MODERATOR");
+  const userRoles  = useAppSelector(state => state.auth.currentUser?.roles);
+  const hasElevatedRole = userRoles?.includes("ADMIN") || userRoles?.includes("MODERATOR");
 
   return (
     <Layout className="main">
@@ -39,7 +39,7 @@ const MainLayout: React.FC = () => {
               label: "Личный кабинет"
             },
 
-            ...(isAdmin
+            ...(hasElevatedRole
               ? [
                   {
                     key: "/users",

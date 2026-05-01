@@ -18,6 +18,7 @@ import {
   Typography,
   Modal,
   Select,
+  notification
 } from "antd";
 import {
   ExclamationCircleFilled,
@@ -25,14 +26,14 @@ import {
   MailOutlined,
   MoreOutlined,
   PhoneOutlined,
-  SearchOutlined,
+  SearchOutlined
 } from "@ant-design/icons";
 import {
   fetchUsers,
   deleteUserThunk,
   blockUserThunk,
   unblockUserThunk,
-  updateUserRolesThunk,
+  updateUserRolesThunk
 } from "../../store/users/thunks";
 import styles from "./UsersPage.module.css";
 
@@ -44,7 +45,7 @@ export default function UserPage() {
   const dispatch = useDispatch<AppDispatch>();
 
   const { users, isLoading, filters, meta } = useSelector(
-    (state: RootState) => state.users,
+    (state: RootState) => state.users
   );
   const { confirm } = Modal;
 
@@ -61,7 +62,7 @@ export default function UserPage() {
       },
       onCancel() {
         console.log("Cancel");
-      },
+      }
     });
   };
 
@@ -84,9 +85,14 @@ export default function UserPage() {
             await dispatch(blockUserThunk(record.id)).unwrap();
           }
         } catch (error: unknown) {
-          console.error("Ошибка при изменении статуса блокировки:", error);
+          notification.error({
+            message: "Ошибка при изменении статуса блокировки",
+            description:
+              typeof error === "string" ? error : "Неизвестная ошибка",
+            placement: "topRight"
+          });
         }
-      },
+      }
     });
   };
 
@@ -100,7 +106,7 @@ export default function UserPage() {
 
   const options = roles.map(role => ({
     value: role,
-    label: role,
+    label: role
   }));
 
   const handleRolesChange = (value: Roles[]) => {
@@ -112,12 +118,19 @@ export default function UserPage() {
 
     try {
       await dispatch(
-        updateUserRolesThunk({ id: selectedUser.id, roles: selectedRoles }),
+        updateUserRolesThunk({ id: selectedUser.id, roles: selectedRoles })
       ).unwrap();
 
       setIsRoleModalOpen(false);
-    } catch (error) {
-      console.error("Ошибка обновления ролей:", error);
+    } catch (error: unknown) {
+      notification.error({
+        message: "Ошибка обновления ролей",
+        description:
+          typeof error === "string"
+            ? error
+            : "Не удалось обновить роли пользователя",
+        placement: "topRight"
+      });
     }
   };
 
@@ -126,7 +139,7 @@ export default function UserPage() {
       title: "Имя пользователя",
       dataIndex: "username",
       sorter: true,
-      width: "12%",
+      width: "12%"
     },
     {
       title: "Email",
@@ -138,7 +151,7 @@ export default function UserPage() {
           <MailOutlined style={{ marginRight: 8 }} />
           {email}
         </span>
-      ),
+      )
     },
     {
       title: "Телефон",
@@ -149,7 +162,7 @@ export default function UserPage() {
           {phoneNumber && <PhoneOutlined style={{ marginRight: 8 }} />}
           {phoneNumber || " "}
         </span>
-      ),
+      )
     },
     {
       title: "Роли",
@@ -168,7 +181,7 @@ export default function UserPage() {
             );
           })}
         </Flex>
-      ),
+      )
     },
     {
       title: "Статус блокировки",
@@ -178,13 +191,13 @@ export default function UserPage() {
         <Tag color={isBlocked ? "red" : "green"}>
           {isBlocked ? "заблокирован" : "не заблокирован"}
         </Tag>
-      ),
+      )
     },
     {
       title: "Дата регистрации",
       dataIndex: "date",
       width: "12%",
-      render: (date: string) => new Date(date).toLocaleDateString(),
+      render: (date: string) => new Date(date).toLocaleDateString()
     },
     {
       title: "Действия",
@@ -208,12 +221,12 @@ export default function UserPage() {
               items: [
                 {
                   key: "roles",
-                  label: "Изменить роль",
+                  label: "Изменить роль"
                 },
                 {
                   key: "block",
-                  label: record.isBlocked ? "Разблокировать" : "Блокировать",
-                },
+                  label: record.isBlocked ? "Разблокировать" : "Блокировать"
+                }
               ],
               onClick: ({ key }) => {
                 if (key === "roles") {
@@ -222,14 +235,14 @@ export default function UserPage() {
                 if (key === "block") {
                   handleToggleBlock(record);
                 }
-              },
+              }
             }}
           >
             <Button icon={<MoreOutlined />} />
           </Dropdown>
         </Space>
-      ),
-    },
+      )
+    }
   ];
 
   useEffect(() => {
@@ -239,7 +252,7 @@ export default function UserPage() {
   const handleTableChange: TableProps<User>["onChange"] = (
     pagination,
     _tableFilters,
-    sorter,
+    sorter
   ) => {
     dispatch(
       setFilters({
@@ -253,8 +266,8 @@ export default function UserPage() {
             ? "asc"
             : sorter.order === "descend"
               ? "desc"
-              : undefined,
-      }),
+              : undefined
+      })
     );
   };
 
@@ -282,36 +295,36 @@ export default function UserPage() {
               items: [
                 {
                   key: "all",
-                  label: "все пользователи",
+                  label: "все пользователи"
                 },
                 {
                   key: "blocked",
-                  label: "только заблокированные пользователи",
+                  label: "только заблокированные пользователи"
                 },
                 {
                   key: "active",
-                  label: "только активные пользователи",
-                },
+                  label: "только активные пользователи"
+                }
               ],
               selectable: true,
               defaultSelectedKeys: ["all"],
               onClick: ({ key }) => {
                 if (key === "all") {
                   dispatch(
-                    setFilters({ ...filters, isBlocked: undefined, page: 0 }),
+                    setFilters({ ...filters, isBlocked: undefined, page: 0 })
                   );
                 }
                 if (key === "blocked") {
                   dispatch(
-                    setFilters({ ...filters, isBlocked: true, page: 0 }),
+                    setFilters({ ...filters, isBlocked: true, page: 0 })
                   );
                 }
                 if (key === "active") {
                   dispatch(
-                    setFilters({ ...filters, isBlocked: false, page: 0 }),
+                    setFilters({ ...filters, isBlocked: false, page: 0 })
                   );
                 }
-              },
+              }
             }}
           >
             <Typography.Link>
@@ -334,7 +347,7 @@ export default function UserPage() {
         pagination={{
           current: (filters.page ?? 0) + 1,
           pageSize: filters.limit,
-          total: meta?.totalAmount,
+          total: meta?.totalAmount
         }}
         loading={isLoading}
         onChange={handleTableChange}
